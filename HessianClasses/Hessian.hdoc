@@ -1,0 +1,111 @@
+/*!
+@framework HessianKit HessianKit
+@discussion HessianKit is a Framework for Objective-C 2.0 to allow Mac OS X 10.5, and iPhone 2.0
+            applications to seamlessly communicate with hessian web services.
+
+HessianKit provided typed proxy objects to formward calls to, and and handle responses
+from any hessian web service, seamlessly just as if they where local objects. HessianKit also
+provide functionality to automatically generate classes for published value objects. Both
+web service proxies and value objects are defined as basic Objective-C Protocols.
+
+Unless the client uses custom value objects, @link //hessiankit_ref/occ/cl/CWHessianConnection <code>CWHessianConnection</code>@/link
+is the only class in HessianKit that is needed to be created directly. Instances of
+@link //hessiankit_ref/occ/cl/CWDistanrHessianObject <code>CWDistantHessianObject</code>@/link are fetched from
+@link //hessiankit_ref/occ/cl/CWHessianConnection <code>CWHessianConnection</code>@/link using
+@link //hessiankit_ref/occ/clm/CWHessianConnection/proxyWithURL:protocol: <code>proxyWithURL:protocol:</code>@/link.
+If custom value objects are needed use the 
+@link //hessiankit_ref/occ/cl/CWValueObject <code>CWValueObject</code>@/link to realize objects using protocol 
+definitions, or implement classes conforming to <code>CWNSCoding</code> protocol.
+
+If the web service exposes the following Java-interface:
+<pre>@textblock public interface Service {
+  int getPersonCount();
+  Person getPerson(int index);
+}@/textblock</pre>
+Then the Objective-C client would define the service Protocol as this:
+<pre>@textblock @protocol Service
+-(int)getPersonCount;
+-(id<Person>)getPerson:(int)index;
+@end@/textblock</pre>
+Assumin <code>Person</code> is a value object defined as this in Java:
+<pre>@textblock public class Persson implements Serializable {
+  private int age;
+  private String name;
+  public Person(int age, String name) { setAge(age); setName(name); }
+  public int getAge() { return age; }
+  public void setAge(int v) { age = v; }
+  public String getName() { return name; }
+  public void setName(String v) { name = v; }
+}@/textblock</pre>
+The Objective-C client would define the same value object as a Protocol like this:
+<pre>@textblock @protocol Person
+@property(assign, nonatomic) int age;
+@property(retain, nonatomic) NSString* name;
+@end@/textblock</pre>
+Value object from the web service will automatically be created as a subclas of 
+@link //hessiankit_ref/occ/cl/CWValueObject <code>CWValueObject</code>@/link if the 
+class name matches a defined protocol. Value object to be sent to the web service can be created useing the class
+method @link //hessiankit_ref/occ/clm/CWValueObject/valueObjectWithProtocol: <code>valueObjectWithProtocol:</code>@/link
+of @link //hessiankit_ref/occ/cl/CWValueObject <code>CWValueObject</code>@/link, or by using any class conforming to
+@link //apple_ref/occ/intf/NSCoding <code>NSCoding</code>@/link</code>.
+
+Given the above example the code to get all available persons and write their age and name to logs, could be
+wimplemented as this:
+<pre>@textblock NSURL* url = [URL URLWithString:@"http:/someserver.org/hessianservice"];
+id<Service> proxy = [CWHessianConnection proxyWithURL:url protocol:@protocol(Service)];
+int count = [proxy getPersonCount];
+for (int index = 0; index < count; index++) {
+  id<Person> person = [proxy getPerson:index];
+  NSLog(@"age: %d name: %@", person.age, person.name);
+}@/textblock</pre>
+
+Since Java and Objective-C differ in the naming of methods, some translation must be done when sending call tho 
+the hessian web service. Method names are first looked up using the class method 
+@link //hessiankit_ref/occ/clm/CWHessianArchiver/methodNameForSelector: <code>methodNameForSelector:</code>@/link
+of @link //hessiankit_ref/occ/cl/CWHessianArchiver <code>CWHessianArchiver</code>@/link, if a method name is not returned, the method name to use will be generated with
+these steps:
+1. Split the selector name on ':' delimiter character.
+2. Capitalize first charcter of all splitted parts but the first.
+3. Join splitted parts without delimiter.
+4. If method takes one or more arguments the nme is mangled by appending "__#" where # is the number of arguments.
+
+Some examples of method tranlsations:
+<table cellspacing=0 style="border:1px solid #ccc;">
+<tr><th width=50%>Objective-C</th><th>Java</th></tr>
+<tr>
+  <td><code>doFoo</code></td>
+  <td><code>doFoo</code></td>
+</tr>
+<tr>
+  <td><code>getFoo:</code></td>
+  <td><code>getFoo__1</code></td>
+</tr>
+<tr>
+  <td><code>doFoo:bar:</code></td>
+  <td><code>doFooBar__2</code></td>
+</tr>
+<tr>
+  <td><code>doUgly:::</code></td>
+  <td><code>doUgly__3</code></td>
+</tr>
+</table>
+
+Many Objective-C constructs feels alien in Java and vice versa, therefor non-automatic method translation can
+somethimes be prefered, in the above interface <code>Service</code> the method named <code>person</code> is not
+good looking Objective-C, albeit acceptable Java. To add a manual translation just do:
+<pre>@textblock [CWHessianArchiver setMethodName:@"getPersonCount" forSelector:@selector(personcount)];
+[CWHessianArchiver setMethodName:@"getPerson" forSelector:@selector(personAtIndex:)];@/textblock</pre>
+And change the Objective-C Protocol accordingly:
+<pre>@textblock @protocol Service
+-(int)personCount;
+-(id<Person>)personAtIndex:(int)index;
+@end@/textblock</pre>
+And now the much more Objective-C friendly code can be written:
+<pre>@textblock NSURL* url = [URL URLWithString:@"http:/someserver.org/hessianservice"];
+id<Service> proxy = [CWHessianConnection proxyWithURL:url protocol:@protocol(Service)];
+int count = [proxy personCount];
+for (int index = 0; index < count; index++) {
+  id<Person> person = [proxy personAtIndex:index];
+  NSLog(@"age: %d name: %@", person.age, person.name);
+}@/textblock</pre>
+*/

@@ -1,0 +1,360 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 45;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		1D3623260D0F684500981E51 /* HessianTestAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D3623250D0F684500981E51 /* HessianTestAppDelegate.m */; };
+		1D60589B0D05DD56006BFB54 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; };
+		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
+		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
+		280E754F0DD40C5E005A515E /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 280E754C0DD40C5E005A515E /* MainWindow.xib */; };
+		A6618E210E1E8AC600EBFE66 /* CWHessianCoder.m in Sources */ = {isa = PBXBuildFile; fileRef = A6618A0A0E1A92C600EBFE66 /* CWHessianCoder.m */; };
+		A6618E220E1E8AC600EBFE66 /* CWHessianArchiver.m in Sources */ = {isa = PBXBuildFile; fileRef = A66189FE0E1A819700EBFE66 /* CWHessianArchiver.m */; };
+		A6618E230E1E8AC600EBFE66 /* CWHessianUnarchiver.m in Sources */ = {isa = PBXBuildFile; fileRef = A6618A010E1A81AE00EBFE66 /* CWHessianUnarchiver.m */; };
+		A6618E240E1E8AC600EBFE66 /* CWHessianArchiver+Private.m in Sources */ = {isa = PBXBuildFile; fileRef = A6618D500E1E81F500EBFE66 /* CWHessianArchiver+Private.m */; };
+		A6618E250E1E8AC600EBFE66 /* CWHessianUnarchiver+Private.m in Sources */ = {isa = PBXBuildFile; fileRef = A6618D530E1E825000EBFE66 /* CWHessianUnarchiver+Private.m */; };
+		A6618E260E1E8AC600EBFE66 /* CWHessianConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = A66189FB0E1A817B00EBFE66 /* CWHessianConnection.m */; };
+		A6618E270E1E8AC600EBFE66 /* CWDistantHessianObject.m in Sources */ = {isa = PBXBuildFile; fileRef = A6618A040E1A81C600EBFE66 /* CWDistantHessianObject.m */; };
+		A685F6FA0E1EB9BE009547F2 /* CWDistantHessianObject+Private.m in Sources */ = {isa = PBXBuildFile; fileRef = A685F6F90E1EB9BE009547F2 /* CWDistantHessianObject+Private.m */; };
+		A685F94C0E1EED8B009547F2 /* NSData+ReadableDescription.m in Sources */ = {isa = PBXBuildFile; fileRef = A685F94B0E1EED8B009547F2 /* NSData+ReadableDescription.m */; };
+		A685FA770E1F0270009547F2 /* CWValueObject.m in Sources */ = {isa = PBXBuildFile; fileRef = A685FA760E1F0270009547F2 /* CWValueObject.m */; };
+		A6D0F5330E22846000ECE7C3 /* CWValueObject+Private.m in Sources */ = {isa = PBXBuildFile; fileRef = A6D0F5320E22846000ECE7C3 /* CWValueObject+Private.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		1D3623240D0F684500981E51 /* HessianTestAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HessianTestAppDelegate.h; sourceTree = "<group>"; };
+		1D3623250D0F684500981E51 /* HessianTestAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HessianTestAppDelegate.m; sourceTree = "<group>"; };
+		1D6058910D05DD3D006BFB54 /* HessianTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HessianTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		1DF5F4DF0D08C38300B7A737 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		280E754C0DD40C5E005A515E /* MainWindow.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MainWindow.xib; sourceTree = "<group>"; };
+		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		32CA4F630368D1EE00C91783 /* HessianTest_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HessianTest_Prefix.pch; sourceTree = "<group>"; };
+		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A66189FA0E1A817B00EBFE66 /* CWHessianConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CWHessianConnection.h; path = HessianClasses/CWHessianConnection.h; sourceTree = "<group>"; };
+		A66189FB0E1A817B00EBFE66 /* CWHessianConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CWHessianConnection.m; path = HessianClasses/CWHessianConnection.m; sourceTree = "<group>"; };
+		A66189FD0E1A819700EBFE66 /* CWHessianArchiver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CWHessianArchiver.h; path = HessianClasses/CWHessianArchiver.h; sourceTree = "<group>"; };
+		A66189FE0E1A819700EBFE66 /* CWHessianArchiver.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CWHessianArchiver.m; path = HessianClasses/CWHessianArchiver.m; sourceTree = "<group>"; };
+		A6618A000E1A81AE00EBFE66 /* CWHessianArchiver+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "CWHessianArchiver+Private.h"; path = "HessianClasses/CWHessianArchiver+Private.h"; sourceTree = "<group>"; };
+		A6618A010E1A81AE00EBFE66 /* CWHessianUnarchiver.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CWHessianUnarchiver.m; path = HessianClasses/CWHessianUnarchiver.m; sourceTree = "<group>"; };
+		A6618A030E1A81C600EBFE66 /* CWDistantHessianObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CWDistantHessianObject.h; path = HessianClasses/CWDistantHessianObject.h; sourceTree = "<group>"; };
+		A6618A040E1A81C600EBFE66 /* CWDistantHessianObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CWDistantHessianObject.m; path = HessianClasses/CWDistantHessianObject.m; sourceTree = "<group>"; };
+		A6618A090E1A92C600EBFE66 /* CWHessianCoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CWHessianCoder.h; path = HessianClasses/CWHessianCoder.h; sourceTree = "<group>"; };
+		A6618A0A0E1A92C600EBFE66 /* CWHessianCoder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CWHessianCoder.m; path = HessianClasses/CWHessianCoder.m; sourceTree = "<group>"; };
+		A6618D500E1E81F500EBFE66 /* CWHessianArchiver+Private.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "CWHessianArchiver+Private.m"; path = "HessianClasses/CWHessianArchiver+Private.m"; sourceTree = "<group>"; };
+		A6618D530E1E825000EBFE66 /* CWHessianUnarchiver+Private.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "CWHessianUnarchiver+Private.m"; path = "HessianClasses/CWHessianUnarchiver+Private.m"; sourceTree = "<group>"; };
+		A685F6F80E1EB9BE009547F2 /* CWDistantHessianObject+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "CWDistantHessianObject+Private.h"; path = "HessianClasses/CWDistantHessianObject+Private.h"; sourceTree = "<group>"; };
+		A685F6F90E1EB9BE009547F2 /* CWDistantHessianObject+Private.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "CWDistantHessianObject+Private.m"; path = "HessianClasses/CWDistantHessianObject+Private.m"; sourceTree = "<group>"; };
+		A685F80E0E1EDAFA009547F2 /* Test.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Test.h; sourceTree = "<group>"; };
+		A685F8110E1EDBCF009547F2 /* CWHessian.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CWHessian.h; path = HessianClasses/CWHessian.h; sourceTree = "<group>"; };
+		A685F94A0E1EED8B009547F2 /* NSData+ReadableDescription.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSData+ReadableDescription.h"; path = "HessianClasses/NSData+ReadableDescription.h"; sourceTree = "<group>"; };
+		A685F94B0E1EED8B009547F2 /* NSData+ReadableDescription.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSData+ReadableDescription.m"; path = "HessianClasses/NSData+ReadableDescription.m"; sourceTree = "<group>"; };
+		A685FA750E1F0270009547F2 /* CWValueObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CWValueObject.h; path = HessianClasses/CWValueObject.h; sourceTree = "<group>"; };
+		A685FA760E1F0270009547F2 /* CWValueObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CWValueObject.m; path = HessianClasses/CWValueObject.m; sourceTree = "<group>"; };
+		A6D0F5310E22846000ECE7C3 /* CWValueObject+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "CWValueObject+Private.h"; path = "HessianClasses/CWValueObject+Private.h"; sourceTree = "<group>"; };
+		A6D0F5320E22846000ECE7C3 /* CWValueObject+Private.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "CWValueObject+Private.m"; path = "HessianClasses/CWValueObject+Private.m"; sourceTree = "<group>"; };
+		A6D0F5340E228A9200ECE7C3 /* ValueTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ValueTest.h; sourceTree = "<group>"; };
+		A6D0F87C0E23BB9500ECE7C3 /* Hessian.hdoc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = Hessian.hdoc; path = HessianClasses/Hessian.hdoc; sourceTree = "<group>"; };
+		A6D0F8DA0E23C53A00ECE7C3 /* Makefile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; usesTabs = 1; };
+		A6D0F8FB0E23C7B300ECE7C3 /* headerDoc2HTML.config */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = headerDoc2HTML.config; sourceTree = "<group>"; };
+		A6D0F8FC0E23C7E100ECE7C3 /* HeaderDocTOCTemplate.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = HeaderDocTOCTemplate.html; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		1D60588F0D05DD3D006BFB54 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */,
+				1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		080E96DDFE201D6D7F000001 /* Application Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				1D3623240D0F684500981E51 /* HessianTestAppDelegate.h */,
+				1D3623250D0F684500981E51 /* HessianTestAppDelegate.m */,
+			);
+			name = "Application Controllers";
+			path = Classes;
+			sourceTree = "<group>";
+		};
+		19C28FACFE9D520D11CA2CBB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				1D6058910D05DD3D006BFB54 /* HessianTest.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
+			isa = PBXGroup;
+			children = (
+				A66189AC0E19FA0900EBFE66 /* Hessian */,
+				080E96DDFE201D6D7F000001 /* Application Controllers */,
+				29B97315FDCFA39411CA2CEA /* Other Sources */,
+				29B97317FDCFA39411CA2CEA /* Resources */,
+				29B97323FDCFA39411CA2CEA /* Frameworks */,
+				19C28FACFE9D520D11CA2CBB /* Products */,
+			);
+			name = CustomTemplate;
+			sourceTree = "<group>";
+		};
+		29B97315FDCFA39411CA2CEA /* Other Sources */ = {
+			isa = PBXGroup;
+			children = (
+				32CA4F630368D1EE00C91783 /* HessianTest_Prefix.pch */,
+				29B97316FDCFA39411CA2CEA /* main.m */,
+			);
+			name = "Other Sources";
+			sourceTree = "<group>";
+		};
+		29B97317FDCFA39411CA2CEA /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				280E754C0DD40C5E005A515E /* MainWindow.xib */,
+				8D1107310486CEB800E47090 /* Info.plist */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				1D30AB110D05D00D00671497 /* Foundation.framework */,
+				1DF5F4DF0D08C38300B7A737 /* UIKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		A66189AC0E19FA0900EBFE66 /* Hessian */ = {
+			isa = PBXGroup;
+			children = (
+				A6D0F8FA0E23C79B00ECE7C3 /* DocGen */,
+				A6618A080E1A92AB00EBFE66 /* Public */,
+				A685F6FB0E1EBA10009547F2 /* Private */,
+				A685F80E0E1EDAFA009547F2 /* Test.h */,
+				A6D0F5340E228A9200ECE7C3 /* ValueTest.h */,
+			);
+			name = Hessian;
+			sourceTree = "<group>";
+		};
+		A6618A080E1A92AB00EBFE66 /* Public */ = {
+			isa = PBXGroup;
+			children = (
+				A685F8110E1EDBCF009547F2 /* CWHessian.h */,
+				A66189FA0E1A817B00EBFE66 /* CWHessianConnection.h */,
+				A6618A090E1A92C600EBFE66 /* CWHessianCoder.h */,
+				A66189FD0E1A819700EBFE66 /* CWHessianArchiver.h */,
+				A6618A030E1A81C600EBFE66 /* CWDistantHessianObject.h */,
+				A685FA750E1F0270009547F2 /* CWValueObject.h */,
+				A6D0F87C0E23BB9500ECE7C3 /* Hessian.hdoc */,
+			);
+			name = Public;
+			sourceTree = "<group>";
+		};
+		A685F6FB0E1EBA10009547F2 /* Private */ = {
+			isa = PBXGroup;
+			children = (
+				A6618A000E1A81AE00EBFE66 /* CWHessianArchiver+Private.h */,
+				A685F6F80E1EB9BE009547F2 /* CWDistantHessianObject+Private.h */,
+				A6D0F5310E22846000ECE7C3 /* CWValueObject+Private.h */,
+				A685F94A0E1EED8B009547F2 /* NSData+ReadableDescription.h */,
+				A66189FB0E1A817B00EBFE66 /* CWHessianConnection.m */,
+				A6618A0A0E1A92C600EBFE66 /* CWHessianCoder.m */,
+				A66189FE0E1A819700EBFE66 /* CWHessianArchiver.m */,
+				A6618D500E1E81F500EBFE66 /* CWHessianArchiver+Private.m */,
+				A6618A010E1A81AE00EBFE66 /* CWHessianUnarchiver.m */,
+				A6618D530E1E825000EBFE66 /* CWHessianUnarchiver+Private.m */,
+				A6618A040E1A81C600EBFE66 /* CWDistantHessianObject.m */,
+				A685F6F90E1EB9BE009547F2 /* CWDistantHessianObject+Private.m */,
+				A685FA760E1F0270009547F2 /* CWValueObject.m */,
+				A6D0F5320E22846000ECE7C3 /* CWValueObject+Private.m */,
+				A685F94B0E1EED8B009547F2 /* NSData+ReadableDescription.m */,
+			);
+			name = Private;
+			sourceTree = "<group>";
+		};
+		A6D0F8FA0E23C79B00ECE7C3 /* DocGen */ = {
+			isa = PBXGroup;
+			children = (
+				A6D0F8DA0E23C53A00ECE7C3 /* Makefile */,
+				A6D0F8FB0E23C7B300ECE7C3 /* headerDoc2HTML.config */,
+				A6D0F8FC0E23C7E100ECE7C3 /* HeaderDocTOCTemplate.html */,
+			);
+			name = DocGen;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		1D6058900D05DD3D006BFB54 /* HessianTest */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1D6058960D05DD3E006BFB54 /* Build configuration list for PBXNativeTarget "HessianTest" */;
+			buildPhases = (
+				1D60588D0D05DD3D006BFB54 /* Resources */,
+				1D60588E0D05DD3D006BFB54 /* Sources */,
+				1D60588F0D05DD3D006BFB54 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = HessianTest;
+			productName = HessianTest;
+			productReference = 1D6058910D05DD3D006BFB54 /* HessianTest.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		29B97313FDCFA39411CA2CEA /* Project object */ = {
+			isa = PBXProject;
+			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "HessianKit" */;
+			compatibilityVersion = "Xcode 3.1";
+			hasScannedForEncodings = 1;
+			knownRegions = (
+				English,
+				Japanese,
+				French,
+				German,
+				en,
+			);
+			mainGroup = 29B97314FDCFA39411CA2CEA /* CustomTemplate */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				1D6058900D05DD3D006BFB54 /* HessianTest */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		1D60588D0D05DD3D006BFB54 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				280E754F0DD40C5E005A515E /* MainWindow.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		1D60588E0D05DD3D006BFB54 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A6618E210E1E8AC600EBFE66 /* CWHessianCoder.m in Sources */,
+				A6618E220E1E8AC600EBFE66 /* CWHessianArchiver.m in Sources */,
+				A6618E230E1E8AC600EBFE66 /* CWHessianUnarchiver.m in Sources */,
+				A6618E240E1E8AC600EBFE66 /* CWHessianArchiver+Private.m in Sources */,
+				A6618E250E1E8AC600EBFE66 /* CWHessianUnarchiver+Private.m in Sources */,
+				A6618E260E1E8AC600EBFE66 /* CWHessianConnection.m in Sources */,
+				A6618E270E1E8AC600EBFE66 /* CWDistantHessianObject.m in Sources */,
+				1D60589B0D05DD56006BFB54 /* main.m in Sources */,
+				1D3623260D0F684500981E51 /* HessianTestAppDelegate.m in Sources */,
+				A685F6FA0E1EB9BE009547F2 /* CWDistantHessianObject+Private.m in Sources */,
+				A685F94C0E1EED8B009547F2 /* NSData+ReadableDescription.m in Sources */,
+				A685FA770E1F0270009547F2 /* CWValueObject.m in Sources */,
+				A6D0F5330E22846000ECE7C3 /* CWValueObject+Private.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		1D6058940D05DD3E006BFB54 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = HessianTest_Prefix.pch;
+				INFOPLIST_FILE = Info.plist;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/build/Debug-iphonesimulator\"",
+				);
+				PRODUCT_NAME = HessianTest;
+			};
+			name = Debug;
+		};
+		1D6058950D05DD3E006BFB54 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = HessianTest_Prefix.pch;
+				INFOPLIST_FILE = Info.plist;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/build/Debug-iphonesimulator\"",
+				);
+				PRODUCT_NAME = HessianTest;
+			};
+			name = Release;
+		};
+		C01FCF4F08A954540054247B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PREBINDING = NO;
+				SDKROOT = iphoneos2.0;
+			};
+			name = Debug;
+		};
+		C01FCF5008A954540054247B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				PREBINDING = NO;
+				SDKROOT = iphoneos2.0;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		1D6058960D05DD3E006BFB54 /* Build configuration list for PBXNativeTarget "HessianTest" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1D6058940D05DD3E006BFB54 /* Debug */,
+				1D6058950D05DD3E006BFB54 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C01FCF4E08A954540054247B /* Build configuration list for PBXProject "HessianKit" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C01FCF4F08A954540054247B /* Debug */,
+				C01FCF5008A954540054247B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 29B97313FDCFA39411CA2CEA /* Project object */;
+}
