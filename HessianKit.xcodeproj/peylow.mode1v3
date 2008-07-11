@@ -232,8 +232,6 @@
 			<key>Layout</key>
 			<array>
 				<dict>
-					<key>BecomeActive</key>
-					<true/>
 					<key>ContentConfiguration</key>
 					<dict>
 						<key>PBXBottomSmartGroupGIDs</key>
@@ -285,7 +283,7 @@
 							<key>PBXSmartGroupTreeModuleOutlineStateSelectionKey</key>
 							<array>
 								<array>
-									<integer>18</integer>
+									<integer>29</integer>
 									<integer>14</integer>
 									<integer>1</integer>
 									<integer>0</integer>
@@ -322,12 +320,14 @@
 					<key>Dock</key>
 					<array>
 						<dict>
+							<key>BecomeActive</key>
+							<true/>
 							<key>ContentConfiguration</key>
 							<dict>
 								<key>PBXProjectModuleGUID</key>
 								<string>1CE0B20306471E060097A5F4</string>
 								<key>PBXProjectModuleLabel</key>
-								<string>HessianTestAppDelegate.m</string>
+								<string>CWValueObject+Private.m</string>
 								<key>PBXSplitModuleInNavigatorKey</key>
 								<dict>
 									<key>Split0</key>
@@ -335,11 +335,11 @@
 										<key>PBXProjectModuleGUID</key>
 										<string>1CE0B20406471E060097A5F4</string>
 										<key>PBXProjectModuleLabel</key>
-										<string>HessianTestAppDelegate.m</string>
+										<string>CWValueObject+Private.m</string>
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>A65807C30E27CFCF0064F86D</string>
+										<string>A65807FC0E27D7240064F86D</string>
 										<key>history</key>
 										<array>
 											<string>A6618ABD0E1ACA9200EBFE66</string>
@@ -366,8 +366,6 @@
 											<string>A685F7DB0E1ED61C009547F2</string>
 											<string>A6D0F4CB0E22808600ECE7C3</string>
 											<string>A6D0F7640E22C74500ECE7C3</string>
-											<string>A6D0F8A60E23C05300ECE7C3</string>
-											<string>A6D0F8BF0E23C07C00ECE7C3</string>
 											<string>A6D0F9AF0E23EC6100ECE7C3</string>
 											<string>A6D0F9B00E23EC6100ECE7C3</string>
 											<string>A6D0F9B30E23EC6100ECE7C3</string>
@@ -385,7 +383,6 @@
 											<string>A65806C90E240AF20064F86D</string>
 											<string>A65806CA0E240AF20064F86D</string>
 											<string>A65806CB0E240AF20064F86D</string>
-											<string>A65806CC0E240AF20064F86D</string>
 											<string>A658070C0E2417650064F86D</string>
 											<string>A658072F0E2419E60064F86D</string>
 											<string>A65807300E2419E60064F86D</string>
@@ -396,7 +393,13 @@
 											<string>A65807420E241CA30064F86D</string>
 											<string>A65807430E241CA30064F86D</string>
 											<string>A65807AA0E27CF370064F86D</string>
-											<string>A65807BF0E27CF740064F86D</string>
+											<string>A65807CA0E27D26E0064F86D</string>
+											<string>A65807CB0E27D26E0064F86D</string>
+											<string>A65807CC0E27D26E0064F86D</string>
+											<string>A65807CD0E27D26E0064F86D</string>
+											<string>A65807CE0E27D26E0064F86D</string>
+											<string>A65807F90E27D7240064F86D</string>
+											<string>A65807FA0E27D7240064F86D</string>
 										</array>
 										<key>prevStack</key>
 										<array>
@@ -456,6 +459,23 @@
 											<string>A6D623DA0E24027000D4B0B6</string>
 											<string>A65806B00E2403210064F86D</string>
 											<string>A65807AC0E27CF370064F86D</string>
+											<string>A65807D10E27D26E0064F86D</string>
+											<string>A65807D20E27D26E0064F86D</string>
+											<string>A65807D30E27D26E0064F86D</string>
+											<string>A65807D40E27D26E0064F86D</string>
+											<string>A65807D50E27D26E0064F86D</string>
+											<string>A65807D60E27D26E0064F86D</string>
+											<string>A65807D70E27D26E0064F86D</string>
+											<string>A65807D80E27D26E0064F86D</string>
+											<string>A65807D90E27D26E0064F86D</string>
+											<string>A65807DA0E27D26E0064F86D</string>
+											<string>A65807EF0E27D6820064F86D</string>
+											<string>A65807F00E27D6820064F86D</string>
+											<string>A65807F10E27D6820064F86D</string>
+											<string>A65807F20E27D6820064F86D</string>
+											<string>A65807F30E27D6820064F86D</string>
+											<string>A65807F40E27D6820064F86D</string>
+											<string>A65807FB0E27D7240064F86D</string>
 										</array>
 									</dict>
 									<key>SplitCount</key>
@@ -649,12 +669,13 @@
 	<integer>5</integer>
 	<key>WindowOrderList</key>
 	<array>
+		<string>A65807FD0E27D7240064F86D</string>
 		<string>A65807C10E27CF740064F86D</string>
 		<string>A65807C20E27CF740064F86D</string>
-		<string>1CD10A99069EF8BA00B06720</string>
 		<string>A6618A810E1AC29700EBFE66</string>
 		<string>1C78EAAD065D492600B07095</string>
 		<string>/Users/peylow/Projects/hessiankit/trunk/HessianKit.xcodeproj</string>
+		<string>1CD10A99069EF8BA00B06720</string>
 	</array>
 	<key>WindowString</key>
 	<string>273 108 1133 770 0 0 1440 878 </string>
@@ -821,19 +842,19 @@
 										<string>Name</string>
 										<real>187</real>
 										<string>Type</string>
-										<real>84</real>
+										<real>114</real>
 										<string>Value</string>
 										<real>85</real>
 										<string>Summary</string>
-										<real>206</real>
+										<real>176</real>
 									</array>
 									<key>Frame</key>
 									<string>{{495, 0}, {590, 386}}</string>
 									<key>RubberWindowFrame</key>
-									<string>143 109 1085 769 0 0 1440 878 </string>
+									<string>233 109 1085 769 0 0 1440 878 </string>
 								</dict>
 								<key>RubberWindowFrame</key>
-								<string>143 109 1085 769 0 0 1440 878 </string>
+								<string>233 109 1085 769 0 0 1440 878 </string>
 							</dict>
 							<key>Module</key>
 							<string>PBXDebugSessionModule</string>
@@ -867,11 +888,11 @@
 			<key>ToolbarConfiguration</key>
 			<string>xcode.toolbar.config.debugV3</string>
 			<key>WindowString</key>
-			<string>143 109 1085 769 0 0 1440 878 </string>
+			<string>233 109 1085 769 0 0 1440 878 </string>
 			<key>WindowToolGUID</key>
 			<string>1CD10A99069EF8BA00B06720</string>
 			<key>WindowToolIsVisible</key>
-			<false/>
+			<true/>
 		</dict>
 		<dict>
 			<key>FirstTimeWindowDisplayed</key>
@@ -995,7 +1016,7 @@
 								<key>Frame</key>
 								<string>{{0, 0}, {725, 564}}</string>
 								<key>RubberWindowFrame</key>
-								<string>15 235 725 605 0 0 1440 878 </string>
+								<string>22 235 725 605 0 0 1440 878 </string>
 							</dict>
 							<key>Module</key>
 							<string>PBXDebugCLIModule</string>
@@ -1024,7 +1045,7 @@
 			<key>ToolbarConfiguration</key>
 			<string>xcode.toolbar.config.consoleV3</string>
 			<key>WindowString</key>
-			<string>15 235 725 605 0 0 1440 878 </string>
+			<string>22 235 725 605 0 0 1440 878 </string>
 			<key>WindowToolGUID</key>
 			<string>1C78EAAD065D492600B07095</string>
 			<key>WindowToolIsVisible</key>

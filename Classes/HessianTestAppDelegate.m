@@ -63,10 +63,6 @@
   }
   @catch (NSException * e) {
   	NSLog(@"Got Exception name: %@ reason: %@", [e name], [e reason]);
-		id userInfo = [e userInfo];
-    if (userInfo && [userInfo respondsToSelector:@selector(description)]) {
-	    NSLog(@"Wrapped exception: %@", [userInfo description]);
-    }
   }
 }
 

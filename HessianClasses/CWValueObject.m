@@ -79,7 +79,21 @@
   NSArray* propertyNames = [self allPropertyNames];
   for (NSString* propertyName in propertyNames) {
   	id value = [self valueForKey:propertyName];
-		[encoder encodeObject:value forKey:propertyName];
+  	objc_property_t property = protocol_getProperty(self.protocol, [propertyName cStringUsingEncoding:NSASCIIStringEncoding], YES, YES);
+		char type = property_getAttributes(property)[1];
+		if (type == @encode(BOOL)[0]) {
+			[encoder encodeBool:[value boolValue] forKey:propertyName];
+    } else if (type == @encode(int32_t)[0]) {
+			[encoder encodeInt32:[value intValue] forKey:propertyName];
+    } else if (type == @encode(int64_t)[0]) {
+			[encoder encodeInt64:[value longLongValue] forKey:propertyName];
+    } else if (type == @encode(float)[0]) {
+			[encoder encodeFloat:[value floatValue] forKey:propertyName];
+    } else if (type == @encode(double)[0]) {
+			[encoder encodeDouble:[value doubleValue] forKey:propertyName];
+    } else {
+			[encoder encodeObject:value forKey:propertyName];
+    }
   }
 }
 
