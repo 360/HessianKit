@@ -27,55 +27,46 @@
 @synthesize window;
 
 - (void)applicationDidFinishLaunching:(UIApplication *)application {
-	[CWHessianArchiver setMethodName:@"subtract__2" forSelector:@selector(subtract:from:)];
-	CWHessianConnection* connection = [[CWHessianConnection alloc] initWithHessianVersion:CWHessianVersion1_00];
-  NSURL* url = [NSURL URLWithString:@"http://hessian.caucho.com/test/test"];
-	id<Test> proxy = (id<Test>)[connection proxyWithURL:url protocol:@protocol(Test)];
-  
-  [proxy nullCall];
-
-  NSLog([proxy hello]);
-
-  int theAnswer = [proxy subtract:44 from:2];
-  NSLog(@"The Answer = %d", theAnswer);
-
-	[CWHessianArchiver setClassName:@"java.util.Hashtable" forProtocol:@protocol(ValueTest)];
-  [CWHessianUnarchiver setProtocol:@protocol(ValueTest) forClassName:@"java.util.Hashtable"];
-	id<ValueTest> foo = (id<ValueTest>)[CWValueObject valueObjectWithProtocol:@protocol(ValueTest)];
-  NSMutableDictionary* complexObject = [NSMutableDictionary dictionaryWithObject:foo forKey:@"foo"];
-	id<ValueTest> bar = (id<ValueTest>)[CWValueObject valueObjectWithProtocol:@protocol(ValueTest)];
-  bar.boolValue = YES;
-  bar.intValue = 42;
-  bar.stringValue = @"Hello";
-  bar.numberValue = [NSNumber numberWithFloat:3.14f];
-  
-	NSLog([bar description]);
-  id result = [proxy echo:bar];
-	if ([result conformsToProtocol:@protocol(ValueTest)]) {
-  	NSLog(@"SUCCESS");
-  } else {
-  	NSLog(@"FAIL");
-  }
-	NSLog([result description]);
-  
-	[complexObject setObject:bar forKey:@"bar"];
-  [complexObject setObject:[NSData dataWithBytes:&theAnswer length:sizeof(int)]
-  	forKey:[NSDate dateWithTimeIntervalSinceNow:60.0]];
-  result = [proxy echo:complexObject];
-  if ([result isKindOfClass:[NSDictionary class]]) {
- 		for (NSObject* key in result) {
-    	NSLog(@"key:%@", [key description]);
-    	NSLog(@"value:%@", [[result objectForKey:key] description]);
-    }
-  } else {
-  	NSLog(@"Expected dictionary got: %@",[result description]);
-  }
-
 	@try {
-  	[proxy fault];
+
+    [CWHessianArchiver setMethodName:@"subtract__2" forSelector:@selector(subtract:from:)];
+    CWHessianConnection* connection = [[CWHessianConnection alloc] initWithHessianVersion:CWHessianVersion1_00];
+    NSURL* url = [NSURL URLWithString:@"http://hessian.caucho.com/test/test"];
+    id<Test> proxy = (id<Test>)[connection proxyWithURL:url protocol:@protocol(Test)];
+    
+    [proxy nullCall];
+
+    NSLog([proxy hello]);
+
+    int theAnswer = [proxy subtract:44 from:2];
+    NSLog(@"The Answer = %d", theAnswer);
+
+    [CWHessianArchiver setClassName:@"java.util.Hashtable" forProtocol:@protocol(ValueTest)];
+    [CWHessianUnarchiver setProtocol:@protocol(ValueTest) forClassName:@"java.util.Hashtable"];
+    id<ValueTest> bar = (id<ValueTest>)[CWValueObject valueObjectWithProtocol:@protocol(ValueTest)];
+    bar.boolValue = YES;
+    bar.intValue = 42;
+    bar.stringValue = @"Hello";
+    bar.numberValue = [NSNumber numberWithFloat:3.14f];
+    
+    NSLog([bar description]);
+    id result = [proxy echo:bar];
+    if ([result conformsToProtocol:@protocol(ValueTest)]) {
+      NSLog(@"SUCCESS");
+    } else {
+      NSLog(@"FAIL");
+    }
+    NSLog([result description]);
+        
+    [proxy fault];
+    
   }
-  @catch (NSException* e) {
-		NSLog(@"Got Exception name: %@ reason: %@", [e name], [e reason]);
+  @catch (NSException * e) {
+  	NSLog(@"Got Exception name: %@ reason: %@", [e name], [e reason]);
+		id userInfo = [e userInfo];
+    if (userInfo && [userInfo respondsToSelector:@selector(description)]) {
+	    NSLog(@"Wrapped exception: %@", [userInfo description]);
+    }
   }
 }
 
