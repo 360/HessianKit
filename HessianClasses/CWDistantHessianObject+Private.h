@@ -25,6 +25,9 @@
 
 @interface CWDistantHessianObject (Private)
 
+// Used by TollFree bridge
+-(int)_cfTypeID;
+
 -(NSString*)methodNameFromInvocation:(NSInvocation*)invocation;
 
 -(void)writeHeadersToArchiver:(CWHessianArchiver*)archiver;

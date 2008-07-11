@@ -57,6 +57,15 @@
       NSLog(@"FAIL");
     }
     NSLog([result description]);
+    
+    NSMutableDictionary* recursive = [NSMutableDictionary dictionary];
+    [recursive setObject:recursive forKey:@"me"];
+    result = [proxy echo:recursive];
+		if ([result objectForKey:@"me"] == result) {
+      NSLog(@"SUCCESS");
+    } else {
+      NSLog(@"FAIL");
+    }
         
     [proxy fault];
     

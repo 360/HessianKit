@@ -92,9 +92,13 @@ static NSMethodSignature* getMethodSignatureRecursively(Protocol *p, SEL aSel)
 -(void)forwardInvocation:(NSInvocation *)invocation;
 {
 	NSData* requestData = [self archivedDataForInvocation:invocation];
+#if DEBUG
   NSLog([requestData description]);
+#endif
   NSData* responseData = [self sendRequestWithPostData:requestData];
+#if DEBUG
   NSLog([responseData description]);
+#endif
   id returnValue = [self unarchiveData:responseData];
   if ([returnValue isKindOfClass:[NSException class]]) {
 		[(NSException*)returnValue raise];
@@ -116,7 +120,7 @@ static NSMethodSignature* getMethodSignatureRecursively(Protocol *p, SEL aSel)
     }
     return signature;
   } else {
-  	return [super methodSignatureForSelector:aSelector];
+  	return nil;
   }
 }
 

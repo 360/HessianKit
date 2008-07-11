@@ -21,6 +21,11 @@
 
 @implementation CWDistantHessianObject (Private)
 
+-(int)_cfTypeID;
+{
+	return 1;
+}
+
 -(NSString*)methodNameFromInvocation:(NSInvocation*)invocation;
 {
   NSString* methodName = [CWHessianArchiver methodNameForSelector:[invocation selector]];
