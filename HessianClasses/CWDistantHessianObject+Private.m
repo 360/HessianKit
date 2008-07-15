@@ -18,6 +18,7 @@
 
 #import "CWDistantHessianObject+Private.h"
 #import "CWHessianArchiver+Private.h"
+#import <objc/runtime.h>
 
 @implementation CWDistantHessianObject (Private)
 
@@ -216,7 +217,7 @@
   	[NSException raise:NSInvalidUnarchiveOperationException format:@"Unsupported type %s", type];
   }
   if (isInvalidClass) {
-  	[NSException raise:NSInvalidUnarchiveOperationException format:@"Invalid type %@", [value className]];
+  	[NSException raise:NSInvalidUnarchiveOperationException format:@"Invalid type %@", [NSString stringWithCString:class_getName([value class])]];
   }
 }
 

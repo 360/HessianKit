@@ -19,6 +19,7 @@
 #import "CWHessianArchiver+Private.h"
 #import "CWDistantHessianObject.h"
 #import "CWValueObject.h"
+#import <objc/runtime.h>
 
 @implementation CWHessianArchiver (Private)
 
@@ -194,7 +195,7 @@
     	className = [CWHessianArchiver classNameForProtocol:((CWValueObject*)object).protocol];
 		}
     if (!className) {
-      className = [object className];
+      className = [NSString stringWithCString:class_getName([object class])];
     }
     [self writeChar:'M'];
     [self writeChar:'t'];
@@ -202,7 +203,8 @@
     [object encodeWithCoder:self];
     [self writeChar:'z'];
   } else {
-  	[NSException raise:NSInvalidArchiveOperationException format:@"%@ do not conform to NSCoding", [object className]];
+  	NSString* className = [NSString stringWithCString:class_getName([object class])];
+  	[NSException raise:NSInvalidArchiveOperationException format:@"%@ do not conform to NSCoding", className];
   }
 }
 

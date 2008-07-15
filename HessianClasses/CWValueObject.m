@@ -48,7 +48,7 @@
 	[self release];
   self = nil;
   if (aClass) {
-	  self = objc_allocate_object(aClass, 0);
+	  self = class_createInstance(aClass, 0);
     self = [self init];
     self->_protocol = aProtocol;
     self->_instanceVariables = [[NSMutableDictionary alloc] init];
