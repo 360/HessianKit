@@ -28,14 +28,16 @@ static NSString* CWPropertyNameFromSelector(SEL aSelector) {
 	  propertyName = [propertyName substringWithRange:NSMakeRange(4, [propertyName length] - 5)];
     propertyName = [firstChar stringByAppendingString:propertyName];
   }
-  return propertyName;
+	[propertyName retain];
+  return [propertyName autorelease];
 }
 
 static SEL CWSetterSelectorFromPropertyName(NSString* propertyName) {
 	NSString* firstChar = [[propertyName substringToIndex:1] uppercaseString];
 	NSString* restOfName = [propertyName substringFromIndex:1];
 	propertyName = [NSString stringWithFormat:@"set%@%@:", firstChar, restOfName];
-  return NSSelectorFromString(propertyName);
+  SEL aSelector = NSSelectorFromString(propertyName);
+  return aSelector;
 }
 
 static BOOL CWAddProtocolImplementationsToClass(Class aClass, Protocol* aProtocol) {
@@ -240,7 +242,7 @@ static NSMutableArray* CWAllPropertyNamesForProtocol(Protocol* aProtocol) {
   if (!aClass) {
   	NSString* className = NSStringFromClass([CWValueObject class]);
     NSString* protocolName = NSStringFromProtocol(aProtocol);
-    NSString* newClassName = [NSString stringWithFormat:@"%@%@", className, protocolName];
+    NSString* newClassName = [[NSString alloc] initWithFormat:@"%@%@", className, protocolName];
     aClass = objc_allocateClassPair([CWValueObject class], [newClassName cStringUsingEncoding:NSASCIIStringEncoding], 0);
 		if (aClass) {
     	if (CWAddProtocolImplementationsToClass(aClass, aProtocol) && class_addProtocol(aClass, aProtocol)) {
@@ -251,6 +253,7 @@ static NSMutableArray* CWAllPropertyNamesForProtocol(Protocol* aProtocol) {
         aClass = Nil;
       }
     }
+    [newClassName release];
   }
   return aClass;
 }

@@ -51,15 +51,15 @@
   [self writeBytes:&ch count:1];
 }
 
--(void)writeLength:(int)length;
-{
-  int16_t value = NSSwapHostShortToBig(length);
-  [self writeBytes:&value count:2];
-}
-
 -(void)writeBool:(BOOL)value;
 {
   [self writeChar:(value ? 'T' : 'F')];
+}
+
+-(void)writeInt16:(int16_t)value;
+{
+  value = NSSwapHostShortToBig(value);
+  [self writeBytes:&value count:2];
 }
 
 -(void)writeInt32:(int32_t)value;
@@ -95,7 +95,7 @@
     stringChunk = [string substringToIndex:MAX_CHUNK_SIZE + 1];
   }
   bytes = [stringChunk dataUsingEncoding:NSUTF8StringEncoding allowLossyConversion:YES];
-  [self writeLength:[stringChunk length]];
+  [self writeInt16:[stringChunk length]];
   [self writeBytes:[bytes bytes] count:[bytes length]];
   if ('s' == tag) {
     string = [string substringFromIndex:MAX_CHUNK_SIZE + 1];
@@ -110,7 +110,7 @@
   if ('b' == tag) {
     dataChunk = [data subdataWithRange:NSMakeRange(0, MAX_CHUNK_SIZE)];
   }
-  [self writeLength:[dataChunk length]];
+  [self writeInt16:[dataChunk length]];
   [self writeBytes:[dataChunk bytes] count:[dataChunk length]];
   if ('b' == tag) {
     data = [data subdataWithRange:NSMakeRange(MAX_CHUNK_SIZE + 1, [data length] - MAX_CHUNK_SIZE)];
@@ -122,7 +122,7 @@
 -(void)writeList:(NSArray*)list;
 {
   [self writeChar:'l'];
-  [self writeLength:[list count]];
+  [self writeInt16:[list count]];
   for (id object in list) {
     [self writeTypedObject:object];
   }
@@ -157,7 +157,7 @@
       [self writeInt32:[number intValue]];
     } else if (strcmp([number objCType], @encode(int64_t)) == 0) {
     	[self writeChar:'L'];
-      [self writeInt32:[number longLongValue]];
+      [self writeInt64:[number longLongValue]];
     } else {
     	[self writeChar:'D'];
       double realv = [number doubleValue];
@@ -183,7 +183,7 @@
   	[self writeChar:'M'];
     [self writeMap:(NSDictionary*)object];
   } else if ([object isKindOfClass:[CWDistantHessianObject class]]) {
-  		[self writeChar:'R'];
+  		[self writeChar:'r'];
       [self writeChar:'t'];
 		  [self writeString:[((CWDistantHessianObject*)object) remoteClassName] withTag:'S'];
       [self writeChar:'S'];

@@ -25,8 +25,8 @@
 
 -(void)writeBytes:(const void*)buffer count:(NSInteger)count;
 -(void)writeChar:(char)ch;
--(void)writeLength:(int)length;
 -(void)writeBool:(BOOL)value;
+-(void)writeInt16:(int16_t)value;
 -(void)writeInt32:(int32_t)value;
 -(void)writeInt64:(int64_t)value;
 -(void)writeDouble:(double)value;
@@ -68,6 +68,7 @@
 -(NSArray*)readList;
 -(NSDictionary*)readMapIsObject:(BOOL)isObject;
 -(id)readMap;
+-(CWDistantHessianObject*)readRemote;
 
 -(id)readTypedObject;
 

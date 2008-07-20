@@ -260,6 +260,26 @@
   }
 }
 
+-(CWDistantHessianObject*)readRemote;
+{
+	if ([self readChar] != 't') {
+  	[NSException raise:NSInvalidUnarchiveOperationException format:@"expected type token"];
+  }
+	NSString* className = [self readStringWithTag:'S'];
+  Protocol* aProtocol = NSProtocolFromString(className);
+  if (!aProtocol) {
+  	aProtocol = [CWHessianUnarchiver protocolForClassName:className];
+  }
+  if (!aProtocol) {
+  	[NSException raise:NSInvalidUnarchiveOperationException format:@"no proxy protocol for remote clas %@", className];
+  }
+  NSString* urlString = [self readTypedObject];
+  if (!urlString || ![urlString isKindOfClass:[NSString class]]) {
+  	[NSException raise:NSInvalidUnarchiveOperationException format:@"expected string"];
+  }
+	return [self.connection proxyWithURL:[NSURL URLWithString:urlString] protocol:aProtocol];
+}
+
 -(id)readTypedObject;
 {
   char tag = [self readChar];
@@ -296,7 +316,7 @@
       return [self.objectReferences objectAtIndex:refIndex];
     }
     case 'r':
-      return nil; // @TODO: Add support for remote objects.
+			return [self readRemote];
     case 'f':
     	return [self readFault];
     default:

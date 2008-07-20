@@ -80,6 +80,14 @@ static NSMethodSignature* getMethodSignatureRecursively(Protocol *p, SEL aSel)
   }
 }
 
+-(BOOL)isKindOfClass:(Class)aClass;
+{
+	if (aClass == [self class] || aClass == [NSProxy class]) {
+  	return YES;
+  }
+  return NO;
+}
+
 -(NSString*)remoteClassName;
 {
 	NSString* protocolName = [CWHessianArchiver classNameForProtocol:self.protocol];
@@ -100,9 +108,11 @@ static NSMethodSignature* getMethodSignatureRecursively(Protocol *p, SEL aSel)
   NSLog([responseData description]);
 #endif
   id returnValue = [self unarchiveData:responseData];
-  if ([returnValue isKindOfClass:[NSException class]]) {
-		[(NSException*)returnValue raise];
-    return;  
+  if (returnValue) {
+    if ([returnValue isKindOfClass:[NSException class]]) {
+      [(NSException*)returnValue raise];
+      return;  
+    }
   }
   [self setReturnValue:returnValue invocation:invocation];
 }

@@ -108,6 +108,7 @@ static NSMutableDictionary* _protocolTranslations = nil;
 {
 	return (float)[self decodeDoubleForKey:key];
 }
+
 -(double)decodeDoubleForKey:(NSString*)key;
 {
 	NSNumber* object = (NSNumber*)[self readDecodeCandidateForKey:key ofClass:[NSNumber class]];

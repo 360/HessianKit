@@ -28,14 +28,14 @@
 
 - (void)applicationDidFinishLaunching:(UIApplication *)application {
 	@try {
-
+  
     [CWHessianArchiver setMethodName:@"subtract__2" forSelector:@selector(subtract:from:)];
-    CWHessianConnection* connection = [[CWHessianConnection alloc] initWithHessianVersion:CWHessianVersion1_00];
+    CWHessianConnection* connection = [[[CWHessianConnection alloc] initWithHessianVersion:CWHessianVersion1_00] autorelease];
     NSURL* url = [NSURL URLWithString:@"http://hessian.caucho.com/test/test"];
     id<Test> proxy = (id<Test>)[connection proxyWithURL:url protocol:@protocol(Test)];
     
     [proxy nullCall];
-
+    
     NSLog([proxy hello]);
 
     int theAnswer = [proxy subtract:44 from:2];
@@ -57,7 +57,7 @@
       NSLog(@"FAIL");
     }
     NSLog([result description]);
-    
+        
     NSMutableDictionary* recursive = [NSMutableDictionary dictionary];
     [recursive setObject:recursive forKey:@"me"];
     result = [proxy echo:recursive];
@@ -66,7 +66,7 @@
     } else {
       NSLog(@"FAIL");
     }
-        
+
     [proxy fault];
     
   }

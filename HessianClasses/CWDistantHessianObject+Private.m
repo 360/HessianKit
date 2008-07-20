@@ -32,7 +32,6 @@
   NSString* methodName = [CWHessianArchiver methodNameForSelector:[invocation selector]];
   if (!methodName) {
 		NSString* selectorName = NSStringFromSelector([invocation selector]);
-  	NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
 		NSMutableArray* splittedName = [NSMutableArray arrayWithArray:[selectorName componentsSeparatedByString:@":"]];
     for (int index = 1; index < [splittedName count]; index++) {
     	NSString* namePart = [splittedName objectAtIndex:index];
@@ -49,7 +48,6 @@
 	    methodName = [methodName stringByAppendingFormat:@"__%d", realParamCount];
     }
     [CWHessianArchiver setMethodName:methodName forSelector:[invocation selector]];
-    [pool release];
   }
   return methodName;
 }
@@ -118,6 +116,7 @@
 
 -(NSData*)sendRequestWithPostData:(NSData*)postData;
 {
+  NSData* responseData = nil;
   NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:self.url
     cachePolicy:NSURLRequestReloadIgnoringCacheData timeoutInterval:60.0];
   [request setHTTPMethod:@"POST"];   
@@ -125,21 +124,24 @@
   // Fool Tomcat 4, fails otherwise...
   [request setValue:@"text/xml" forHTTPHeaderField:@"Content-type"];
   NSHTTPURLResponse * returnResponse = nil; 
-  NSError * requestError = nil;
-  NSData * responseData = [NSURLConnection sendSynchronousRequest:request 
+  NSError* requestError = nil;
+  responseData = [NSURLConnection sendSynchronousRequest:request 
 		returningResponse:&returnResponse error:&requestError];
-  if(requestError == nil && returnResponse != nil) {
-    if([returnResponse statusCode] == 200) {
-      return responseData;
-    }
-    [NSException raise:NSInvalidArchiveOperationException format:@"HTTP error %d", [returnResponse statusCode]];
-  }
   if (requestError) {
+    responseData = nil;
 	  [NSException raise:NSInvalidArchiveOperationException format:@"Network error domain:%@ code:%d", [requestError domain], [requestError code]];
+	} else if (returnResponse != nil) {
+  	if ([returnResponse statusCode] == 200) {
+	  	[responseData retain];
+    } else {
+    	responseData = nil;
+	    [NSException raise:NSInvalidArchiveOperationException format:@"HTTP error %d", [returnResponse statusCode]];    
+    }
 	} else {
+    responseData = nil;
   	[NSException raise:NSInvalidArchiveOperationException format:@"Unknown network error"];
   }
-  return nil;
+  return responseData ? [responseData autorelease] : nil;
 }
 
 -(void)readHeaderFromUnarchiver:(CWHessianUnarchiver*)unarchiver;
@@ -212,7 +214,7 @@
     	isInvalidClass = YES;
     }
   } else if (strcmp(type, @encode(id)) == 0) {
-    	[invocation setReturnValue:&value];
+  	[invocation setReturnValue:&value];
   } else {
   	[NSException raise:NSInvalidUnarchiveOperationException format:@"Unsupported type %s", type];
   }

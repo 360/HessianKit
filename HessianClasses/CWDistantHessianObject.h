@@ -100,6 +100,14 @@
 -(BOOL)conformsToProtocol:(Protocol*)aProtocol;
 
 /*!
+ * @abstract Returns a Boolean value that indicates whether the receiver is an instance of given class or an instance of any class that inherits from that class.
+ *
+ * @param aClass A class object representing the Objective-C class to be tested.
+ * @result YES if the receiver is an instance of aClass or an instance of any class that inherits from aClass, otherwise NO.
+ */  
+-(BOOL)isKindOfClass:(Class)aClass;
+
+/*!
  * Return the remote class name on the Hessian web service that the reciever is a proxy for.
  *
  * @result A class name.
