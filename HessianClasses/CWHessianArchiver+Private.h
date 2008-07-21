@@ -69,6 +69,9 @@
 -(double)readDouble;
 -(NSDate*)readDate;
 -(NSString*)readStringWithTag:(char)tag;
+#if (TARGET_OS_MAC && !(TARGET_OS_EMBEDDED || TARGET_OS_IPHONE))
+-(NSXMLDocument*)readXMLWithTag:(char)tag;
+#endif
 -(NSData*)readDataWithTag:(char)tag;
 -(NSException*)readFault;
 -(NSArray*)readList;

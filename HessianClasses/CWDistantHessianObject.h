@@ -55,7 +55,7 @@
 @interface CWDistantHessianObject : NSProxy {
 @private
 	CWHessianConnection* _connection;
-  NSURL* _url;
+  NSURL* _URL;
   Protocol* _protocol;
   NSMutableDictionary* _methodSignatures;
 }
@@ -68,7 +68,7 @@
 /*!
  * @abstract The URL publishing the recievers Hessian web service.
  */
-@property(readonly, retain, nonatomic) NSURL* url;
+@property(readonly, retain, nonatomic) NSURL* URL;
 
 /*!
  * @abstract The protocol the reciever conforms to, a mirror of the interface the Hessian web service publishes.
@@ -81,11 +81,11 @@
  *           a Hessian web service published at an URL, and conforming to a given Protocol.
  *
  * @param connection The @link //hessiankit_ref/occ/cl/CWHessianConnection <code>CWHessianConnection</code>@/link object to asociate with.
- * @param url URL of the published Hessian web service.
+ * @param URL URL of the published Hessian web service.
  * @param aProtocol a protol mirroring the published interface of the Hessian web service, to conform to.
  * @result A proxy for the Hessian web service.
  */
--(id)initWithConnection:(CWHessianConnection*)connection url:(NSURL*)url protocol:(Protocol*)aProtocol;
+-(id)initWithConnection:(CWHessianConnection*)connection URL:(NSURL*)URL protocol:(Protocol*)aProtocol;
 
 /*!
  * @abstract Returns a Boolean value that indicates whether the receiver conforms to a given protocol.

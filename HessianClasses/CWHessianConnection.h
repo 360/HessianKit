@@ -67,21 +67,21 @@ typedef int CWHessianVersion;
  * @abstract Returns a Hessian web service proxy associated with a temporary <code>CWHessianConnection</code> object, 
  *           for a given URL, conforming to a given protocol.
  *
- * @param url The URL of the Hessian web service.
+ * @param URL The URL of the Hessian web service.
  * @param aProtocol The Protocol that the proxy should conform to.
  * @result A proxy for the Hessian web service.
  *
  * @seealso 
  */
-+(CWDistantHessianObject*)proxyWithURL:(NSURL*)url protocol:(Protocol*)aProtocol;
++(CWDistantHessianObject*)proxyWithURL:(NSURL*)URL protocol:(Protocol*)aProtocol;
 
 /*!
  * @abstract Returns a Hessian web service proxy for a given URL, conforming to a given protocol.
  *
- * @param url The URL of the Hessian web service.
+ * @param URL The URL of the Hessian web service.
  * @param aProtocol The Protocol that the proxy should conform to.
  * @result A proxy for the Hessian web service. 
  */
--(CWDistantHessianObject*)proxyWithURL:(NSURL*)url protocol:(Protocol*)aProtocol;
+-(CWDistantHessianObject*)proxyWithURL:(NSURL*)URL protocol:(Protocol*)aProtocol;
 
 @end

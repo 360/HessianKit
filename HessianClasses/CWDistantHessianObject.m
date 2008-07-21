@@ -41,7 +41,7 @@ static NSMethodSignature* getMethodSignatureRecursively(Protocol *p, SEL aSel)
 }
 
 @interface CWDistantHessianObject ()
-@property(retain, nonatomic) NSURL* url;
+@property(retain, nonatomic) NSURL* URL;
 @property(assign, nonatomic) Protocol* protocol;
 @property(retain, nonatomic) NSMutableDictionary* methodSignatures;
 @end
@@ -49,23 +49,23 @@ static NSMethodSignature* getMethodSignatureRecursively(Protocol *p, SEL aSel)
 @implementation CWDistantHessianObject
 
 @synthesize connection = _connection;
-@synthesize url = _url;
+@synthesize URL = _URL;
 @synthesize protocol = _protocol;
 @synthesize methodSignatures = _methodSignatures;
 
 -(void)dealloc;
 {
 	self.connection = nil;
-  self.url = nil;
+  self.URL = nil;
   self.protocol = nil;
   self.methodSignatures = nil;
   [super dealloc];
 }
 
--(id)initWithConnection:(CWHessianConnection*)connection url:(NSURL*)url protocol:(Protocol*)aProtocol;
+-(id)initWithConnection:(CWHessianConnection*)connection URL:(NSURL*)URL protocol:(Protocol*)aProtocol;
 {
   self.connection = connection;
-  self.url = url;
+  self.URL = URL;
 	self.protocol = aProtocol;
   self.methodSignatures = [NSMutableDictionary dictionary];
   return self;

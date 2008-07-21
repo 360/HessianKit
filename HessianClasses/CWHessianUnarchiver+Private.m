@@ -151,6 +151,23 @@
   return string;
 }
 
+#if (TARGET_OS_MAC && !(TARGET_OS_EMBEDDED || TARGET_OS_IPHONE))
+-(NSXMLDocument*)readXMLWithTag:(char)tag;
+{
+  NSString* xmlString = [self readStringWithTag:tag];
+  NSError* error = nil;
+  NSXMLDocument* xmlDocument = [[NSXMLDocument alloc] initWithXMLString:xmlString options:NSXMLNodeOptionsNone error:&error]; 
+  if (!xmlDocument) {
+    if (error) {
+      [NSException raise:NSInvalidArchiveOperationException format:@"XML parse error domain:%@ code:%d", [error domain], [error code]];
+    } else {
+      [NSException raise:NSInvalidUnarchiveOperationException format:@"Unknown error in XML stream"];
+    }
+  }
+  return [xmlDocument autorelease];
+}
+#endif
+
 -(NSData*)readDataWithTag:(char)tag;
 {
   NSMutableData* data = nil;
@@ -274,11 +291,11 @@
   if (!aProtocol) {
   	[NSException raise:NSInvalidUnarchiveOperationException format:@"no proxy protocol for remote clas %@", className];
   }
-  NSString* urlString = [self readTypedObject];
-  if (!urlString || ![urlString isKindOfClass:[NSString class]]) {
+  NSString* URLString = [self readTypedObject];
+  if (!URLString || ![URLString isKindOfClass:[NSString class]]) {
   	[NSException raise:NSInvalidUnarchiveOperationException format:@"expected string"];
   }
-	return [self.connection proxyWithURL:[NSURL URLWithString:urlString] protocol:aProtocol];
+	return [self.connection proxyWithURL:[NSURL URLWithString:URLString] protocol:aProtocol];
 }
 
 -(id)readTypedObject;
@@ -299,10 +316,13 @@
 			return [NSNumber numberWithDouble:[self readDouble]];
     case 'd':
       return [self readDate];
-    case 's':
-    case 'S':
     case 'x':
     case 'X':
+#if (TARGET_OS_MAC && !(TARGET_OS_EMBEDDED || TARGET_OS_IPHONE))
+			return [self readXMLWithTag:tag];
+#endif
+    case 's':
+    case 'S':
       return [self readStringWithTag:tag];
     case 'b':
     case 'B':

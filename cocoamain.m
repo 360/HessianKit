@@ -1,5 +1,5 @@
 //
-//  HessianTestAppDelegate.m
+// cocoamain.m
 //  HessianKit
 //
 //  Copyright 2008 Fredrik Olsson, Jayway AB. All rights reserved.
@@ -16,15 +16,12 @@
 //  limitations under the License.
 //
 
-#import "HessianTestAppDelegate.h"
+#import <Foundation/Foundation.h>
+#include "CWHessianUnitTest.h"
 
-#import "CWHessianUnitTest.h"
+int main (int argc, const char * argv[]) {
+  NSAutoreleasePool * pool = [[NSAutoreleasePool alloc] init];
 
-@implementation HessianTestAppDelegate
-
-@synthesize window;
-
-- (void)applicationDidFinishLaunching:(UIApplication *)application {
 	CWHessianUnitTest* test = [[CWHessianUnitTest alloc] init];
   if ([test testAll]) {
 		NSLog(@"Yay!");  
@@ -32,12 +29,9 @@
   	NSLog(@"Nay!");
   }
 	[test release];
+
+  [pool drain];
+  return 0;
 }
 
 
-- (void)dealloc {
-	[window release];
-	[super dealloc];
-}
-
-@end

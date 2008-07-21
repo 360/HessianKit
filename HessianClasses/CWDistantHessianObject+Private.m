@@ -117,7 +117,7 @@
 -(NSData*)sendRequestWithPostData:(NSData*)postData;
 {
   NSData* responseData = nil;
-  NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:self.url
+  NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:self.URL
     cachePolicy:NSURLRequestReloadIgnoringCacheData timeoutInterval:60.0];
   [request setHTTPMethod:@"POST"];   
   [request setHTTPBody:postData];

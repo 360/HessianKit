@@ -34,12 +34,12 @@
   return self;
 }
 
-+(CWDistantHessianObject*)proxyWithURL:(NSURL*)url protocol:(Protocol*)aProtocol;
++(CWDistantHessianObject*)proxyWithURL:(NSURL*)URL protocol:(Protocol*)aProtocol;
 {
 	CWDistantHessianObject* proxy = nil;
 	CWHessianConnection* connection = [[CWHessianConnection alloc] initWithHessianVersion:CWHessianVersion1_00];
 	if (connection) {
-  	proxy = [connection proxyWithURL:url protocol:aProtocol];
+  	proxy = [connection proxyWithURL:URL protocol:aProtocol];
     if (proxy) {
 	    proxy.connection = connection;
     }
@@ -48,10 +48,10 @@
   return proxy;
 }
 
--(CWDistantHessianObject*)proxyWithURL:(NSURL*)url protocol:(Protocol*)aProtocol;
+-(CWDistantHessianObject*)proxyWithURL:(NSURL*)URL protocol:(Protocol*)aProtocol;
 {
 	CWDistantHessianObject* proxy = [CWDistantHessianObject alloc];
-  [proxy initWithConnection:self url:url protocol:aProtocol];
+  [proxy initWithConnection:self URL:URL protocol:aProtocol];
   return [proxy autorelease];
 }
 

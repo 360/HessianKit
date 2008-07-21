@@ -91,15 +91,19 @@
 {
   NSData* bytes = nil;
   NSString* stringChunk = string;
-  if ('s' == tag) {
+  if ('s' == tag || 'x' == tag) {
     stringChunk = [string substringToIndex:MAX_CHUNK_SIZE + 1];
   }
   bytes = [stringChunk dataUsingEncoding:NSUTF8StringEncoding allowLossyConversion:YES];
   [self writeInt16:[stringChunk length]];
   [self writeBytes:[bytes bytes] count:[bytes length]];
-  if ('s' == tag) {
+  if ('s' == tag || 'x' == tag) {
     string = [string substringFromIndex:MAX_CHUNK_SIZE + 1];
-    tag = ([string length] > MAX_CHUNK_SIZE ? 's' : 'S');
+    if ('s' == tag) {
+    	tag = ([string length] > MAX_CHUNK_SIZE ? 's' : 'S');
+		} else {
+    	tag = ([string length] > MAX_CHUNK_SIZE ? 'x' : 'X');
+    }
     [self writeString:string withTag:tag];
   }
 }
@@ -165,11 +169,18 @@
     }
   } else if ([object isKindOfClass:[NSDate class]]) {
 		[self writeChar:'d'];
-    [self writeDate:(NSDate*)object];  
+    [self writeDate:(NSDate*)object];
   } else if ([object isKindOfClass:[NSString class]]) {
   	char tag = ([(NSString*)object length] > MAX_CHUNK_SIZE ? 's' : 'S');
 		[self writeChar:tag];
     [self writeString:(NSString*)object withTag:tag];
+#if (TARGET_OS_MAC && !(TARGET_OS_EMBEDDED || TARGET_OS_IPHONE))
+  } else if ([object isKindOfClass:[NSXMLNode class]]) {
+  	NSString* xmlString = [(NSXMLNode*)object XMLStringWithOptions:NSXMLNodeOptionsNone];
+  	char tag = ([xmlString length] > MAX_CHUNK_SIZE ? 'x' : 'X');
+		[self writeChar:tag];
+    [self writeString:xmlString withTag:tag];
+#endif
   } else if ([object isKindOfClass:[NSData class]]) {
   	char tag = ([object length] > MAX_CHUNK_SIZE ? 'b' : 'B');
 		[self writeChar:tag];
@@ -187,7 +198,7 @@
       [self writeChar:'t'];
 		  [self writeString:[((CWDistantHessianObject*)object) remoteClassName] withTag:'S'];
       [self writeChar:'S'];
-      [self writeString:[((CWDistantHessianObject*)object).url description] withTag:'S'];
+      [self writeString:[((CWDistantHessianObject*)object).URL description] withTag:'S'];
   } else if ([object conformsToProtocol:@protocol(NSCoding)]) {
   	[self.objectReferences addObject:object];
 		NSString* className = [CWHessianArchiver classNameForClass:[object class]];
