@@ -16,7 +16,13 @@
 //  limitations under the License.
 //
 
+#import <Foundation/Foundation.h>
+
+#if (TARGET_OS_MAC && !(TARGET_OS_EMBEDDED || TARGET_OS_IPHONE))
+#import <HessianKit/CWHessianCoder.h>
+#else
 #import "CWHessianCoder.h"
+#endif
 
 /*!
  * <code>CWHessianArchiver</code>, a concrete subclass of @link //hessiankit_ref/occ/cl/CWHessianCoder <code>CWHessianCoder</code>@/link 

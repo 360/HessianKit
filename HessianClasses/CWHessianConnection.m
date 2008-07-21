@@ -16,9 +16,10 @@
 //  limitations under the License.
 //
 
+#import <Foundation/Foundation.h>
+
 #import "CWHessianConnection.h"
 #import "CWDistantHessianObject+Private.h"
-#import <Foundation/Foundation.h>
 
 @implementation CWHessianConnection
 

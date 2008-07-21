@@ -17,8 +17,8 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "CWDistantHessianObject.h"
-#import "CWValueObject.h"
+
+@class CWDistantHessianObject;
 
 /*!
  * @abstract Hessian serialization version.

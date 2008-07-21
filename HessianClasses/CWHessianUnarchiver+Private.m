@@ -17,6 +17,7 @@
 //
 
 #import "CWHessianArchiver+Private.h"
+#import "CWHessianConnection.h"
 #import "CWValueObject.h"
 #import <objc/runtime.h>
 

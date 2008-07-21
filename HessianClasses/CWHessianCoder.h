@@ -17,7 +17,8 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "CWHessianConnection.h"
+
+@class CWHessianConnection;
 
 #define MAX_CHUNK_SIZE 0xffff
 

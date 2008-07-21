@@ -16,8 +16,13 @@
 //  limitations under the License.
 //
 
+#if (TARGET_OS_MAC && !(TARGET_OS_EMBEDDED || TARGET_OS_IPHONE))
+#import <HessianKit/CWDistantHessianObject.h>
+#import <HessianKit/CWHessianArchiver.h>
+#else
 #import "CWDistantHessianObject.h"
 #import "CWHessianArchiver.h"
+#endif
 
 @interface CWDistantHessianObject ()
 @property(retain, nonatomic) CWHessianConnection* connection;
