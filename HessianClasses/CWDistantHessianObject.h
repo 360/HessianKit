@@ -35,19 +35,24 @@
  * used to decode the response from the Hessian web service. 
  * <p>
  * Valid argument and return types for distand objects are:
- * * <code>BOOL</code> - Maps to Java <code>boolean</code>, trabsfered as Hessian boolean.
- * * <code>int32_t</code> - Maps to Java <code>int</code>, transfered as Hessian int. 
- * * <code>int64_t</code> - Maps to Java <code>long</code>, trabsfered as Hessian long.
- * * <code>float</code> - Maps to Java <code>float</code>, transfered as Hessian float.
- * * <code>double</code> - Maps to Java <code>double</code>, trabsfered as Hessian double.
- * * <code>id<NSCoding></code> - Maps to Java <code>java.lang.Object</code> or <code>java.util.Map</code>, transfered as typed Hessian map.
+ * <ul>
+ * <li><code>BOOL</code> - Maps to Java <code>boolean</code>, trabsfered as Hessian boolean.</li>
+ * <li><code>int32_t</code> - Maps to Java <code>int</code>, transfered as Hessian int.</li>
+ * <li><code>int64_t</code> - Maps to Java <code>long</code>, trabsfered as Hessian long.</li>
+ * <li><code>float</code> - Maps to Java <code>float</code>, transfered as Hessian float.</li>
+ * <li><code>double</code> - Maps to Java <code>double</code>, trabsfered as Hessian double.</li>
+ * <li><code>id<NSCoding></code> - Maps to Java <code>java.lang.Object</code> or <code>java.util.Map</code>, transfered as typed Hessian map.</li>
+ * </ul>
  * <p>
  * The following Cocoa classes are treaded with special care:
- * * <code>NSArray</code> - Maps to Java array or <code>java.util.List</code>, tansfered as Hessian list.
- * * <code>NSDictionary</code> - Maps to Java <code>java.util.Map</code>, or domain class, trabsfered as Hessian map.
- * * <code>NSData</code> - Maps to Java byte array, transfered as Hessian binary data.
- * * <code>NSDate</code> - Maps to Java long or <code>java.util.Date</code>, transfered as Hessian date.
- * * <code>NSString</code> - Maps to Java <code>java.lang.String</code>, transfered as Hessian string.
+ * <ul>
+ * <li><code>NSArray</code> - Maps to Java array or <code>java.util.List</code>, tansfered as Hessian list.</li>
+ * <li><code>NSDictionary</code> - Maps to Java <code>java.util.Map</code>, or domain class, trabsfered as Hessian map.</li>
+ * <li><code>NSData</code> - Maps to Java byte array, transfered as Hessian binary data.</li>
+ * <li><code>NSDate</code> - Maps to Java long or <code>java.util.Date</code>, transfered as Hessian date.</li>
+ * <li><code>NSString</code> - Maps to Java <code>java.lang.String</code>, transfered as Hessian string.</li>
+ * <li><code>NSXMLNode</code> - Maps to Java <code>org.w3c.dom.Node</code>, transfered as Hessian xml.</li>
+ * </ul>
  * <p>
  * <code>CWDistantHessianObject</code> is closely modelled after <code>NSDistantObject</code> used for full scale Distrebuted Objects on
  * Mac OS X, but not available on iPhone OS.

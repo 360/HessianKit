@@ -62,13 +62,6 @@
   return ch;
 }
 
--(int)readLength;
-{
-  int16_t value = 0;
-  [self readBytes:&value count:2];
-  return NSSwapBigShortToHost(value);
-}
-
 -(BOOL)readBool;
 {
   char value = [self readChar];
@@ -81,6 +74,13 @@
       [NSException raise:NSInvalidArchiveOperationException format:@"%c is not a valid bool value", value];
     return NO;
   }
+}
+
+-(uint16_t)readUInt16;
+{
+  int16_t value = 0;
+  [self readBytes:&value count:2];
+  return NSSwapBigShortToHost(value);
 }
 
 -(int32_t)readInt32;
@@ -117,7 +117,7 @@
   if ('N' == tag) {
     return nil;
   } else if ('S' == toupper(tag) || 'X' == toupper(tag)) {
-    int len = [self readLength];
+    int len = [self readUInt16];
     string = [NSMutableString stringWithCapacity:len];
     for (int index = 0; index < len; index++) {
       unichar ch = [self readChar];
@@ -174,7 +174,7 @@
   if ('N' == tag) {
     return nil;
   } else if ('B' == toupper(tag)) {
-    int len = [self readLength];
+    int len = [self readUInt16];
     data = [NSMutableData dataWithCapacity:len];
     [data appendData:[self.archiveData subdataWithRange:NSMakeRange(self.offset, len)]];
     self.offset += len;
@@ -226,6 +226,7 @@
     }
     [list addObject:object];
   }
+  (void)[self readChar];
   return list;
 }
 
@@ -243,6 +244,7 @@
     }
     [map setObject:object forKey:key];
   }
+  (void)[self readChar];
   return map;
 }
 
