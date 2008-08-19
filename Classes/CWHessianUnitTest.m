@@ -31,11 +31,11 @@
 
 -(NSProxy<Test>*)testProxy;
 {
-  CWHessianConnection* connection = [[[CWHessianConnection alloc] initWithHessianVersion:CWHessianVersion1_00] autorelease];
+  CWHessianConnection* connection = [[CWHessianConnection alloc] initWithHessianVersion:CWHessianVersion1_00];
   NSURL* URL = [NSURL URLWithString:@"http://hessian.caucho.com/test/test"];
   NSProxy<Test>* proxy = (NSProxy<Test>*)[connection proxyWithURL:URL protocol:@protocol(Test)];
   [connection release];
-  return proxy;  
+  return proxy;
 }
 
 -(BOOL)testAll;
