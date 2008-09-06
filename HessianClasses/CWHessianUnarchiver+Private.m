@@ -62,13 +62,6 @@
   return ch;
 }
 
--(int)readLength;
-{
-  int16_t value = 0;
-  [self readBytes:&value count:2];
-  return NSSwapBigShortToHost(value);
-}
-
 -(BOOL)readBool;
 {
   char value = [self readChar];
@@ -81,6 +74,13 @@
       [NSException raise:NSInvalidArchiveOperationException format:@"%c is not a valid bool value", value];
     return NO;
   }
+}
+
+-(uint16_t)readUInt16;
+{
+  int16_t value = 0;
+  [self readBytes:&value count:2];
+  return NSSwapBigShortToHost(value);
 }
 
 -(int32_t)readInt32;
@@ -117,7 +117,7 @@
   if ('N' == tag) {
     return nil;
   } else if ('S' == toupper(tag) || 'X' == toupper(tag)) {
-    int len = [self readLength];
+    int len = [self readUInt16];
     string = [NSMutableString stringWithCapacity:len];
     for (int index = 0; index < len; index++) {
       unichar ch = [self readChar];
@@ -174,7 +174,7 @@
   if ('N' == tag) {
     return nil;
   } else if ('B' == toupper(tag)) {
-    int len = [self readLength];
+    int len = [self readUInt16];
     data = [NSMutableData dataWithCapacity:len];
     [data appendData:[self.archiveData subdataWithRange:NSMakeRange(self.offset, len)]];
     self.offset += len;
@@ -219,6 +219,7 @@
     length = [self readInt32];
   }
   list =[NSMutableArray arrayWithCapacity:length];
+  [self.objectReferences addObject:list];
   while ([self peekChar] != 'z') {
     NSObject* object = [self readTypedObject];
     if (!object) {
@@ -226,13 +227,16 @@
     }
     [list addObject:object];
   }
+  (void)[self readChar];
   return list;
 }
 
--(NSDictionary*)readMapIsObject:(BOOL)isObject;
+-(id)readMapWithTypedObject:(id)typedObject;
 {
   NSMutableDictionary* map = [NSMutableDictionary dictionary];
-  if (!isObject) {
+  if (typedObject) {
+    [self.objectReferences addObject:typedObject];
+  } else {
     [self.objectReferences addObject:map];
   }
   while ([self peekChar] != 'z') {
@@ -243,7 +247,16 @@
     }
     [map setObject:object forKey:key];
   }
-  return map;
+  (void)[self readChar];
+  if (typedObject) {
+    id previousObjectMap = self.currentObjectMap;
+    self.currentObjectMap = map;
+    typedObject = [typedObject initWithCoder:self];
+    self.currentObjectMap = previousObjectMap;
+    return typedObject;
+  } else {
+    return map;
+  }
 }
 
 -(id)readMap;
@@ -268,14 +281,7 @@
       }
     }
   }
-  NSDictionary* map = [self readMapIsObject:typedObject != nil];
-  if (typedObject) {
-    self.currentObjectMap = map;
-    return [typedObject initWithCoder:self];
-    self.currentObjectMap = nil;
-  } else {
-    return map;
-  }
+  return [self readMapWithTypedObject:typedObject];
 }
 
 -(CWDistantHessianObject*)readRemote;
