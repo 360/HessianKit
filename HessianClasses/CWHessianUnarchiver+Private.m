@@ -219,6 +219,7 @@
     length = [self readInt32];
   }
   list =[NSMutableArray arrayWithCapacity:length];
+  [self.objectReferences addObject:list];
   while ([self peekChar] != 'z') {
     NSObject* object = [self readTypedObject];
     if (!object) {
@@ -230,10 +231,12 @@
   return list;
 }
 
--(NSDictionary*)readMapIsObject:(BOOL)isObject;
+-(id)readMapWithTypedObject:(id)typedObject;
 {
   NSMutableDictionary* map = [NSMutableDictionary dictionary];
-  if (!isObject) {
+  if (typedObject) {
+    [self.objectReferences addObject:typedObject];
+  } else {
     [self.objectReferences addObject:map];
   }
   while ([self peekChar] != 'z') {
@@ -245,7 +248,15 @@
     [map setObject:object forKey:key];
   }
   (void)[self readChar];
-  return map;
+  if (typedObject) {
+    id previousObjectMap = self.currentObjectMap;
+    self.currentObjectMap = map;
+    typedObject = [typedObject initWithCoder:self];
+    self.currentObjectMap = previousObjectMap;
+    return typedObject;
+  } else {
+    return map;
+  }
 }
 
 -(id)readMap;
@@ -270,14 +281,7 @@
       }
     }
   }
-  NSDictionary* map = [self readMapIsObject:typedObject != nil];
-  if (typedObject) {
-    self.currentObjectMap = map;
-    return [typedObject initWithCoder:self];
-    self.currentObjectMap = nil;
-  } else {
-    return map;
-  }
+  return [self readMapWithTypedObject:typedObject];
 }
 
 -(CWDistantHessianObject*)readRemote;

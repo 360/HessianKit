@@ -75,7 +75,7 @@
 -(NSData*)readDataWithTag:(char)tag;
 -(NSException*)readFault;
 -(NSArray*)readList;
--(NSDictionary*)readMapIsObject:(BOOL)isObject;
+-(id)readMapWithTypedObject:(id)typedObject;
 -(id)readMap;
 -(CWDistantHessianObject*)readRemote;
 
