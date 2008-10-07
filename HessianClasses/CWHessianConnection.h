@@ -49,7 +49,7 @@ typedef int CWHessianVersion;
 @interface CWHessianConnection : NSObject {
 @private
 	CWHessianVersion _version;
-  NSMutableDictionary* _registeredServices;
+  NSMutableArray* _registeredServices;
   NSNetServiceBrowser* _netServiceBrowser;
   NSNetService* _currentResolve;
   id<CWHessianConnectionServiceSearchDelegate> _searchDelegate;
@@ -59,6 +59,11 @@ typedef int CWHessianVersion;
  * @abstract The Hessian serialization protocol version to use for this connection.
  */
 @property(assign, nonatomic) CWHessianVersion version;
+
+/*!
+ * @abstract An array of services registred service objects.
+ */
+@property(readonly, retain, nonatomic) NSArray* registeredServices;
 
 /*!
  * @abstract The search delegate that searchForServicesInDomain:applicationProtocol: uses to notify found services.
@@ -103,7 +108,7 @@ typedef int CWHessianVersion;
  * @param name The name by which the service is identified to the network. The name must be unique.
  * @result YES if the class was successfulle registered as a service.
  */
--(BOOL)registerServiceWithObject:(id)anObject inDomain:(NSString*)domain applicationProtocol:(NSString*)protocol name:(NSString*)name;
+-(BOOL)registerServiceWithObject:(id<NSObject>)anObject inDomain:(NSString*)domain applicationProtocol:(NSString*)protocol name:(NSString*)name;
 
 /*!
  * @abstract Starts a search for services publishing a specified application protocol, in the specified domain.

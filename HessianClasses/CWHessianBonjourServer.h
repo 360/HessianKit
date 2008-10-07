@@ -1,5 +1,5 @@
 //
-//  CWBonjourServer.h
+//  CWHessianBonjourServer.h
 //  HessianKit
 //
 //  Copyright 2008 Fredrik Olsson, Jayway AB. All rights reserved.
@@ -18,26 +18,28 @@
 
 #import <Foundation/Foundation.h>
 
-@protocol CWBonjourServerDelegate;
+@protocol CWHessianBonjourServerDelegate;
 
-NSString* const CWBonjourServerErrorDomain;
+NSString* const CWHessianBonjourServerErrorDomain;
 
 enum {
-  CWBonjourServerCouldNotBindToIPv4Address = 1,
-  CWBonjourServerCouldNotBindToIPv6Address = 2,
-  CWBonjourServerNoSocketsAvailable = 3,
+  CWHessianBonjourServerCouldNotBindToIPv4Address = 1,
+  CWHessianBonjourServerCouldNotBindToIPv6Address = 2,
+  CWHessianBonjourServerNoSocketsAvailable = 3,
 };
-typedef NSUInteger CWBonjourServerErrorCode;
+typedef NSUInteger CWHessianBonjourServerErrorCode;
 
-@interface CWBonjourServer : NSObject {
+@interface CWHessianBonjourServer : NSObject {
 @private
-	id<CWBonjourServerDelegate> _delegate;
+	id<NSObject> _vendedObject;
+	id<CWHessianBonjourServerDelegate> _delegate;
   uint16_t _port;
 	CFSocketRef _ipv4socket;
 	NSNetService* _netService;
 }
 
-@property(nonatomic, assign) id<CWBonjourServerDelegate> delegate;
+@property(nonatomic, retain) id<NSObject> vendedObject;
+@property(nonatomic, assign) id<CWHessianBonjourServerDelegate> delegate;
 
 +(NSString*)bonjourTypeFromIdentifier:(NSString*)identifier;
 	
@@ -48,13 +50,13 @@ typedef NSUInteger CWBonjourServerErrorCode;
 
 @end
 
-@protocol CWBonjourServerDelegate <NSObject>
+@protocol CWHessianBonjourServerDelegate <NSObject>
 @required
--(void)didAcceptConnectionForServer:(CWBonjourServer*)server inputStream:(NSInputStream*)istr outputStream:(NSOutputStream*)ostr;
+-(void)didAcceptConnectionForServer:(CWHessianBonjourServer*)server inputStream:(NSInputStream*)istr outputStream:(NSOutputStream*)ostr;
 
 @optional
--(void)serverDidEnableBonjour:(CWBonjourServer*)server withName:(NSString*)name;
--(void)server:(CWBonjourServer*)server didNotEnableBonjour:(NSDictionary *)errorDict;
+-(void)serverDidEnableBonjour:(CWHessianBonjourServer*)server withName:(NSString*)name;
+-(void)server:(CWHessianBonjourServer*)server didNotEnableBonjour:(NSDictionary *)errorDict;
 
 @end
 

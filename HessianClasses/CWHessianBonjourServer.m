@@ -1,5 +1,5 @@
 //
-//  CWBonjourServer.m
+//  CWHessianBonjourServer.m
 //  HessianKit
 //
 //  Copyright 2008 Fredrik Olsson, Jayway AB. All rights reserved.
@@ -21,20 +21,20 @@
 #include <unistd.h>
 #include <CFNetwork/CFSocketStream.h>
 
-#import "CWBonjourServer.h"
+#import "CWHessianBonjourServer.h"
 
-NSString * const CWBonjourServerErrorDomain = @"CWBonjourServerErrorDomain";
+NSString * const CWHessianBonjourServerErrorDomain = @"CWHessianBonjourServerErrorDomain";
 
 static void BonjourServerAcceptCallBack(CFSocketRef socket, CFSocketCallBackType type, CFDataRef address, const void *data, void *info);
 
-@interface CWBonjourServer ()
+@interface CWHessianBonjourServer ()
 @property(nonatomic,retain) NSNetService* netService;
 @property(assign) uint16_t port;
 @end
 
-@implementation CWBonjourServer
+@implementation CWHessianBonjourServer
 
-@synthesize delegate=_delegate, netService=_netService, port=_port;
+@synthesize vendedObject = _vendedObject, delegate=_delegate, netService=_netService, port=_port;
 
 -(id)init;
 {
@@ -62,7 +62,7 @@ static void BonjourServerAcceptCallBack(CFSocketRef socket, CFSocketCallBackType
 
   if (NULL == _ipv4socket) {
     if (error) {
-    	*error = [[NSError alloc] initWithDomain:CWBonjourServerErrorDomain code:CWBonjourServerNoSocketsAvailable userInfo:nil];
+    	*error = [[NSError alloc] initWithDomain:CWHessianBonjourServerErrorDomain code:CWHessianBonjourServerNoSocketsAvailable userInfo:nil];
       [*error autorelease];
     }
     if (_ipv4socket) {
@@ -86,7 +86,7 @@ static void BonjourServerAcceptCallBack(CFSocketRef socket, CFSocketCallBackType
 
   if (kCFSocketSuccess != CFSocketSetAddress(_ipv4socket, (CFDataRef)address4)) {
     if (error) {
-    	*error = [[NSError alloc] initWithDomain:CWBonjourServerErrorDomain code:CWBonjourServerCouldNotBindToIPv4Address userInfo:nil];
+    	*error = [[NSError alloc] initWithDomain:CWHessianBonjourServerErrorDomain code:CWHessianBonjourServerCouldNotBindToIPv4Address userInfo:nil];
       [*error autorelease];
     }
     if (_ipv4socket) {
@@ -160,7 +160,7 @@ static void BonjourServerAcceptCallBack(CFSocketRef socket, CFSocketCallBackType
 @end
 
 
-@implementation CWBonjourServer (Private)
+@implementation CWHessianBonjourServer (Private)
 
 -(void)handleNewConnectionFromAddress:(NSData*)addr inputStream:(NSInputStream*)istr outputStream:(NSOutputStream*)ostr;
 {
@@ -172,10 +172,10 @@ static void BonjourServerAcceptCallBack(CFSocketRef socket, CFSocketCallBackType
 
 // This function is called by CFSocket when a new connection comes in.
 // We gather some data here, and convert the function call to a method
-// invocation on CWBonjourServer.
+// invocation on CWHessianBonjourServer.
 static void BonjourServerAcceptCallBack(CFSocketRef socket, CFSocketCallBackType type, CFDataRef address, const void *data, void *info)
 {
-  CWBonjourServer *server = (CWBonjourServer *)info;
+  CWHessianBonjourServer *server = (CWHessianBonjourServer *)info;
   if (kCFSocketAcceptCallBack == type) { 
     // for an AcceptCallBack, the data parameter is a pointer to a CFSocketNativeHandle
     CFSocketNativeHandle nativeSocketHandle = *(CFSocketNativeHandle *)data;

@@ -21,13 +21,23 @@
 #import "CWHessianConnection.h"
 #import "CWHessianConnection+Private.h"
 #import "CWDistantHessianObject+Private.h"
-#import "CWBonjourServer.h"
+#import "CWHessianBonjourServer.h"
 
 
 @implementation CWHessianConnection
 
 @synthesize version = _version;
+@synthesize registeredServices;
 @synthesize serviceSearchDelegate = _searchDelegate;
+
+-(NSArray*)registeredServices;
+{
+	if (_registeredServices == nil) {
+		return [NSArray array];
+  } else {
+  	return [[_registeredServices copy] autorelease];
+  }
+}
 
 -(id)initWithHessianVersion:(CWHessianVersion)version;
 {
@@ -69,17 +79,18 @@
   return [proxy autorelease];
 }
 
--(BOOL)registerServiceWithObject:(id)anObject inDomain:(NSString*)domain applicationProtocol:(NSString*)protocol name:(NSString*)name;
+-(BOOL)registerServiceWithObject:(id<NSObject>)anObject inDomain:(NSString*)domain applicationProtocol:(NSString*)protocol name:(NSString*)name;
 {
-	CWBonjourServer* bonjourServer = [[CWBonjourServer alloc] init];
+	CWHessianBonjourServer* bonjourServer = [[CWHessianBonjourServer alloc] init];
   if (bonjourServer != nil) {
-    [bonjourServer setDelegate:self];
+    bonjourServer.delegate = self;
+    bonjourServer.vendedObject = anObject;
     if ([bonjourServer startAndReturnError:NULL]) {
       if ([bonjourServer enableBonjourWithDomain:domain applicationProtocol:protocol name:name]) {
         if (_registeredServices == nil) {
           _registeredServices = [[NSMutableDictionary alloc] init];
         }
-        [_registeredServices setObject:anObject forKey:bonjourServer];
+        [_registeredServices addObject:bonjourServer];
       }
     }
     [bonjourServer release];
