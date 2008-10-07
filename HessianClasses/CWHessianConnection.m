@@ -22,20 +22,21 @@
 #import "CWHessianConnection+Private.h"
 #import "CWDistantHessianObject+Private.h"
 #import "CWHessianBonjourServer.h"
+#import "NSArray+CWAdditions.h"
 
 
 @implementation CWHessianConnection
 
 @synthesize version = _version;
-@synthesize registeredServices;
+//@dynamic vendedServicesObjects;
 @synthesize serviceSearchDelegate = _searchDelegate;
 
--(NSArray*)registeredServices;
+-(NSArray*)vendedServicesObjects;
 {
 	if (_registeredServices == nil) {
 		return [NSArray array];
   } else {
-  	return [[_registeredServices copy] autorelease];
+		return [_registeredServices arrayWithReturnValuesForMakeObjectPerformSelector:@selector(vendedObject)];
   }
 }
 

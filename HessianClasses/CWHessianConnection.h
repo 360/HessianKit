@@ -61,9 +61,9 @@ typedef int CWHessianVersion;
 @property(assign, nonatomic) CWHessianVersion version;
 
 /*!
- * @abstract An array of services registred service objects.
+ * @abstract An array of services service objects vended by this connection.
  */
-@property(readonly, retain, nonatomic) NSArray* registeredServices;
+@property(readonly, retain, nonatomic) NSArray* vendedServicesObjects;
 
 /*!
  * @abstract The search delegate that searchForServicesInDomain:applicationProtocol: uses to notify found services.
@@ -100,9 +100,9 @@ typedef int CWHessianVersion;
 -(CWDistantHessianObject*)proxyWithURL:(NSURL*)URL protocol:(Protocol*)aProtocol;
 
 /*!
- * @abstract Registers a class for vending by a remote client.
+ * @abstract Registers a service by vending an object for remote clients.
  *
- * @param anObject The object to register for remote invocations.
+ * @param anObject The object to vend for remote invocations.
  * @param domain The domain of the serice, use nil for the default domain.
  * @param protocol The application protocol, eg. "myApp".
  * @param name The name by which the service is identified to the network. The name must be unique.
@@ -111,7 +111,7 @@ typedef int CWHessianVersion;
 -(BOOL)registerServiceWithObject:(id<NSObject>)anObject inDomain:(NSString*)domain applicationProtocol:(NSString*)protocol name:(NSString*)name;
 
 /*!
- * @abstract Starts a search for services publishing a specified application protocol, in the specified domain.
+ * @abstract Starts a search for services published with a specified application protocol, in the specified domain.
  *
  * @param domain The domain of the serice, use nil for the default domain.
  * @param protocol The application protocol, eg. "myApp".
