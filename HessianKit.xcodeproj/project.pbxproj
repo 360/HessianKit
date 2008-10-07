@@ -15,6 +15,9 @@
 		A61071EE0E34973500975244 /* HessianKit.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = A61071EC0E34970800975244 /* HessianKit.framework */; };
 		A61071F10E34974000975244 /* HessianKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A61071EC0E34970800975244 /* HessianKit.framework */; };
 		A61072FF0E34A63600975244 /* NSData+ReadableDescription.m in Sources */ = {isa = PBXBuildFile; fileRef = A685F94B0E1EED8B009547F2 /* NSData+ReadableDescription.m */; };
+		A62B27D80E9B572A0009534E /* CWBonjourServer.m in Sources */ = {isa = PBXBuildFile; fileRef = A62B27D70E9B572A0009534E /* CWBonjourServer.m */; };
+		A62B27D90E9B572A0009534E /* CWBonjourServer.h in Headers */ = {isa = PBXBuildFile; fileRef = A62B27D60E9B572A0009534E /* CWBonjourServer.h */; };
+		A62B27DA0E9B572A0009534E /* CWBonjourServer.m in Sources */ = {isa = PBXBuildFile; fileRef = A62B27D70E9B572A0009534E /* CWBonjourServer.m */; };
 		A6618E210E1E8AC600EBFE66 /* CWHessianCoder.m in Sources */ = {isa = PBXBuildFile; fileRef = A6618A0A0E1A92C600EBFE66 /* CWHessianCoder.m */; };
 		A6618E220E1E8AC600EBFE66 /* CWHessianArchiver.m in Sources */ = {isa = PBXBuildFile; fileRef = A66189FE0E1A819700EBFE66 /* CWHessianArchiver.m */; };
 		A6618E230E1E8AC600EBFE66 /* CWHessianUnarchiver.m in Sources */ = {isa = PBXBuildFile; fileRef = A6618A010E1A81AE00EBFE66 /* CWHessianUnarchiver.m */; };
@@ -83,6 +86,8 @@
 		32CA4F630368D1EE00C91783 /* HessianTest_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HessianTest_Prefix.pch; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A61071EC0E34970800975244 /* HessianKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HessianKit.framework; path = ../Debug/HessianKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		A62B27D60E9B572A0009534E /* CWBonjourServer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CWBonjourServer.h; path = HessianClasses/CWBonjourServer.h; sourceTree = "<group>"; };
+		A62B27D70E9B572A0009534E /* CWBonjourServer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CWBonjourServer.m; path = HessianClasses/CWBonjourServer.m; sourceTree = "<group>"; };
 		A66189FA0E1A817B00EBFE66 /* CWHessianConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CWHessianConnection.h; path = HessianClasses/CWHessianConnection.h; sourceTree = "<group>"; };
 		A66189FB0E1A817B00EBFE66 /* CWHessianConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CWHessianConnection.m; path = HessianClasses/CWHessianConnection.m; sourceTree = "<group>"; };
 		A66189FD0E1A819700EBFE66 /* CWHessianArchiver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CWHessianArchiver.h; path = HessianClasses/CWHessianArchiver.h; sourceTree = "<group>"; };
@@ -200,11 +205,21 @@
 			name = TouchFrameworks;
 			sourceTree = "<group>";
 		};
+		A62B27D50E9B56ED0009534E /* Bonjour */ = {
+			isa = PBXGroup;
+			children = (
+				A62B27D60E9B572A0009534E /* CWBonjourServer.h */,
+				A62B27D70E9B572A0009534E /* CWBonjourServer.m */,
+			);
+			name = Bonjour;
+			sourceTree = "<group>";
+		};
 		A66189AC0E19FA0900EBFE66 /* Hessian */ = {
 			isa = PBXGroup;
 			children = (
 				A6E44B300E34899900742087 /* Test */,
 				A6D0F8FA0E23C79B00ECE7C3 /* DocGen */,
+				A62B27D50E9B56ED0009534E /* Bonjour */,
 				A6618A080E1A92AB00EBFE66 /* Public */,
 				A685F6FB0E1EBA10009547F2 /* Private */,
 			);
@@ -289,6 +304,7 @@
 				A6E44B440E348BA200742087 /* CWHessianArchiver.h in Headers */,
 				A6E44B450E348BA200742087 /* CWDistantHessianObject.h in Headers */,
 				A6E44B460E348BA200742087 /* CWValueObject.h in Headers */,
+				A62B27D90E9B572A0009534E /* CWBonjourServer.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -409,6 +425,7 @@
 				A685FA770E1F0270009547F2 /* CWValueObject.m in Sources */,
 				A6D0F5330E22846000ECE7C3 /* CWValueObject+Private.m in Sources */,
 				A6E44B330E3489E700742087 /* CWHessianUnitTest.m in Sources */,
+				A62B27D80E9B572A0009534E /* CWBonjourServer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -426,6 +443,7 @@
 				A6E44B4E0E348BC500742087 /* CWDistantHessianObject+Private.m in Sources */,
 				A6E44B4F0E348BC500742087 /* CWValueObject.m in Sources */,
 				A6E44B500E348BC500742087 /* CWValueObject+Private.m in Sources */,
+				A62B27DA0E9B572A0009534E /* CWBonjourServer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
