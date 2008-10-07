@@ -99,7 +99,9 @@ static NSMethodSignature* getMethodSignatureRecursively(Protocol *p, SEL aSel)
 
 -(void)forwardInvocation:(NSInvocation *)invocation;
 {
-	NSData* requestData = [self archivedDataForInvocation:invocation];
+	NSOutputStream* outStream = [NSOutputStream outputStreamToMemory];
+  [self archiveHessianInvocation:invocation toStream:outStream];
+	NSData* requestData = [outStream propertyForKey:NSStreamDataWrittenToMemoryStreamKey];
 #if DEBUG
   NSLog([requestData description]);
 #endif
@@ -107,7 +109,7 @@ static NSMethodSignature* getMethodSignatureRecursively(Protocol *p, SEL aSel)
 #if DEBUG
   NSLog([responseData description]);
 #endif
-  id returnValue = [self unarchiveData:responseData];
+  id returnValue = [self unarchiveResponeFromStream:[NSInputStream inputStreamWithData:responseData]];
   if (returnValue) {
     if ([returnValue isKindOfClass:[NSException class]]) {
       [(NSException*)returnValue raise];

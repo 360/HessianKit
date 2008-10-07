@@ -95,10 +95,9 @@
   [archiver writeTypedObject:object];
 }
 
--(NSData*)archivedDataForInvocation:(NSInvocation*)invocation;
+-(void)archiveHessianInvocation:(NSInvocation*)invocation toStream:(NSOutputStream*)stream;
 {
-	NSMutableData* data = [NSMutableData data];
-  CWHessianArchiver* archiver = [[[CWHessianArchiver alloc] initWithConnection:self.connection mutableData:data] autorelease];
+  CWHessianArchiver* archiver = [[[CWHessianArchiver alloc] initWithConnection:self.connection stream:stream] autorelease];
   [archiver writeChar:'c'];
   [archiver writeChar:0x01];
   [archiver writeChar:0x00];
@@ -111,7 +110,6 @@
   	[self writeArgumentAtIndex:&index type:type archiver:archiver invocation:invocation];
   }
   [archiver writeChar:'z'];
-  return data;
 }
 
 -(NSData*)sendRequestWithPostData:(NSData*)postData;
@@ -148,10 +146,10 @@
 {
 }
 
--(id)unarchiveData:(NSData*)data;
+-(id)unarchiveResponeFromStream:(NSInputStream*)stream;
 {
 	CWHessianUnarchiver* unarchiver = [[[CWHessianUnarchiver alloc] 
-  		initWithConnection:self.connection mutableData:(NSMutableData*)data] autorelease];
+  		initWithConnection:self.connection stream:stream] autorelease];
 	if ([unarchiver readChar] == 'r') {
   	int major = [unarchiver readChar];
     int minor = [unarchiver readChar];

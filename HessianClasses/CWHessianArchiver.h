@@ -106,7 +106,6 @@
  */
 @interface CWHessianUnarchiver : CWHessianCoder {
 @private
-  NSInteger _offset;
   NSDictionary* _currentObjectMap;
 }
 

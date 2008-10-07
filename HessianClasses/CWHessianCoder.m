@@ -21,30 +21,40 @@
 
 @interface CWHessianCoder ()
 @property(retain, nonatomic) CWHessianConnection* connection;
-@property(retain, nonatomic) NSMutableData* archiveData;
 @property(retain, nonatomic) NSMutableArray* objectReferences;
 @end
 
 @implementation CWHessianCoder
 
 @synthesize connection = _connection;
-@synthesize archiveData = _archiveData;
+@synthesize outputStream = _outputStream;
+@synthesize inputStream = _inputStream;
 @synthesize objectReferences = _objectReferences;
 
 -(void)dealloc;
 {
 	self.connection = nil;
-  self.archiveData = nil;
+	if (_outputStream) {
+  	[_outputStream release];
+  }
+	if (_inputStream) {
+  	[_inputStream release];
+  }
   self.objectReferences = nil;
   [super dealloc];
 }
 
--(id)initWithConnection:(CWHessianConnection*)connection mutableData:(NSMutableData*)data;
+-(id)initWithConnection:(CWHessianConnection*)connection stream:(NSStream*)stream;
 {
   self = [super init];
   if (self) {
   	self.connection = connection;
-    self.archiveData = data;
+    if ([stream isKindOfClass:[NSOutputStream class]]) {
+	    _outputStream = [stream retain];
+    }
+    if ([stream isKindOfClass:[NSInputStream class]]) {
+	    _inputStream = [stream retain];
+    }
     self.objectReferences = [NSMutableArray array];
   }
   return self;

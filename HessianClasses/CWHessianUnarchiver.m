@@ -22,12 +22,8 @@
 static NSMutableDictionary* _classTranslations = nil;
 static NSMutableDictionary* _protocolTranslations = nil;
 
-@interface CWHessianUnarchiver ()
-@end
-
 @implementation CWHessianUnarchiver
 
-@synthesize offset = _offset;
 @synthesize currentObjectMap = _currentObjectMap;
 
 +(void)initialize;

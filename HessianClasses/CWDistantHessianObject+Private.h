@@ -37,11 +37,11 @@
 
 -(void)writeHeadersToArchiver:(CWHessianArchiver*)archiver;
 -(void)writeArgumentAtIndex:(int*)pIndex type:(const char*)type archiver:(CWHessianArchiver*)archiver invocation:(NSInvocation*)invocation;
--(NSData*)archivedDataForInvocation:(NSInvocation*)invocation;
+-(void)archiveHessianInvocation:(NSInvocation*)invocation toStream:(NSOutputStream*)stream;
 -(NSData*)sendRequestWithPostData:(NSData*)postData;
 
 -(void)readHeaderFromUnarchiver:(CWHessianUnarchiver*)unarchiver;
--(id)unarchiveData:(NSData*)data;
+-(id)unarchiveResponeFromStream:(NSInputStream*)stream;
 -(void)setReturnValue:(id)value invocation:(NSInvocation*)invocation;
 
 @end

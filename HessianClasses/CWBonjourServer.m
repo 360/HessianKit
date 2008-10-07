@@ -191,7 +191,7 @@ static void BonjourServerAcceptCallBack(CFSocketRef socket, CFSocketCallBackType
     if (readStream && writeStream) {
       CFReadStreamSetProperty(readStream, kCFStreamPropertyShouldCloseNativeSocket, kCFBooleanTrue);
       CFWriteStreamSetProperty(writeStream, kCFStreamPropertyShouldCloseNativeSocket, kCFBooleanTrue);
-      [server handleNewConnectionFromAddress:peer inputStream:(NSInputStream *)readStream outputStream:(NSOutputStream *)writeStream];
+      [server handleNewConnectionFromAddress:peer inputStream:(NSInputStream*)readStream outputStream:(NSOutputStream*)writeStream];
     } else {
       // on any failure, need to destroy the CFSocketNativeHandle 
       // since we are not going to use it any more
@@ -231,6 +231,11 @@ static void BonjourServerAcceptCallBack(CFSocketRef socket, CFSocketCallBackType
 -(NSString*)description;
 {
 	return [NSString stringWithFormat:@"<%@ = 0x%08X | port %d | netService = %@>", [self class], (long)self, self.port, self.netService];
+}
+
+- (void)stream:(NSStream*)stream handleEvent:(NSStreamEvent)streamEvent;
+{
+	// TODO: If this is the input stream, then we should read the request, forward to our object, and return the result in the output stream.
 }
 
 @end

@@ -29,7 +29,7 @@
 -(void)encodeInt:(int)intv forKey:(NSString*)key;
 -(void)encodeInteger:(NSInteger)intv forKey:(NSString*)key;
 
--(void)writeBytes:(const void*)buffer count:(NSInteger)count;
+-(void)writeBytes:(const void*)buffer count:(NSUInteger)count;
 -(void)writeChar:(char)ch;
 -(void)writeBool:(BOOL)value;
 -(void)writeUInt16:(uint16_t)value;
@@ -49,7 +49,6 @@
 
 @interface CWHessianUnarchiver ()
 
-@property(assign, nonatomic) NSInteger offset;
 @property(retain, nonatomic) NSDictionary* currentObjectMap;
 
 @end
@@ -59,7 +58,7 @@
 -(int)decodeIntForKey:(NSString*)key;
 -(NSInteger)decodeIntegerForKey:(NSString*)key;
 
--(void)readBytes:(void*)buffer count:(NSInteger)count;
+-(void)readBytes:(void*)buffer count:(NSUInteger)count;
 -(char)peekChar;
 -(char)readChar;
 -(BOOL)readBool;

@@ -36,7 +36,8 @@
 @interface CWHessianCoder : NSCoder {
 @private
 	CWHessianConnection* _connection;
-  NSMutableData* _archiveData;
+  NSOutputStream* _outputStream;
+  NSInputStream* _inputStream;
   NSMutableArray* _objectReferences;
 }
 
@@ -46,9 +47,14 @@
 @property(readonly, retain, nonatomic) CWHessianConnection* connection;
 
 /*!
- * @abstract A <code>NSMutableData</code> object that is used by concrete subclasses to store and retrieve serialized data.
+ * @abstract A <code>NSOutputStream</code> object that is used by concrete subclasses to store serialized data.
  */
-@property(readonly, retain, nonatomic) NSMutableData* archiveData;
+@property(readonly, retain, nonatomic) NSOutputStream* outputStream;
+
+/*!
+ * @abstract A <code>NSInputStream</code> object that is used by concrete subclasses to retrieve serialized data.
+ */
+@property(readonly, retain, nonatomic) NSInputStream* inputStream;
 
 /*!
  * @abstract A <code>NSMutableArray</code> object that is used by concrete subclasses to keep track of reference object to avoid
@@ -63,7 +69,7 @@
  * @param data The <code>NSMutableData</code> object to store to or retrieve data from.
  * @result A Hessian coder.
  */
--(id)initWithConnection:(CWHessianConnection*)connection mutableData:(NSMutableData*)data;
+-(id)initWithConnection:(CWHessianConnection*)connection stream:(NSStream*)stream;
 
 /*!
  * @abstract Default implementation returns YES to allow NCoding conformant objects to suse keyed archiving.

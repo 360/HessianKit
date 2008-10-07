@@ -41,9 +41,9 @@
   }
 }
 
--(void)writeBytes:(const void*)buffer count:(NSInteger)count;
+-(void)writeBytes:(const void*)buffer count:(NSUInteger)count;
 {
-  [self.archiveData appendBytes:buffer length:count];
+  [self.outputStream write:buffer maxLength:count];
 }
 
 -(void)writeChar:(char)ch;

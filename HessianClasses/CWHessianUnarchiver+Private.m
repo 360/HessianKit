@@ -42,16 +42,21 @@
   }
 }
 
--(void)readBytes:(void*)buffer count:(NSInteger)count;
+-(void)readBytes:(void*)buffer count:(NSUInteger)count;
 {
-  [self.archiveData getBytes:buffer range:NSMakeRange(self.offset, count)];
-  self.offset += count;
+  [self.inputStream read:buffer maxLength:count];
 }
 
 -(char)peekChar;
 {
   char ch = '\0';
-  [self.archiveData getBytes:&ch range:NSMakeRange(self.offset, 1)];
+  uint8_t* pBuffer = NULL;
+  NSUInteger len = 0;
+  if ([self.inputStream getBuffer:&pBuffer length:&len]) {
+  	if (len > 0) {
+ 			ch = *pBuffer;   
+    }
+  }
   return ch;
 }
 
@@ -176,8 +181,7 @@
   } else if ('B' == toupper(tag)) {
     int len = [self readUInt16];
     data = [NSMutableData dataWithCapacity:len];
-    [data appendData:[self.archiveData subdataWithRange:NSMakeRange(self.offset, len)]];
-    self.offset += len;
+    [self readBytes:[data mutableBytes] count:len];
   } else {
     [NSException raise:NSInvalidArchiveOperationException format:@"expected binary marker"];
   }
@@ -357,7 +361,6 @@
   if (self.currentObjectMap) {
   	return [self.currentObjectMap objectForKey:key];
   } else {
-  	int offset = self.offset;
     BOOL validKey = YES;
     if (key) {
 	    id possibleKey = [self readTypedObject];
@@ -372,8 +375,6 @@
         }
       }
       return object;
-    } else {
-    	self.offset = offset;
     }
     return nil;
   }

@@ -49,9 +49,12 @@ typedef NSUInteger CWBonjourServerErrorCode;
 @end
 
 @protocol CWBonjourServerDelegate <NSObject>
+@required
+-(void)didAcceptConnectionForServer:(CWBonjourServer*)server inputStream:(NSInputStream*)istr outputStream:(NSOutputStream*)ostr;
+
 @optional
 -(void)serverDidEnableBonjour:(CWBonjourServer*)server withName:(NSString*)name;
 -(void)server:(CWBonjourServer*)server didNotEnableBonjour:(NSDictionary *)errorDict;
--(void)didAcceptConnectionForServer:(CWBonjourServer*)server inputStream:(NSInputStream*)istr outputStream:(NSOutputStream*)ostr;
+
 @end
 
