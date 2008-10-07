@@ -56,7 +56,7 @@
   [self writeChar:(value ? 'T' : 'F')];
 }
 
--(void)writeInt16:(int16_t)value;
+-(void)writeUInt16:(uint16_t)value;
 {
   value = NSSwapHostShortToBig(value);
   [self writeBytes:&value count:2];
@@ -95,7 +95,7 @@
     stringChunk = [string substringToIndex:MAX_CHUNK_SIZE + 1];
   }
   bytes = [stringChunk dataUsingEncoding:NSUTF8StringEncoding allowLossyConversion:YES];
-  [self writeInt16:[stringChunk length]];
+  [self writeUInt16:[stringChunk length]];
   [self writeBytes:[bytes bytes] count:[bytes length]];
   if ('s' == tag || 'x' == tag) {
     string = [string substringFromIndex:MAX_CHUNK_SIZE + 1];
@@ -114,7 +114,7 @@
   if ('b' == tag) {
     dataChunk = [data subdataWithRange:NSMakeRange(0, MAX_CHUNK_SIZE)];
   }
-  [self writeInt16:[dataChunk length]];
+  [self writeUInt16:[dataChunk length]];
   [self writeBytes:[dataChunk bytes] count:[dataChunk length]];
   if ('b' == tag) {
     data = [data subdataWithRange:NSMakeRange(MAX_CHUNK_SIZE + 1, [data length] - MAX_CHUNK_SIZE)];
@@ -126,7 +126,7 @@
 -(void)writeList:(NSArray*)list;
 {
   [self writeChar:'l'];
-  [self writeInt16:[list count]];
+  [self writeInt32:[list count]];
   for (id object in list) {
     [self writeTypedObject:object];
   }

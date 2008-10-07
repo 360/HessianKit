@@ -56,12 +56,28 @@ static NSMutableDictionary* _protocolTranslations = nil;
 
 +(Class)classForClassName:(NSString*)className;
 {
-	return NSClassFromString([_classTranslations objectForKey:className]);
+	Class aClass = NSClassFromString([_protocolTranslations objectForKey:className]);
+  if (!aClass) {
+  	NSInteger location = [className rangeOfString:@"." options:NSBackwardsSearch].location;
+    if (NSNotFound != location) {
+    	className = [className substringFromIndex:location + 1];
+      aClass = NSClassFromString([_protocolTranslations objectForKey:className]);
+    }
+  }
+	return aClass; 
 }
 
 +(Protocol*)protocolForClassName:(NSString*)className;
 {
-	return NSProtocolFromString([_protocolTranslations objectForKey:className]);
+	Protocol* aProtocol = NSProtocolFromString([_protocolTranslations objectForKey:className]);
+  if (!aProtocol) {
+  	NSInteger location = [className rangeOfString:@"." options:NSBackwardsSearch].location;
+    if (NSNotFound != location) {
+    	className = [className substringFromIndex:location + 1];
+      aProtocol = NSProtocolFromString([_protocolTranslations objectForKey:className]);
+    }
+  }
+	return aProtocol; 
 }
 
 -(BOOL)containsValueForKey:(NSString*)key;
