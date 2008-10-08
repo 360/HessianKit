@@ -33,22 +33,6 @@
 -(NSString*)readUTF8StringWithBytes:(NSUInteger)bytes;
 -(NSString*)readUTF8StringWithUnsignedShortBytes:(unsigned short)bytes;
 
--(BOOL)peekBool;
--(char)peekChar;
--(unsigned char)peekUnsignedChar;
--(double)peekDouble;
--(float)peekFloat;
--(int)peekInt;
--(unsigned int)peekUnsignedInt;
--(NSInteger)peekInteger;
--(NSUInteger)peekUnsignedInteger;
--(long)peekLong;
--(unsigned long)peekUnsignedLong;
--(long long)peekLongLong;
--(unsigned long long)peekUnsignedLongLong;
--(short)peekShort;
--(unsigned short)peekUnsignedShort;
-
 @end
 
 @interface NSOutputStream (CWAdditions)

@@ -42,34 +42,9 @@
   }
 }
 
--(void)readBytes:(void*)buffer count:(NSUInteger)count;
-{
-  [self.inputStream read:buffer maxLength:count];
-}
-
--(char)peekChar;
-{
-  char ch = '\0';
-  uint8_t* pBuffer = NULL;
-  NSUInteger len = 0;
-  if ([self.inputStream getBuffer:&pBuffer length:&len]) {
-  	if (len > 0) {
- 			ch = *pBuffer;   
-    }
-  }
-  return ch;
-}
-
--(char)readChar;
-{
-  char ch = '\0';
-  [self readBytes:&ch count:1];
-  return ch;
-}
-
 -(BOOL)readBool;
 {
-  char value = [self readChar];
+  char value = [self.inputStream readChar];
   switch (value) {
     case 'T':
       return YES;
@@ -81,33 +56,19 @@
   }
 }
 
--(uint16_t)readUInt16;
-{
-  int16_t value = 0;
-  [self readBytes:&value count:2];
-  return NSSwapBigShortToHost(value);
-}
-
 -(int32_t)readInt32;
 {
-  int32_t value = 0;
-  [self readBytes:&value count:4];
-  return NSSwapBigIntToHost(value);
+	return [self.inputStream readInt];
 }
 
 -(int64_t)readInt64;
 {
-  int64_t value = 0;
-  [self readBytes:&value count:8];
-  return NSSwapBigLongLongToHost(value);
+	return [self.inputStream readLongLong];
 }
 
 -(double)readDouble;
 {
-  int64_t int64tmp = [self readInt64];
-	double doublev = 0.0;
-  memcpy(&doublev, &int64tmp, sizeof(double));
-  return doublev;
+	return [self.inputStream readDouble];
 }
 
 -(NSDate*)readDate;
@@ -122,17 +83,17 @@
   if ('N' == tag) {
     return nil;
   } else if ('S' == toupper(tag) || 'X' == toupper(tag)) {
-    int len = [self readUInt16];
+    int len = [self.inputStream readUnsignedShort];
     string = [NSMutableString stringWithCapacity:len];
     for (int index = 0; index < len; index++) {
-      unichar ch = [self readChar];
+      unichar ch = [self.inputStream readChar];
       if (ch < 0x80) {
 			} else if ((ch & 0xe0) == 0xc0) {
-				unichar ch1 = [self readChar];
+				unichar ch1 = [self.inputStream readChar];
 				ch = ((ch & 0x1f) << 6) + (ch1 & 0x3f);
 			} else if ((ch & 0xf0) == 0xe0) {
-				int ch1 = [self readChar];
-				int ch2 = [self readChar];
+				int ch1 = [self.inputStream readChar];
+				int ch2 = [self.inputStream readChar];
 				ch = ((ch & 0x0f) << 12) + ((ch1 & 0x3f) << 6)
 						+ (ch2 & 0x3f);
 			} else {
@@ -144,7 +105,7 @@
     [NSException raise:NSInvalidArchiveOperationException format:@"expected string marker"];
   }
   if ('s' == tag || 'x' == tag) {
-    tag = [self readChar];
+    tag = [self.inputStream readChar];
     NSString* nextStringChunk = [self readStringWithTag:tag];
     if (nextStringChunk) {
       [string appendString:nextStringChunk];
@@ -179,14 +140,14 @@
   if ('N' == tag) {
     return nil;
   } else if ('B' == toupper(tag)) {
-    int len = [self readUInt16];
+    int len = [self.inputStream readUnsignedShort];
     data = [NSMutableData dataWithCapacity:len];
-    [self readBytes:[data mutableBytes] count:len];
+    [self.inputStream read:[data mutableBytes] maxLength:len];
   } else {
     [NSException raise:NSInvalidArchiveOperationException format:@"expected binary marker"];
   }
   if ('b' == tag) {
-    tag = [self readChar];
+    tag = [self.inputStream readChar];
     NSData* nextDataChunk = [self readDataWithTag:tag];
     if (nextDataChunk) {
       [data appendData:nextDataChunk];
@@ -212,30 +173,31 @@
 
 -(NSArray*)readList;
 {
-  if ([self peekChar] == 't') {
-    [self readChar];
+	char aChar = [self.inputStream readChar];
+  if (aChar == 't') {
     (void)[self readStringWithTag:'S'];
+    aChar = [self.inputStream readChar];
   }
   NSMutableArray* list = nil;
   int length = 8;
-  if ([self peekChar] == 'l') {
-  	(void)[self readChar];
+  if (aChar == 'l') {
     length = [self readInt32];
+    aChar = [self.inputStream readChar];
   }
-  list =[NSMutableArray arrayWithCapacity:length];
+  list = [NSMutableArray arrayWithCapacity:length];
   [self.objectReferences addObject:list];
-  while ([self peekChar] != 'z') {
-    NSObject* object = [self readTypedObject];
+  for ( ; aChar != 'z'; aChar = [self.inputStream readChar]) {
+    NSObject* object = [self readTypedObjectWithInitialChar:aChar];
     if (!object) {
       object = [NSNull null];
     }
     [list addObject:object];
   }
-  (void)[self readChar];
+  (void)[self.inputStream readChar];
   return list;
 }
 
--(id)readMapWithTypedObject:(id)typedObject;
+-(id)readMapWithInitialChar:(char)aChar typedObject:(id)typedObject;
 {
   NSMutableDictionary* map = [NSMutableDictionary dictionary];
   if (typedObject) {
@@ -243,15 +205,15 @@
   } else {
     [self.objectReferences addObject:map];
   }
-  while ([self peekChar] != 'z') {
-    NSObject* key = [self readTypedObject];
-    NSObject* object = [self readTypedObject];
+  for (; aChar != 'z'; aChar = [self.inputStream readChar]) {
+    NSObject* key = [self readTypedObjectWithInitialChar:aChar];
+    NSObject* object = [self readTypedObjectWithInitialChar:aChar];
     if (!object) {
       object = [NSNull null];
     }
     [map setObject:object forKey:key];
   }
-  (void)[self readChar];
+  (void)[self.inputStream readChar];
   if (typedObject) {
     id previousObjectMap = self.currentObjectMap;
     self.currentObjectMap = map;
@@ -267,8 +229,8 @@
 {
   NSString* className = nil;
   id typedObject = nil;
-  if ([self peekChar] == 't') {
-    [self readChar];
+  char aChar = [self.inputStream readChar];
+  if (aChar == 't') {
     className = [self readStringWithTag:'S'];
     if ([className length] > 0) {
       Class typedClass = [CWHessianUnarchiver classForClassName:className];
@@ -284,13 +246,15 @@
         }     	
       }
     }
+    aChar = [self.inputStream readChar];
   }
-  return [self readMapWithTypedObject:typedObject];
+  return [self readMapWithInitialChar:aChar typedObject:typedObject];
 }
 
 -(CWDistantHessianObject*)readRemote;
 {
-	if ([self readChar] != 't') {
+	char aChar = [self.inputStream readChar];
+	if (aChar != 't') {
   	[NSException raise:NSInvalidUnarchiveOperationException format:@"expected type token"];
   }
 	NSString* className = [self readStringWithTag:'S'];
@@ -301,17 +265,17 @@
   if (!aProtocol) {
   	[NSException raise:NSInvalidUnarchiveOperationException format:@"no proxy protocol for remote clas %@", className];
   }
-  NSString* URLString = [self readTypedObject];
+  aChar = [self.inputStream readChar];
+  NSString* URLString = [self readTypedObjectWithInitialChar:aChar];
   if (!URLString || ![URLString isKindOfClass:[NSString class]]) {
   	[NSException raise:NSInvalidUnarchiveOperationException format:@"expected string"];
   }
 	return [self.connection proxyWithURL:[NSURL URLWithString:URLString] protocol:aProtocol];
 }
 
--(id)readTypedObject;
+-(id)readTypedObjectWithInitialChar:(char)aChar;
 {
-  char tag = [self readChar];
-  switch (tag) {
+  switch (aChar) {
     case 'N':
       return nil;
     case 'T':
@@ -333,10 +297,10 @@
 #endif
     case 's':
     case 'S':
-      return [self readStringWithTag:tag];
+      return [self readStringWithTag:aChar];
     case 'b':
     case 'B':
-      return [self readDataWithTag:tag];
+      return [self readDataWithTag:aChar];
     case 'V':
       return [self readList];
     case 'M':
@@ -351,7 +315,7 @@
     case 'f':
     	return [self readFault];
     default:
-      [NSException raise:NSInvalidUnarchiveOperationException format:@"%c is not a known marker", tag];
+      [NSException raise:NSInvalidUnarchiveOperationException format:@"%c is not a known marker", aChar];
   }
   return nil;
 }
@@ -363,11 +327,11 @@
   } else {
     BOOL validKey = YES;
     if (key) {
-	    id possibleKey = [self readTypedObject];
+	    id possibleKey = [self readTypedObjectWithInitialChar:[self.inputStream readChar]];
       validKey = [possibleKey isKindOfClass:[NSString class]] && [(NSString*)possibleKey isEqualToString:key];
     }
     if (validKey) {
-      id object = [self readTypedObject];
+      id object = [self readTypedObjectWithInitialChar:[self.inputStream readChar]];
       if (cls) {
         if (![object isKindOfClass:cls]) {
           [NSException raise:NSInvalidUnarchiveOperationException format:@"encoutered invalid class, expected:%s got:%@", 

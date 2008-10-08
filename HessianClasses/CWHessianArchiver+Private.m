@@ -41,44 +41,24 @@
   }
 }
 
--(void)writeBytes:(const void*)buffer count:(NSUInteger)count;
-{
-  [self.outputStream write:buffer maxLength:count];
-}
-
--(void)writeChar:(char)ch;
-{
-  [self writeBytes:&ch count:1];
-}
-
 -(void)writeBool:(BOOL)value;
 {
-  [self writeChar:(value ? 'T' : 'F')];
-}
-
--(void)writeUInt16:(uint16_t)value;
-{
-  value = NSSwapHostShortToBig(value);
-  [self writeBytes:&value count:2];
+  [self.outputStream writeChar:(value ? 'T' : 'F')];
 }
 
 -(void)writeInt32:(int32_t)value;
 {
-  value = NSSwapHostIntToBig(value);
-  [self writeBytes:&value count:4];
+  [self.outputStream writeInt:value];
 }
 
 -(void)writeInt64:(int64_t)value;
 {
-  value = NSSwapHostLongLongToBig(value);
-  [self writeBytes:&value count:8];
+	[self.outputStream writeLongLong:value];
 }
 
 -(void)writeDouble:(double)value;
 {
-	int64_t int64v = 0;
-  memcpy(&int64v, &value, sizeof(double));
-	[self writeInt64:int64v];
+	[self.outputStream writeDouble:value];
 }
 
 -(void)writeDate:(NSDate*)date;
@@ -95,8 +75,8 @@
     stringChunk = [string substringToIndex:MAX_CHUNK_SIZE + 1];
   }
   bytes = [stringChunk dataUsingEncoding:NSUTF8StringEncoding allowLossyConversion:YES];
-  [self writeUInt16:[stringChunk length]];
-  [self writeBytes:[bytes bytes] count:[bytes length]];
+  [self.outputStream writeUnsignedShort:[stringChunk length]];
+  [self.outputStream write:[bytes bytes] maxLength:[bytes length]];
   if ('s' == tag || 'x' == tag) {
     string = [string substringFromIndex:MAX_CHUNK_SIZE + 1];
     if ('s' == tag) {
@@ -114,8 +94,8 @@
   if ('b' == tag) {
     dataChunk = [data subdataWithRange:NSMakeRange(0, MAX_CHUNK_SIZE)];
   }
-  [self writeUInt16:[dataChunk length]];
-  [self writeBytes:[dataChunk bytes] count:[dataChunk length]];
+  [self.outputStream writeUnsignedShort:[dataChunk length]];
+  [self.outputStream write:[dataChunk bytes] maxLength:[dataChunk length]];
   if ('b' == tag) {
     data = [data subdataWithRange:NSMakeRange(MAX_CHUNK_SIZE + 1, [data length] - MAX_CHUNK_SIZE)];
     tag = ([data length] > MAX_CHUNK_SIZE ? 'b' : 'B');
@@ -125,12 +105,12 @@
 
 -(void)writeList:(NSArray*)list;
 {
-  [self writeChar:'l'];
+  [self.outputStream writeChar:'l'];
   [self writeInt32:[list count]];
   for (id object in list) {
     [self writeTypedObject:object];
   }
-  [self writeChar:'z'];
+  [self.outputStream writeChar:'z'];
 }
 
 -(void)writeMap:(NSDictionary*)map;
@@ -139,40 +119,40 @@
   	[self writeTypedObject:key];
     [self writeTypedObject:[map objectForKey:key]];
   }
-  [self writeChar:'z'];
+  [self.outputStream writeChar:'z'];
 }
 
 -(void)writeTypedObject:(id)object;
 {
 	if (object == nil || [object isKindOfClass:[NSNull class]]) {
-  	[self writeChar:'N'];
+  	[self.outputStream writeChar:'N'];
     return;
   }
   NSUInteger index = [self.objectReferences indexOfObject:object];
   if (index != NSNotFound) {
-		[self writeChar:'R'];
+		[self.outputStream writeChar:'R'];
     [self writeInt32:index];
   } else if ([object isKindOfClass:[NSNumber class]]) {
   	NSNumber* number = (NSNumber*)object;
     if (strcmp([number objCType], @encode(BOOL)) == 0) {
-    	[self writeChar:[number boolValue] ? 'T' : 'F'];
+    	[self.outputStream writeChar:[number boolValue] ? 'T' : 'F'];
     } else if (strcmp([number objCType], @encode(int32_t)) == 0) {
-    	[self writeChar:'I'];
+    	[self.outputStream writeChar:'I'];
       [self writeInt32:[number intValue]];
     } else if (strcmp([number objCType], @encode(int64_t)) == 0) {
-    	[self writeChar:'L'];
+    	[self.outputStream writeChar:'L'];
       [self writeInt64:[number longLongValue]];
     } else {
-    	[self writeChar:'D'];
+    	[self.outputStream writeChar:'D'];
       double realv = [number doubleValue];
       [self writeDouble:realv];
     }
   } else if ([object isKindOfClass:[NSDate class]]) {
-		[self writeChar:'d'];
+		[self.outputStream writeChar:'d'];
     [self writeDate:(NSDate*)object];
   } else if ([object isKindOfClass:[NSString class]]) {
   	char tag = ([(NSString*)object length] > MAX_CHUNK_SIZE ? 's' : 'S');
-		[self writeChar:tag];
+		[self.outputStream writeChar:tag];
     [self writeString:(NSString*)object withTag:tag];
 #if (TARGET_OS_MAC && !(TARGET_OS_EMBEDDED || TARGET_OS_IPHONE))
   } else if ([object isKindOfClass:[NSXMLNode class]]) {
@@ -183,21 +163,21 @@
 #endif
   } else if ([object isKindOfClass:[NSData class]]) {
   	char tag = ([object length] > MAX_CHUNK_SIZE ? 'b' : 'B');
-		[self writeChar:tag];
+		[self.outputStream writeChar:tag];
     [self writeData:object withTag:tag];
   } else if ([object isKindOfClass:[NSArray class]]) {
   	[self.objectReferences addObject:object];
-  	[self writeChar:'V'];
+  	[self.outputStream writeChar:'V'];
     [self writeList:(NSArray*)object];
   } else if ([object isKindOfClass:[NSDictionary class]]) {
   	[self.objectReferences addObject:object];
-  	[self writeChar:'M'];
+  	[self.outputStream writeChar:'M'];
     [self writeMap:(NSDictionary*)object];
   } else if ([object isKindOfClass:[CWDistantHessianObject class]]) {
-  		[self writeChar:'r'];
-      [self writeChar:'t'];
+  		[self.outputStream writeChar:'r'];
+      [self.outputStream writeChar:'t'];
 		  [self writeString:[((CWDistantHessianObject*)object) remoteClassName] withTag:'S'];
-      [self writeChar:'S'];
+      [self.outputStream writeChar:'S'];
       [self writeString:[((CWDistantHessianObject*)object).URL description] withTag:'S'];
   } else if ([object conformsToProtocol:@protocol(NSCoding)]) {
   	[self.objectReferences addObject:object];
@@ -208,11 +188,11 @@
     if (!className) {
       className = [NSString stringWithCString:class_getName([object class])];
     }
-    [self writeChar:'M'];
-    [self writeChar:'t'];
+    [self.outputStream writeChar:'M'];
+    [self.outputStream writeChar:'t'];
     [self writeString:className withTag:'S'];
     [object encodeWithCoder:self];
-    [self writeChar:'z'];
+    [self.outputStream writeChar:'z'];
   } else {
   	NSString* className = [NSString stringWithCString:class_getName([object class])];
   	[NSException raise:NSInvalidArchiveOperationException format:@"%@ do not conform to NSCoding", className];

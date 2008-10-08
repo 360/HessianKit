@@ -21,6 +21,7 @@
 #else
 #import "CWHessianArchiver.h"
 #endif
+#import "NSStream+CWAdditions.h"
 
 @class CWDistantHessianObject;
 
@@ -29,12 +30,8 @@
 -(void)encodeInt:(int)intv forKey:(NSString*)key;
 -(void)encodeInteger:(NSInteger)intv forKey:(NSString*)key;
 
--(void)writeBytes:(const void*)buffer count:(NSUInteger)count;
--(void)writeChar:(char)ch;
 -(void)writeBool:(BOOL)value;
--(void)writeUInt16:(uint16_t)value;
 -(void)writeInt32:(int32_t)value;
--(void)writeInt64:(int64_t)value;
 -(void)writeDouble:(double)value;
 -(void)writeDate:(NSDate*)date;
 -(void)writeString:(NSString*)string withTag:(char)tag;
@@ -58,11 +55,7 @@
 -(int)decodeIntForKey:(NSString*)key;
 -(NSInteger)decodeIntegerForKey:(NSString*)key;
 
--(void)readBytes:(void*)buffer count:(NSUInteger)count;
--(char)peekChar;
--(char)readChar;
 -(BOOL)readBool;
--(uint16_t)readUInt16;
 -(int32_t)readInt32;
 -(int64_t)readInt64;
 -(double)readDouble;
@@ -74,11 +67,11 @@
 -(NSData*)readDataWithTag:(char)tag;
 -(NSException*)readFault;
 -(NSArray*)readList;
--(id)readMapWithTypedObject:(id)typedObject;
+-(id)readMapWithInitialChar:(char)aChar typedObject:(id)typedObject;
 -(id)readMap;
 -(CWDistantHessianObject*)readRemote;
 
--(id)readTypedObject;
+-(id)readTypedObjectWithInitialChar:(char)aChar;
 
 -(id)readDecodeCandidateForKey:(NSString*)key ofClass:(Class)cls;
 

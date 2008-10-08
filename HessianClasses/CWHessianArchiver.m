@@ -73,15 +73,15 @@ static NSMutableDictionary* _selectorTranslations = nil;
 -(void)encodeInt32:(int32_t)intv forKey:(NSString*)key;
 {
 	if (key) [self writeTypedObject:key];
-	[self writeChar:'I'];
+	[self.outputStream writeChar:'I'];
   [self writeInt32:intv];
 }
 
 -(void)encodeInt64:(int64_t)intv forKey:(NSString*)key;
 {
 	if (key) [self writeTypedObject:key];
-	[self writeChar:'L'];
-  [self writeInt64:intv];
+	[self.outputStream writeChar:'L'];
+  [self.outputStream writeLongLong:intv];
 }
 
 -(void)encodeFloat:(float)realv forKey:(NSString*)key;
@@ -92,8 +92,8 @@ static NSMutableDictionary* _selectorTranslations = nil;
 -(void)encodeDouble:(double)realv forKey:(NSString*)key;
 {
 	if (key) [self writeTypedObject:key];
-	[self writeChar:'D'];
-  [self writeInt64:(int64_t)(*((double*)(&realv)))];
+	[self.outputStream writeChar:'D'];
+  [self.outputStream writeDouble:realv];
 }
 
 -(void)encodeObject:(id)objv forKey:(NSString*)key;

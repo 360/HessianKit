@@ -32,7 +32,7 @@
 -(NSProxy<Test>*)testProxy;
 {
   CWHessianConnection* connection = [[CWHessianConnection alloc] initWithHessianVersion:CWHessianVersion1_00];
-  NSURL* URL = [NSURL URLWithString:@"http://hessian.caucho.com/test/test"];
+  NSURL* URL = [NSURL URLWithString:@"http://localhost:8080/HessianTest/TestHessian"];
   NSProxy<Test>* proxy = (NSProxy<Test>*)[connection proxyWithURL:URL protocol:@protocol(Test)];
   [connection release];
   return proxy;

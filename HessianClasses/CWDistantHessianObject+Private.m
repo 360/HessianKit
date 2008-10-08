@@ -98,18 +98,18 @@
 -(void)archiveHessianInvocation:(NSInvocation*)invocation toStream:(NSOutputStream*)stream;
 {
   CWHessianArchiver* archiver = [[[CWHessianArchiver alloc] initWithConnection:self.connection stream:stream] autorelease];
-  [archiver writeChar:'c'];
-  [archiver writeChar:0x01];
-  [archiver writeChar:0x00];
+  [archiver.outputStream writeChar:'c'];
+  [archiver.outputStream writeChar:0x01];
+  [archiver.outputStream writeChar:0x00];
 	[self writeHeadersToArchiver:archiver];
-	[archiver writeChar:'m'];
+	[archiver.outputStream writeChar:'m'];
   [archiver writeString:[self methodNameFromInvocation:invocation] withTag:'S'];
   NSMethodSignature* signature = [invocation methodSignature];
   for (int index = 2; index < [signature numberOfArguments]; index++) {
   	const char* type = [signature getArgumentTypeAtIndex:index];
   	[self writeArgumentAtIndex:&index type:type archiver:archiver invocation:invocation];
   }
-  [archiver writeChar:'z'];
+  [archiver.outputStream writeChar:'z'];
 }
 
 -(NSData*)sendRequestWithPostData:(NSData*)postData;
@@ -150,13 +150,13 @@
 {
 	CWHessianUnarchiver* unarchiver = [[[CWHessianUnarchiver alloc] 
   		initWithConnection:self.connection stream:stream] autorelease];
-	if ([unarchiver readChar] == 'r') {
-  	int major = [unarchiver readChar];
-    int minor = [unarchiver readChar];
+	if ([unarchiver.inputStream readChar] == 'r') {
+  	int major = [unarchiver.inputStream readChar];
+    int minor = [unarchiver.inputStream readChar];
   	if (major == 0x01 && minor == 0x00) {
 			[self readHeaderFromUnarchiver:unarchiver];
-      id object = [unarchiver readTypedObject];
-      if ([unarchiver readChar] != 'z') {
+      id object = [unarchiver readTypedObjectWithInitialChar:[unarchiver.inputStream readChar]];
+      if ([unarchiver.inputStream readChar] != 'z') {
     		[NSException raise:NSInvalidUnarchiveOperationException format:@"Did not find reply terminator z"];
       	return nil;
       }
