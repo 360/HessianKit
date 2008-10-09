@@ -62,6 +62,7 @@
 
 -(BOOL)testAllWithProxy:(CWDistantHessianObject<Test>*)proxy;
 {
+	NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
 	while (![proxy isReady]) {
   	[NSThread sleepForTimeInterval:1.0];
   }
@@ -72,6 +73,7 @@
 	success &= [self testMapWithProxy:proxy];
 	success &= [self testObjectWithProxy:proxy];
   [proxy release];
+  [pool release];
   return success;
 }
 

@@ -136,7 +136,7 @@ static void BonjourServerAcceptCallBack(CFSocketRef socket, CFSocketCallBackType
 		return NO;
 	}
 
-	self.netService = [[NSNetService alloc] initWithDomain:domain type:protocol name:name port:self.port];
+	self.netService = [[NSNetService alloc] initWithDomain:domain type:[CWHessianBonjourServer bonjourTypeFromApplicationProtocol:protocol] name:name port:self.port];
 	if(self.netService == nil) {
 		return NO;
 	}

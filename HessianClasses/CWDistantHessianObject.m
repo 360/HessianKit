@@ -78,10 +78,10 @@ static NSMethodSignature* getMethodSignatureRecursively(Protocol *p, SEL aSel)
 {
 	self.connection = connection;
   self.netService = service;
-  [service setDelegate:self];
-  [service resolveWithTimeout:30.0];
   self.protocol = aProtocol;
   self.methodSignatures = [NSMutableDictionary dictionary];
+  [service setDelegate:self];
+  [service resolveWithTimeout:30.0];
   return self;
 }
 
@@ -105,6 +105,17 @@ static NSMethodSignature* getMethodSignatureRecursively(Protocol *p, SEL aSel)
   	return YES;
   }
   return NO;
+}
+
+-(BOOL)respondsToSelector:(SEL)aSelector;
+{
+	if ([self methodSignatureForSelector:aSelector] != nil) {
+  	return YES;
+  }
+  if (aSelector == @selector(netServiceDidResolveAddress:)) {
+  	return YES;
+  }
+  return [NSObject instancesRespondToSelector:aSelector];
 }
 
 -(NSString*)remoteClassName;
