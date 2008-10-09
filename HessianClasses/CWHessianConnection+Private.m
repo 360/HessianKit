@@ -41,13 +41,13 @@
 	return _currentResolve;
 }
 
--(void)setCurrentResolve:(NSNetService*)netService;
+-(void)setCurrentResolve:(NSNetService*)service;
 {
-	if (_currentResolve != nil && _currentResolve != netService) {
+	if (_currentResolve != nil && _currentResolve != service) {
 		[_currentResolve stop];
     [_currentResolve release];
   }
-  _currentResolve = netService;
+  _currentResolve = service;
   if (_currentResolve) {
   	[_currentResolve retain];
   }
@@ -57,6 +57,20 @@
 {
 	[ostr setDelegate:server];
 	[istr setDelegate:server];
+}
+
+- (void)netServiceBrowser:(NSNetServiceBrowser*)netServiceBrowser didFindService:(NSNetService*)service moreComing:(BOOL)moreComing;
+{
+	if (self.serviceSearchDelegate != nil) {
+  	[self.serviceSearchDelegate hessianConnection:self didFindService:service moreComing:moreComing];
+  }
+}
+
+- (void)netServiceBrowser:(NSNetServiceBrowser*)netServiceBrowser didRemoveService:(NSNetService*)service moreComing:(BOOL)moreComing;
+{
+	if (self.serviceSearchDelegate != nil) {
+  	[self.serviceSearchDelegate hessianConnection:self didRemoveService:service moreComing:moreComing];
+  }
 }
 
 @end

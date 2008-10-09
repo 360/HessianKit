@@ -19,7 +19,7 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <unistd.h>
-#include <CFNetwork/CFSocketStream.h>
+//#include <CFNetwork/CFSocketStream.h>
 
 #import "CWHessianBonjourServer.h"
 
@@ -47,12 +47,12 @@ static void BonjourServerAcceptCallBack(CFSocketRef socket, CFSocketCallBackType
   [super dealloc];
 }
 
-+(NSString*)bonjourTypeFromIdentifier:(NSString*)identifier;
++(NSString*)bonjourTypeFromApplicationProtocol:(NSString*)protocol;
 {
-	if (![identifier length]) {
+	if (![protocol length]) {
 		return nil;
   }
-  return [NSString stringWithFormat:@"_%@._tcp.", identifier];
+  return [NSString stringWithFormat:@"_%@._tcp.", protocol];
 }
 
 -(BOOL)startAndReturnError:(NSError**)error;

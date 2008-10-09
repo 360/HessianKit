@@ -18,20 +18,35 @@
 
 #import <Foundation/Foundation.h>
 
-@interface CWHessianUnitTest : NSObject {
+#if (TARGET_OS_MAC && !(TARGET_OS_EMBEDDED || TARGET_OS_IPHONE))
+#import <HessianKit/HessianKit.h>
+#else
+#import "HessianKit.h"
+#endif
 
+#import "Test.h"
+
+
+@interface CWHessianUnitTest : NSObject <CWHessianConnectionServiceSearchDelegate> {
+	CWHessianConnection* _currentConnection;
 }
 
--(BOOL)testAll;
+-(BOOL)setupAsBonjourService;
 
--(BOOL)testPrimitives;
+-(BOOL)testAllWithWebService;
 
--(BOOL)testPublicTest;
+-(BOOL)testAllWithBonjourService;
 
--(BOOL)testList;
+-(BOOL)testAllWithProxy:(CWDistantHessianObject<Test>*)proxy;
 
--(BOOL)testMap;
+-(BOOL)testPrimitivesWithProxy:(CWDistantHessianObject<Test>*)proxy;
 
--(BOOL)testObject;
+-(BOOL)testPublicTestWithProxy:(CWDistantHessianObject<Test>*)proxy;
+
+-(BOOL)testListWithProxy:(CWDistantHessianObject<Test>*)proxy;
+
+-(BOOL)testMapWithProxy:(CWDistantHessianObject<Test>*)proxy;
+
+-(BOOL)testObjectWithProxy:(CWDistantHessianObject<Test>*)proxy;
 
 @end

@@ -18,40 +18,65 @@
 
 #import "CWHessianUnitTest.h"
 
-#if (TARGET_OS_MAC && !(TARGET_OS_EMBEDDED || TARGET_OS_IPHONE))
-#import <HessianKit/HessianKit.h>
-#else
-#import "HessianKit.h"
-#endif
-
-#import "Test.h"
 #import "ValueTest.h"
 
 @implementation CWHessianUnitTest
 
--(NSProxy<Test>*)testProxy;
+-(BOOL)setupAsBonjourService;
 {
-  CWHessianConnection* connection = [[CWHessianConnection alloc] initWithHessianVersion:CWHessianVersion1_00];
-  NSURL* URL = [NSURL URLWithString:@"http://localhost:8080/HessianTest/TestHessian"];
-  NSProxy<Test>* proxy = (NSProxy<Test>*)[connection proxyWithURL:URL protocol:@protocol(Test)];
-  [connection release];
-  return proxy;
+	Test* rootObject = [[Test alloc] init];
+  _currentConnection = [[CWHessianConnection alloc] initWithHessianVersion:CWHessianVersion1_00];
+  BOOL retVal = [_currentConnection registerServiceWithRootObject:rootObject inDomain:nil applicationProtocol:@"Test" name:@"Test"];
+	[rootObject release];
+  return retVal;
 }
 
--(BOOL)testAll;
+-(BOOL)testAllWithWebService;
 {
+  NSURL* URL = [NSURL URLWithString:@"http://localhost:8080/HessianTest/TestHessian"];
+  CWHessianConnection* connection = [[CWHessianConnection alloc] initWithHessianVersion:CWHessianVersion1_00];
+  CWDistantHessianObject<Test>* proxy = (CWDistantHessianObject<Test>*)[connection proxyWithURL:URL protocol:@protocol(Test)];
+  [connection release];
+  [proxy retain];
+	return [self testAllWithProxy:proxy];
+}
+
+-(BOOL)testAllWithBonjourService;
+{
+	_currentConnection = [[CWHessianConnection alloc] initWithHessianVersion:CWHessianVersion1_00];
+  _currentConnection.serviceSearchDelegate = self;
+  return [_currentConnection searchForServicesInDomain:nil applicationProtocol:@"Test"];
+}
+
+-(void)hessianConnection:(CWHessianConnection*)connection didFindService:(NSNetService*)service moreComing:(BOOL)moreServicesComing;
+{
+	CWDistantHessianObject<Test>* proxy = [connection proxyWithNetService:service protocol:@protocol(Test)];
+  [connection release];
+  [proxy retain];
+	[self performSelectorInBackground:@selector(testAllWithProxy:) withObject:proxy];
+}
+
+-(void)hessianConnection:(CWHessianConnection*)connection didRemoveService:(NSNetService*)service moreComing:(BOOL)moreServicesComing;
+{
+}
+
+-(BOOL)testAllWithProxy:(CWDistantHessianObject<Test>*)proxy;
+{
+	while (![proxy isReady]) {
+  	[NSThread sleepForTimeInterval:1.0];
+  }
 	BOOL success = YES;
-	success &= [self testPrimitives];
-	success &= [self testPublicTest];
-	success &= [self testList];
-	success &= [self testMap];
-	success &= [self testObject];
+	success &= [self testPrimitivesWithProxy:proxy];
+	success &= [self testPublicTestWithProxy:proxy];
+	success &= [self testListWithProxy:proxy];
+	success &= [self testMapWithProxy:proxy];
+	success &= [self testObjectWithProxy:proxy];
+  [proxy release];
   return success;
 }
 
--(BOOL)testPrimitives;
+-(BOOL)testPrimitivesWithProxy:(CWDistantHessianObject<Test>*)proxy;
 {
-  id<Test> proxy = [self testProxy];
 	@try {
     id result = [proxy echo:[NSNumber numberWithBool:YES]];
     if (!result || ![result isKindOfClass:[NSNumber class]] || ![result boolValue]) {
@@ -90,9 +115,8 @@
   return YES;
 }
 
--(BOOL)testPublicTest;
+-(BOOL)testPublicTestWithProxy:(CWDistantHessianObject<Test>*)proxy;
 {
-  id<Test> proxy = [self testProxy];
 	@try {
     [CWHessianArchiver setMethodName:@"subtract__2" forSelector:@selector(subtract:from:)];
 
@@ -130,9 +154,8 @@
   return YES;
 }
 
--(BOOL)testList;
+-(BOOL)testListWithProxy:(CWDistantHessianObject<Test>*)proxy;
 {
-  id<Test> proxy = [self testProxy];
 	@try {
   	NSArray* testArray = [NSArray arrayWithObjects:[NSNumber numberWithBool:YES], @"Hello", [NSNull null],
     	[NSArray arrayWithObjects:@"foo", @"bar", nil], [NSDate date], nil];
@@ -151,9 +174,8 @@
   return YES;
 }
 
--(BOOL)testMap;
+-(BOOL)testMapWithProxy:(CWDistantHessianObject<Test>*)proxy;
 {
-  id<Test> proxy = [self testProxy];
 	@try {
     NSMutableDictionary* recursive = [NSMutableDictionary dictionary];
     [recursive setObject:recursive forKey:@"me"];
@@ -172,9 +194,8 @@
   return YES;
 }
 
--(BOOL)testObject;
+-(BOOL)testObjectWithProxy:(CWDistantHessianObject<Test>*)proxy;
 {
-  id<Test> proxy = [self testProxy];
 	@try {
     [CWHessianArchiver setClassName:@"java.util.Hashtable" forProtocol:@protocol(ValueTest)];
     [CWHessianUnarchiver setProtocol:@protocol(ValueTest) forClassName:@"java.util.Hashtable"];

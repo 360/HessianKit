@@ -26,6 +26,9 @@
 
 @interface CWDistantHessianObject ()
 @property(retain, nonatomic) CWHessianConnection* connection;
+@property(retain, nonatomic) NSNetService* netService;
+@property(retain, nonatomic) NSInputStream* inputStream;
+@property(retain, nonatomic) NSOutputStream* outputStream;
 @end
 
 @interface CWDistantHessianObject (Private)

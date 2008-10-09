@@ -80,8 +80,9 @@
   return [proxy autorelease];
 }
 
--(BOOL)registerServiceWithObject:(id<NSObject>)anObject inDomain:(NSString*)domain applicationProtocol:(NSString*)protocol name:(NSString*)name;
+-(BOOL)registerServiceWithRootObject:(id<NSObject>)anObject inDomain:(NSString*)domain applicationProtocol:(NSString*)protocol name:(NSString*)name;
 {
+	BOOL success = NO;
 	CWHessianBonjourServer* bonjourServer = [[CWHessianBonjourServer alloc] init];
   if (bonjourServer != nil) {
     bonjourServer.delegate = self;
@@ -89,31 +90,59 @@
     if ([bonjourServer startAndReturnError:NULL]) {
       if ([bonjourServer enableBonjourWithDomain:domain applicationProtocol:protocol name:name]) {
         if (_registeredServices == nil) {
-          _registeredServices = [[NSMutableDictionary alloc] init];
+          _registeredServices = [[NSMutableArray alloc] init];
         }
         [_registeredServices addObject:bonjourServer];
+        success = YES;
       }
     }
     [bonjourServer release];
 	}
-	return NO;
+	return success;
 }
 
--(void)searchForServicesInDomain:(NSString*)domain applicationProtocol:(NSString*)protocol;
+-(BOOL)searchForServicesInDomain:(NSString*)domain applicationProtocol:(NSString*)protocol;
 {
-	if (_netServiceBrowser == nil) {
-  	
+	self.currentResolve = nil;
+	self.netServiceBrowser = nil;
+  NSNetServiceBrowser* netServiceBrowser = [[NSNetServiceBrowser alloc] init];
+	if (netServiceBrowser) {
+	  netServiceBrowser.delegate = self;
+    if (domain == nil) {
+    	domain = @"";
+    }
+  	[netServiceBrowser searchForServicesOfType:[CWHessianBonjourServer bonjourTypeFromApplicationProtocol:protocol] inDomain:domain];
+		self.netServiceBrowser = netServiceBrowser;
+    [netServiceBrowser release];
+		return YES;
   }
+  return NO;
 }
 
-+(CWDistantHessianObject*)proxyWithNetService:(NSNetService*)netService  protocol:(Protocol*)aProtocol;
+-(void)stopSearchForServices;
 {
-	return nil;
+	self.netServiceBrowser = nil;
 }
 
--(CWDistantHessianObject*)proxyWithNetService:(NSNetService*)netService  protocol:(Protocol*)aProtocol;
++(CWDistantHessianObject*)proxyWithNetService:(NSNetService*)service  protocol:(Protocol*)aProtocol;
 {
-	return nil;
+	CWDistantHessianObject* proxy = nil;
+	CWHessianConnection* connection = [[CWHessianConnection alloc] initWithHessianVersion:CWHessianVersion1_00];
+	if (connection) {
+  	proxy = [connection proxyWithNetService:service protocol:aProtocol];
+    if (proxy) {
+	    proxy.connection = connection;
+    }
+    [connection release];
+  }
+  return proxy;
+}
+
+-(CWDistantHessianObject*)proxyWithNetService:(NSNetService*)service  protocol:(Protocol*)aProtocol;
+{
+	CWDistantHessianObject* proxy = [CWDistantHessianObject alloc];
+  [proxy initWithConnection:self netService:service protocol:aProtocol];
+  return [proxy autorelease];
 }
 
 @end

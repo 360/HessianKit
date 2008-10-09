@@ -61,6 +61,9 @@
 @private
 	CWHessianConnection* _connection;
   NSURL* _URL;
+  NSNetService* _netService;
+  NSInputStream* _inputStream;
+  NSOutputStream* _outputStream;
   Protocol* _protocol;
   NSMutableDictionary* _methodSignatures;
 }
@@ -91,6 +94,26 @@
  * @result A proxy for the Hessian web service.
  */
 -(id)initWithConnection:(CWHessianConnection*)connection URL:(NSURL*)URL protocol:(Protocol*)aProtocol;
+
+
+/*!
+ * @abstract Returns a initialized <code>CWDistantHessianObject</code> associated with a given 
+ *           @link //hessiankit_ref/occ/cl/CWHessianConnection <code>CWHessianConnection</code>@/link object,
+ *           a Hessian service published over Bonjour, and conforming to a given Protocol.
+ *
+ * @param connection The @link //hessiankit_ref/occ/cl/CWHessianConnection <code>CWHessianConnection</code>@/link object to asociate with.
+ * @param service <code>NSNetervice</code> of the Hessian service published over Bonjour.
+ * @param aProtocol a protol mirroring the published interface of the Hessian web service, to conform to.
+ * @result A proxy for the Hessian web service.
+ */
+-(id)initWithConnection:(CWHessianConnection*)connection netService:(NSNetService*)service protocol:(Protocol*)aProtocol;
+
+/*!
+ * @abstract Query proxy if it is ready to forward messages to remote object.
+ *
+ * @result YES if proxy is ready.
+ */
+-(BOOL)isReady;
 
 /*!
  * @abstract Returns a Boolean value that indicates whether the receiver conforms to a given protocol.

@@ -292,7 +292,7 @@
     case 'x':
     case 'X':
 #if (TARGET_OS_MAC && !(TARGET_OS_EMBEDDED || TARGET_OS_IPHONE))
-			return [self readXMLWithTag:tag];
+			return [self readXMLWithTag:aChar];
 #endif
     case 's':
     case 'S':

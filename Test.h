@@ -32,3 +32,9 @@
 -(int)fault;
 
 @end
+
+@interface Test : NSObject <Test> {
+}
+
+@end
+

@@ -21,15 +21,15 @@
 
 int main (int argc, const char * argv[]) {
   NSAutoreleasePool * pool = [[NSAutoreleasePool alloc] init];
+	CFRunLoopRef runLoop = CFRunLoopGetCurrent();
 
 	CWHessianUnitTest* test = [[CWHessianUnitTest alloc] init];
-  if ([test testAll]) {
-		NSLog(@"Yay!");  
-  } else {
-  	NSLog(@"Nay!");
-  }
-	[test release];
+	[test setupAsBonjourService];
 
+	[test release];
+	
+  CFRunLoopRun();
+	CFRelease(runLoop);
   [pool drain];
   return 0;
 }

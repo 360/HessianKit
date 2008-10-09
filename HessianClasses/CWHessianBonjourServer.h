@@ -41,7 +41,7 @@ typedef NSUInteger CWHessianBonjourServerErrorCode;
 @property(nonatomic, retain) id<NSObject> vendedObject;
 @property(nonatomic, assign) id<CWHessianBonjourServerDelegate> delegate;
 
-+(NSString*)bonjourTypeFromIdentifier:(NSString*)identifier;
++(NSString*)bonjourTypeFromApplicationProtocol:(NSString*)protocol;
 	
 -(BOOL)startAndReturnError:(NSError**)error;
 -(BOOL)stop;

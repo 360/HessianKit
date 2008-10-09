@@ -158,7 +158,7 @@
   } else if ([object isKindOfClass:[NSXMLNode class]]) {
   	NSString* xmlString = [(NSXMLNode*)object XMLStringWithOptions:NSXMLNodeOptionsNone];
   	char tag = ([xmlString length] > MAX_CHUNK_SIZE ? 'x' : 'X');
-		[self writeChar:tag];
+		[self.outputStream writeChar:tag];
     [self writeString:xmlString withTag:tag];
 #endif
   } else if ([object isKindOfClass:[NSData class]]) {

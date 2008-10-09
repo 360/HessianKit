@@ -26,12 +26,12 @@
 
 - (void)applicationDidFinishLaunching:(UIApplication *)application {
 	CWHessianUnitTest* test = [[CWHessianUnitTest alloc] init];
-  if ([test testAll]) {
+  if ([test testAllWithBonjourService]) {
 		NSLog(@"Yay!");  
   } else {
   	NSLog(@"Nay!");
   }
-	[test release];
+	// [test release];
 }
 
 

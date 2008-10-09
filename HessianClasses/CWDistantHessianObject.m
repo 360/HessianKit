@@ -50,6 +50,9 @@ static NSMethodSignature* getMethodSignatureRecursively(Protocol *p, SEL aSel)
 
 @synthesize connection = _connection;
 @synthesize URL = _URL;
+@synthesize netService = _netService;
+@synthesize inputStream = _inputStream;
+@synthesize outputStream = _outputStream;
 @synthesize protocol = _protocol;
 @synthesize methodSignatures = _methodSignatures;
 
@@ -69,6 +72,22 @@ static NSMethodSignature* getMethodSignatureRecursively(Protocol *p, SEL aSel)
 	self.protocol = aProtocol;
   self.methodSignatures = [NSMutableDictionary dictionary];
   return self;
+}
+
+-(id)initWithConnection:(CWHessianConnection*)connection netService:(NSNetService*)service protocol:(Protocol*)aProtocol;
+{
+	self.connection = connection;
+  self.netService = service;
+  [service setDelegate:self];
+  [service resolveWithTimeout:30.0];
+  self.protocol = aProtocol;
+  self.methodSignatures = [NSMutableDictionary dictionary];
+  return self;
+}
+
+-(BOOL)isReady;
+{
+	return (self.URL != nil || (self.outputStream != nil && self.inputStream != nil));
 }
 
 -(BOOL)conformsToProtocol:(Protocol*)aProtocol;
@@ -99,22 +118,28 @@ static NSMethodSignature* getMethodSignatureRecursively(Protocol *p, SEL aSel)
 
 -(void)forwardInvocation:(NSInvocation *)invocation;
 {
-	NSOutputStream* outStream = [NSOutputStream outputStreamToMemory];
-  [outStream open];
-  [self archiveHessianInvocation:invocation toStream:outStream];
-	[outStream close];
-	NSData* requestData = [outStream propertyForKey:NSStreamDataWrittenToMemoryStreamKey];
+	id returnValue = nil;
+	if (_URL != nil) {
+		NSOutputStream* outStream = [NSOutputStream outputStreamToMemory];
+  	[outStream open];
+    [self archiveHessianInvocation:invocation toStream:outStream];
+    [outStream close];
+    NSData* requestData = [outStream propertyForKey:NSStreamDataWrittenToMemoryStreamKey];
 #if DEBUG
-  NSLog([requestData description]);
+    NSLog([requestData description]);
 #endif
-  NSData* responseData = [self sendRequestWithPostData:requestData];
+    NSData* responseData = [self sendRequestWithPostData:requestData];
 #if DEBUG
-  NSLog([responseData description]);
+    NSLog([responseData description]);
 #endif
-	NSInputStream* inStream = [NSInputStream inputStreamWithData:responseData];
-  [inStream open];
-  id returnValue = [self unarchiveResponeFromStream:inStream];
-  [inStream close];
+    NSInputStream* inStream = [NSInputStream inputStreamWithData:responseData];
+	  [inStream open];
+  	returnValue = [self unarchiveResponeFromStream:inStream];
+  	[inStream close];
+  } else {
+  	[self archiveHessianInvocation:invocation toStream:self.outputStream];
+    returnValue = [self unarchiveResponeFromStream:self.inputStream];
+  }
   if (returnValue) {
     if ([returnValue isKindOfClass:[NSException class]]) {
       [(NSException*)returnValue raise];
@@ -138,6 +163,13 @@ static NSMethodSignature* getMethodSignatureRecursively(Protocol *p, SEL aSel)
     return signature;
   } else {
   	return nil;
+  }
+}
+
+-(void)netServiceDidResolveAddress:(NSNetService *)service;
+{
+	if (![service getInputStream:&_inputStream outputStream:&_outputStream]) {
+		NSLog(@"Error getting streams from service.");
   }
 }
 

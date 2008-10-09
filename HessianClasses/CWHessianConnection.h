@@ -108,41 +108,49 @@ typedef int CWHessianVersion;
  * @param name The name by which the service is identified to the network. The name must be unique.
  * @result YES if the class was successfulle registered as a service.
  */
--(BOOL)registerServiceWithObject:(id<NSObject>)anObject inDomain:(NSString*)domain applicationProtocol:(NSString*)protocol name:(NSString*)name;
+-(BOOL)registerServiceWithRootObject:(id<NSObject>)anObject inDomain:(NSString*)domain applicationProtocol:(NSString*)protocol name:(NSString*)name;
 
 /*!
  * @abstract Starts a search for services published with a specified application protocol, in the specified domain.
  *
  * @param domain The domain of the serice, use nil for the default domain.
  * @param protocol The application protocol, eg. "myApp".
+ * @result YES if search is successfully started.
  */
--(void)searchForServicesInDomain:(NSString*)domain applicationProtocol:(NSString*)protocol;
+-(BOOL)searchForServicesInDomain:(NSString*)domain applicationProtocol:(NSString*)protocol;
+
+/*!
+ * @abstract Stop searching for services.
+ */
+-(void)stopSearchForServices;
 
 /**
  * @abstract Returns a Hessian Bonjour service proxy for a given net service, conforming to a given protocol.
  *
- * @param netService The Bonjour net service for the Hessian web service.
+ * @param service The Bonjour net service for the Hessian web service.
  * @param aProtocol The Protocol that the proxy should conform to.
  * @result A proxy for the Hessian web service. 
  */
-+(CWDistantHessianObject*)proxyWithNetService:(NSNetService*)netService  protocol:(Protocol*)aProtocol;
++(CWDistantHessianObject*)proxyWithNetService:(NSNetService*)service  protocol:(Protocol*)aProtocol;
 
 /**
  * @abstract Returns a Hessian Bonjour service proxy, associated with a temporary <code>CWHessianConnection</code> object,
  * 					 for a given net service, conforming to a given protocol.
  *
- * @param netService The Bonjour net service for the Hessian web service.
+ * @param service The Bonjour net service for the Hessian web service.
  * @param aProtocol The Protocol that the proxy should conform to.
  * @result A proxy for the Hessian web service. 
  */
--(CWDistantHessianObject*)proxyWithNetService:(NSNetService*)netService  protocol:(Protocol*)aProtocol;
+-(CWDistantHessianObject*)proxyWithNetService:(NSNetService*)service  protocol:(Protocol*)aProtocol;
 
 @end
 
 
 @protocol CWHessianConnectionServiceSearchDelegate <NSObject>
+@required
 
--(void)hessianConnection:(CWHessianConnection*)connection didFindService:(NSNetService*)netService moreComing:(BOOL)moreServicesComing;
+-(void)hessianConnection:(CWHessianConnection*)connection didFindService:(NSNetService*)service moreComing:(BOOL)moreServicesComing;
+-(void)hessianConnection:(CWHessianConnection*)connection didRemoveService:(NSNetService*)service moreComing:(BOOL)moreServicesComing;
 
 @end
 
