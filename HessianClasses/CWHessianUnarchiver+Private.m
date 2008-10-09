@@ -193,7 +193,6 @@
     }
     [list addObject:object];
   }
-  (void)[self.inputStream readChar];
   return list;
 }
 
@@ -207,13 +206,13 @@
   }
   for (; aChar != 'z'; aChar = [self.inputStream readChar]) {
     NSObject* key = [self readTypedObjectWithInitialChar:aChar];
+    aChar = [self.inputStream readChar];
     NSObject* object = [self readTypedObjectWithInitialChar:aChar];
     if (!object) {
       object = [NSNull null];
     }
     [map setObject:object forKey:key];
   }
-  (void)[self.inputStream readChar];
   if (typedObject) {
     id previousObjectMap = self.currentObjectMap;
     self.currentObjectMap = map;

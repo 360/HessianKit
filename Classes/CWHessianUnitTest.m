@@ -107,7 +107,7 @@
     	NSLog(@"Passed, String hello()");
     }
 
-    int theAnswer = [proxy subtract:44 from:2];
+    int theAnswer = [proxy subtract:2 from:44];
 		if (theAnswer != 42) {
     	NSLog(@"Failed subtract() result: %d", theAnswer);
       return NO;
