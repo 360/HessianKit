@@ -1,5 +1,5 @@
 //
-// cocoamain.m
+// WCHessianCocoaTester.m
 //  HessianKit
 //
 //  Copyright 2008 Fredrik Olsson, Jayway AB. All rights reserved.
@@ -16,11 +16,19 @@
 //  limitations under the License.
 //
 
-#import <Foundation/Foundation.h>
-#include "CWHessianUnitTest.h"
+#import <Cocoa/Cocoa.h>
+#import <HessianKit/HessianKit.h>
+#import "CWHessianUnitTest.h"
 
-int main (int argc, const char * argv[]) {
-	return NSApplicationMain(argc,  (const char **) argv);
+@interface CWHessianCocoaTester : NSObject {
+	IBOutlet NSTextView* logView;
+	CWHessianUnitTest* unitTest;
 }
 
+-(IBAction)startBonjourService:(id)sender;
+-(IBAction)stopBonjourService:(id)sender;
 
+-(IBAction)executeTestsAgainstWebService:(id)sender;
+-(IBAction)executeTestsAgainstBonjourService:(id)sender;
+
+@end

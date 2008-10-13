@@ -11,6 +11,8 @@
 
 @interface NSInputStream (CWAdditions)
 
+-(NSInteger)read:(uint8_t*)buffer exactLength:(NSUInteger)length timeout:(NSTimeInterval)timeout;
+
 -(BOOL)readBool;
 -(char)readChar;
 -(unsigned char)readUnsignedChar;
@@ -36,6 +38,8 @@
 @end
 
 @interface NSOutputStream (CWAdditions)
+
+-(NSInteger)write:(uint8_t*)buffer exactLength:(NSUInteger)length timeout:(NSTimeInterval)timeout;
 
 -(void)writeBool:(BOOL)value;
 -(void)writeChar:(char)value;
