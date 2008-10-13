@@ -23,7 +23,7 @@
 		A6E223410EA3450800145795 /* CWHessianCocoaTester.m in Sources */ = {isa = PBXBuildFile; fileRef = A6E221A90EA3328500145795 /* CWHessianCocoaTester.m */; };
 		A6E223490EA3451000145795 /* HessianKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A61071EC0E34970800975244 /* HessianKit.framework */; };
 		A6E2234A0EA3451000145795 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A6E223170EA343F700145795 /* Cocoa.framework */; };
-		A6E223610EA3454700145795 /* HessianTestMain.xib in Resources */ = {isa = PBXBuildFile; fileRef = A6E221AE0EA3355500145795 /* HessianTestMain.xib */; };
+		A6E2236E0EA3461300145795 /* HessianTestMain.xib in Resources */ = {isa = PBXBuildFile; fileRef = A6E221AF0EA3355500145795 /* HessianTestMain.xib */; };
 		A6E44B410E348BA200742087 /* HessianKit.h in Headers */ = {isa = PBXBuildFile; fileRef = A685F8110E1EDBCF009547F2 /* HessianKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A6E44B420E348BA200742087 /* CWHessianConnection.h in Headers */ = {isa = PBXBuildFile; fileRef = A66189FA0E1A817B00EBFE66 /* CWHessianConnection.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A6E44B430E348BA200742087 /* CWHessianCoder.h in Headers */ = {isa = PBXBuildFile; fileRef = A6618A090E1A92C600EBFE66 /* CWHessianCoder.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -116,7 +116,7 @@
 		A6D0F8FC0E23C7E100ECE7C3 /* HeaderDocTOCTemplate.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = HeaderDocTOCTemplate.html; sourceTree = "<group>"; };
 		A6E221A80EA3328500145795 /* CWHessianCocoaTester.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWHessianCocoaTester.h; sourceTree = "<group>"; };
 		A6E221A90EA3328500145795 /* CWHessianCocoaTester.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWHessianCocoaTester.m; sourceTree = "<group>"; };
-		A6E221AF0EA3355500145795 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/HessianTestMain.xib; sourceTree = "<group>"; };
+		A6E221AF0EA3355500145795 /* HessianTestMain.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HessianTestMain.xib; sourceTree = "<group>"; };
 		A6E223170EA343F700145795 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		A6E223380EA344CA00145795 /* HessianCocoaTester.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = HessianCocoaTester.app; path = build/Debug/HessianCocoaTester.app; sourceTree = "<group>"; };
 		A6E2233A0EA344CA00145795 /* HessianCocoaTester-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "HessianCocoaTester-Info.plist"; sourceTree = "<group>"; };
@@ -195,7 +195,7 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				A6E221AE0EA3355500145795 /* HessianTestMain.xib */,
+				A6E221AF0EA3355500145795 /* HessianTestMain.xib */,
 				A6E44B3D0E348B8500742087 /* HessianKit-Info.plist */,
 				A6FC549C0E9E3D66008A1CD2 /* HessianCocoaTest-Info.plist */,
 			);
@@ -403,7 +403,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A6E223610EA3454700145795 /* HessianTestMain.xib in Resources */,
+				A6E2236E0EA3461300145795 /* HessianTestMain.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -475,17 +475,6 @@
 			targetProxy = A6FC552E0E9E3DC0008A1CD2 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
-
-/* Begin PBXVariantGroup section */
-		A6E221AE0EA3355500145795 /* HessianTestMain.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				A6E221AF0EA3355500145795 /* English */,
-			);
-			name = HessianTestMain.xib;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		A6E2233B0EA344CB00145795 /* Debug */ = {
