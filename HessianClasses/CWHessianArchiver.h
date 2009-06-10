@@ -2,7 +2,7 @@
 //  CWHessianArchiver.h
 //  HessianKit
 //
-//  Copyright 2008 Fredrik Olsson, Jayway AB. All rights reserved.
+//  Copyright 2008 Fredrik Olsson, Cocoway. All rights reserved.
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License. 
 //  You may obtain a copy of the License at 
@@ -25,10 +25,10 @@
 #endif
 
 /*!
- * <code>CWHessianArchiver</code>, a concrete subclass of @link //hessiankit_ref/occ/cl/CWHessianCoder <code>CWHessianCoder</code>@/link 
+ * @abstract <code>CWHessianArchiver</code>, a concrete subclass of @link //hessiankit_ref/occ/cl/CWHessianCoder <code>CWHessianCoder</code>@/link 
  * provides a way to encode objects, and scalar values that can be sent over the Hessian binary web service protocol.
  * <p>
- * Only keyed archiving is supported.
+ * @discussion Only keyed archiving is supported.
  */
 @interface CWHessianArchiver : CWHessianCoder {
 }

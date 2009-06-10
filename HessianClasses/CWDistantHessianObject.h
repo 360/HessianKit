@@ -2,7 +2,7 @@
 //  CWDistantHessianObject.h
 //  HessianKit
 //
-//  Copyright 2008 Fredrik Olsson, Jayway AB. All rights reserved.
+//  Copyright 2008 Fredrik Olsson, Cocoway. All rights reserved.
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License. 
 //  You may obtain a copy of the License at 
@@ -21,10 +21,10 @@
 @class CWHessianConnection;
 
 /*!
- * <code>CWDistantHessianObject</code> is a concrete subclass of <code>NSProxy</code> that defines proxies for objects that exists
+ * @abstract <code>CWDistantHessianObject</code> is a concrete subclass of <code>NSProxy</code> that defines proxies for objects that exists
  * as a Hessian web service.
- * <p>
- * When a distant object receives a message, in most cases it forwards the message to the real object published 
+ * 
+ * @discussion When a distant object receives a message, in most cases it forwards the message to the real object published 
  * on the Hessian web service using a <code>NSURLRequest</code> object and the provided URL, supplying the return value to the 
  * sender of the message if one is received, and propagating any exception back to the invoker of the method that
  * raised it.

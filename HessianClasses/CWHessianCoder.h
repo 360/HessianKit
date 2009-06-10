@@ -2,7 +2,7 @@
 //  CWHessianCoder.h
 //  HessianKit
 //
-//  Copyright 2008 Fredrik Olsson, Jayway AB. All rights reserved.
+//  Copyright 2008 Fredrik Olsson, Cocoway. All rights reserved.
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License. 
 //  You may obtain a copy of the License at 
@@ -23,12 +23,12 @@
 #define MAX_CHUNK_SIZE 0xffff
 
 /*!
- * The <code>CWHessianCoder</code> abstract class declares the interface in common for the two concrete subclasses
+ * @abstract The <code>CWHessianCoder</code> abstract class declares the interface in common for the two concrete subclasses
  * @link //hessiankit_ref/occ/cl/CWHessianArchiver <code>CWHessianArchiver</code>@/link, and 
  * @link //hessiankit_ref/occ/cl/CWHessianArchiver <code>CWHessianUnarchiver</code>@/link to transfer
  * serialized objected over the binary Hessian web servcide protocol.
- * <p>
- * Clients should not use the abstract <code>CWHessianCoder</code> class directly.
+ * 
+ * @discussion Clients should not use the abstract <code>CWHessianCoder</code> class directly.
  * <p>
  * <code>CWHessianCoder</code> is loosely related to <code>NSPortCodert</code> used for full scale Distrebuted Objects on
  * Mac OS X, but not available on iPhone OS.

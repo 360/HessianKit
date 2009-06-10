@@ -1,5 +1,5 @@
 #
-# Makefile to generate manual for HessianKit
+# Makefile to generate documentation for HessianKit
 #
 dst_dir = ./Documentation
 
@@ -8,3 +8,6 @@ doc:
 	mkdir $(dst_dir)
 	headerdoc2html -u -t -o $(dst_dir) ./HessianClasses
 	gatherheaderdoc $(dst_dir) index.html
+	
+clean:
+	rm -rf $(dst_dir)

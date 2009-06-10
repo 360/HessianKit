@@ -1,5 +1,5 @@
 //
-//  NSData+ReadableDescription.m
+//  CWHessianKitBasicTests.h
 //  HessianKit
 //
 //  Copyright 2008 Fredrik Olsson, Cocoway. All rights reserved.
@@ -16,25 +16,26 @@
 //  limitations under the License.
 //
 
-#import "NSData+ReadableDescription.h"
+#import <SenTestingKit/SenTestingKit.h>
+#import "HessianKit.h"
+#import "Test.h"
 
 
-@implementation NSData (ReadableDescription)
-
--(NSString*)description;
-{
-	int length = [self length];
-  NSMutableString* str = [NSMutableString stringWithFormat:@"[%d]: ", length];
-  const char* bytes = [self bytes];
-  for (int i = 0; i < length; i++) {
-  	int byte = ((int)bytes[i]) & 0xff;
-    if (byte >= 32 && byte <= 127) {
-	    [str appendFormat:@"%02x:%c ", byte, (char)byte];
-    } else {
-	    [str appendFormat:@"%02x ", byte];
-    }
-  }
-  return str;
+@interface CWHessianKitBasicTests : SenTestCase {
+@private
+	CWDistantHessianObject<Test>* proxy;
 }
+
+-(void)testGreeting;
+
+-(void)testPrimitives;
+
+-(void)testPublicTest;
+
+-(void)testList;
+
+-(void)testMap;
+
+-(void)testObject;
 
 @end

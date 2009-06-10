@@ -1,5 +1,5 @@
 //
-//  NSData+ReadableDescription.m
+//  ValueTest.h
 //  HessianKit
 //
 //  Copyright 2008 Fredrik Olsson, Cocoway. All rights reserved.
@@ -16,25 +16,16 @@
 //  limitations under the License.
 //
 
-#import "NSData+ReadableDescription.h"
+#import <Foundation/Foundation.h>
 
 
-@implementation NSData (ReadableDescription)
+@protocol ValueTest
 
--(NSString*)description;
-{
-	int length = [self length];
-  NSMutableString* str = [NSMutableString stringWithFormat:@"[%d]: ", length];
-  const char* bytes = [self bytes];
-  for (int i = 0; i < length; i++) {
-  	int byte = ((int)bytes[i]) & 0xff;
-    if (byte >= 32 && byte <= 127) {
-	    [str appendFormat:@"%02x:%c ", byte, (char)byte];
-    } else {
-	    [str appendFormat:@"%02x ", byte];
-    }
-  }
-  return str;
-}
+@property(nonatomic) BOOL boolValue;
+
+@property(nonatomic) int intValue;
+
+@property(retain) NSString* stringValue;
+@property(copy) NSNumber* numberValue;
 
 @end

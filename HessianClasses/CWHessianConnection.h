@@ -2,7 +2,7 @@
 //  CWHessianConnection.h
 //  HessianKit
 //
-//  Copyright 2008 Fredrik Olsson, Jayway AB. All rights reserved.
+//  Copyright 2008 Fredrik Olsson, Cocoway. All rights reserved.
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License. 
 //  You may obtain a copy of the License at 
@@ -33,10 +33,10 @@ typedef int CWHessianVersion;
 @class CWDistantHessianObject;
 
 /*!
- * An <code>CWHessianConnection</code> object is responsible for handling states related to the web service connection,
+ * @abstract An <code>CWHessianConnection</code> object is responsible for handling states related to the web service connection,
  * and create proxy objects to communicate with the web services.
- * <p>
- * Unless the client uses custom value objects, this is the only class in HessianKit that is needed to be
+ * 
+ * @discussion Unless the client uses custom value objects, this is the only class in HessianKit that is needed to be
  * created directly. All other objects can be created using the <code>CWHessianConnection</code> object. If custom
  * value objects are needed use the 
  * @link //hessiankit_ref/occ/cl/CWValueObject <code>CWValueObject</code>@/link to realize objects using protocol 

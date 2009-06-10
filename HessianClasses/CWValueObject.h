@@ -2,7 +2,7 @@
 //  CWHessianObject.h
 //  HessianKit
 //
-//  Copyright 2008 Fredrik Olsson, Jayway AB. All rights reserved.
+//  Copyright 2008 Fredrik Olsson, Cocoway. All rights reserved.
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License. 
 //  You may obtain a copy of the License at 
@@ -19,10 +19,10 @@
 #import <Foundation/Foundation.h>
 
 /*!
- * <code>CWValueObject</code> is a abstract bas clase for defining value object with automatic keyed coding, or
+ * @abstract <code>CWValueObject</code> is a abstract bas clase for defining value object with automatic keyed coding, or
  * automatically create objects conforming to a given protocol as a concrete subclass of <code>CWValueObject</code>.
- * <p>
- * <code>CWValueObject</code> conforms to <code>NSCoding</code> protocol, and implements keyed coding.
+ * 
+ * @discussion <code>CWValueObject</code> conforms to <code>NSCoding</code> protocol, and implements keyed coding.
  * <p> 
  * The default implementation of @link initWithCoder: <code>initWithCoder:</code>@/link will get a list of all 
  * property names of the actual subclass and decode the values using <code>decodeObjectForKey:</code> in the supplied 
