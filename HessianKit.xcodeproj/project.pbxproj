@@ -122,6 +122,7 @@
 		A6CE16400FE01F51009CD7AA /* CWHessianKitBasicTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CWHessianKitBasicTests.m; path = Classes/CWHessianKitBasicTests.m; sourceTree = "<group>"; };
 		A6CE17BD0FE048BF009CD7AA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		A6CE180E0FE048E3009CD7AA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		A6CE184E0FE04F4A009CD7AA /* README.TXT */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.TXT; sourceTree = "<group>"; };
 		A6D0F5310E22846000ECE7C3 /* CWValueObject+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "CWValueObject+Private.h"; path = "HessianClasses/CWValueObject+Private.h"; sourceTree = "<group>"; };
 		A6D0F5320E22846000ECE7C3 /* CWValueObject+Private.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "CWValueObject+Private.m"; path = "HessianClasses/CWValueObject+Private.m"; sourceTree = "<group>"; };
 		A6D0F5340E228A9200ECE7C3 /* ValueTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ValueTest.h; path = Classes/ValueTest.h; sourceTree = "<group>"; };
@@ -182,6 +183,7 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
+				A6CE184E0FE04F4A009CD7AA /* README.TXT */,
 				A6CE150F0FE01898009CD7AA /* Unit Test */,
 				A66189AC0E19FA0900EBFE66 /* HessianKit */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
@@ -568,6 +570,7 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				PREBINDING = NO;
 				PRODUCT_NAME = StaticHessianKit;
+				SDKROOT = iphonesimulator2.0;
 			};
 			name = Debug;
 		};
@@ -580,6 +583,7 @@
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				PREBINDING = NO;
 				PRODUCT_NAME = StaticHessianKit;
+				SDKROOT = iphonesimulator2.0;
 				ZERO_LINK = NO;
 			};
 			name = Release;
