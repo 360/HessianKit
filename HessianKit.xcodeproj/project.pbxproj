@@ -117,7 +117,7 @@
 		A6CE15AF0FE01E7C009CD7AA /* iPhoneTest.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = iPhoneTest.octest; sourceTree = BUILT_PRODUCTS_DIR; };
 		A6CE15B00FE01E7C009CD7AA /* iPhoneTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "iPhoneTests-Info.plist"; sourceTree = "<group>"; };
 		A6CE15BA0FE01ED1009CD7AA /* MacTest.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MacTest.octest; sourceTree = BUILT_PRODUCTS_DIR; };
-		A6CE15BB0FE01ED1009CD7AA /* MacTest-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "MacTest-Info.plist"; sourceTree = "<group>"; };
+		A6CE15BB0FE01ED1009CD7AA /* MacTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "MacTests-Info.plist"; sourceTree = "<group>"; };
 		A6CE163F0FE01F51009CD7AA /* CWHessianKitBasicTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CWHessianKitBasicTests.h; path = Classes/CWHessianKitBasicTests.h; sourceTree = "<group>"; };
 		A6CE16400FE01F51009CD7AA /* CWHessianKitBasicTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CWHessianKitBasicTests.m; path = Classes/CWHessianKitBasicTests.m; sourceTree = "<group>"; };
 		A6CE17BD0FE048BF009CD7AA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -191,7 +191,7 @@
 				19C28FACFE9D520D11CA2CBB /* Products */,
 				A6E44B3D0E348B8500742087 /* HessianKit-Info.plist */,
 				A6CE15B00FE01E7C009CD7AA /* iPhoneTests-Info.plist */,
-				A6CE15BB0FE01ED1009CD7AA /* MacTest-Info.plist */,
+				A6CE15BB0FE01ED1009CD7AA /* MacTests-Info.plist */,
 			);
 			name = CustomTemplate;
 			sourceTree = "<group>";
@@ -730,7 +730,7 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/Cocoa.framework/Headers/Cocoa.h";
-				INFOPLIST_FILE = "MacTest-Info.plist";
+				INFOPLIST_FILE = "MacTests-Info.plist";
 				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Bundles";
 				OTHER_LDFLAGS = (
 					"-framework",
@@ -757,7 +757,7 @@
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/Cocoa.framework/Headers/Cocoa.h";
-				INFOPLIST_FILE = "MacTest-Info.plist";
+				INFOPLIST_FILE = "MacTests-Info.plist";
 				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Bundles";
 				OTHER_LDFLAGS = (
 					"-framework",
