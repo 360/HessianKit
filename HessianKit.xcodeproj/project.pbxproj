@@ -24,12 +24,12 @@
 		A6CE14E70FE016A2009CD7AA /* CWHessianArchiver.h in Headers */ = {isa = PBXBuildFile; fileRef = A66189FD0E1A819700EBFE66 /* CWHessianArchiver.h */; };
 		A6CE14E80FE016A2009CD7AA /* CWDistantHessianObject.h in Headers */ = {isa = PBXBuildFile; fileRef = A6618A030E1A81C600EBFE66 /* CWDistantHessianObject.h */; };
 		A6CE14E90FE016A2009CD7AA /* CWValueObject.h in Headers */ = {isa = PBXBuildFile; fileRef = A685FA750E1F0270009547F2 /* CWValueObject.h */; };
-		A6CE151C0FE0191E009CD7AA /* HessianKit.h in Headers */ = {isa = PBXBuildFile; fileRef = A685F8110E1EDBCF009547F2 /* HessianKit.h */; };
-		A6CE151D0FE0191E009CD7AA /* CWHessianConnection.h in Headers */ = {isa = PBXBuildFile; fileRef = A66189FA0E1A817B00EBFE66 /* CWHessianConnection.h */; };
-		A6CE151E0FE0191E009CD7AA /* CWHessianCoder.h in Headers */ = {isa = PBXBuildFile; fileRef = A6618A090E1A92C600EBFE66 /* CWHessianCoder.h */; };
-		A6CE151F0FE0191E009CD7AA /* CWHessianArchiver.h in Headers */ = {isa = PBXBuildFile; fileRef = A66189FD0E1A819700EBFE66 /* CWHessianArchiver.h */; };
-		A6CE15200FE0191E009CD7AA /* CWDistantHessianObject.h in Headers */ = {isa = PBXBuildFile; fileRef = A6618A030E1A81C600EBFE66 /* CWDistantHessianObject.h */; };
-		A6CE15210FE0191E009CD7AA /* CWValueObject.h in Headers */ = {isa = PBXBuildFile; fileRef = A685FA750E1F0270009547F2 /* CWValueObject.h */; };
+		A6CE151C0FE0191E009CD7AA /* HessianKit.h in Headers */ = {isa = PBXBuildFile; fileRef = A685F8110E1EDBCF009547F2 /* HessianKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		A6CE151D0FE0191E009CD7AA /* CWHessianConnection.h in Headers */ = {isa = PBXBuildFile; fileRef = A66189FA0E1A817B00EBFE66 /* CWHessianConnection.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		A6CE151E0FE0191E009CD7AA /* CWHessianCoder.h in Headers */ = {isa = PBXBuildFile; fileRef = A6618A090E1A92C600EBFE66 /* CWHessianCoder.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		A6CE151F0FE0191E009CD7AA /* CWHessianArchiver.h in Headers */ = {isa = PBXBuildFile; fileRef = A66189FD0E1A819700EBFE66 /* CWHessianArchiver.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		A6CE15200FE0191E009CD7AA /* CWDistantHessianObject.h in Headers */ = {isa = PBXBuildFile; fileRef = A6618A030E1A81C600EBFE66 /* CWDistantHessianObject.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		A6CE15210FE0191E009CD7AA /* CWValueObject.h in Headers */ = {isa = PBXBuildFile; fileRef = A685FA750E1F0270009547F2 /* CWValueObject.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A6CE15220FE0193A009CD7AA /* CWHessianConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = A66189FB0E1A817B00EBFE66 /* CWHessianConnection.m */; };
 		A6CE15230FE0193A009CD7AA /* CWHessianCoder.m in Sources */ = {isa = PBXBuildFile; fileRef = A6618A0A0E1A92C600EBFE66 /* CWHessianCoder.m */; };
 		A6CE15240FE0193A009CD7AA /* CWHessianArchiver.m in Sources */ = {isa = PBXBuildFile; fileRef = A66189FE0E1A819700EBFE66 /* CWHessianArchiver.m */; };
@@ -44,6 +44,10 @@
 		A6CE15B40FE01E9E009CD7AA /* libStaticHessianKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A6CE14CA0FE01620009CD7AA /* libStaticHessianKit.a */; };
 		A6CE16410FE01F51009CD7AA /* CWHessianKitBasicTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A6CE16400FE01F51009CD7AA /* CWHessianKitBasicTests.m */; };
 		A6CE16420FE01F51009CD7AA /* CWHessianKitBasicTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A6CE16400FE01F51009CD7AA /* CWHessianKitBasicTests.m */; };
+		A6CE17BE0FE048BF009CD7AA /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A6CE17BD0FE048BF009CD7AA /* Foundation.framework */; };
+		A6CE180F0FE048E3009CD7AA /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A6CE180E0FE048E3009CD7AA /* Foundation.framework */; };
+		A6CE181C0FE04980009CD7AA /* HessianKit.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = A61071EC0E34970800975244 /* HessianKit.framework */; };
+		A6CE184A0FE04C15009CD7AA /* HessianKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A61071EC0E34970800975244 /* HessianKit.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -54,7 +58,7 @@
 			remoteGlobalIDString = A6CE14C90FE01620009CD7AA /* StaticHessianKit */;
 			remoteInfo = StaticHessianKit;
 		};
-		A6CE16EA0FE03C58009CD7AA /* PBXContainerItemProxy */ = {
+		A6CE18410FE04B91009CD7AA /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
 			proxyType = 1;
@@ -73,10 +77,19 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		A6CE18260FE049B7009CD7AA /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				A6CE181C0FE04980009CD7AA /* HessianKit.framework in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		280E754C0DD40C5E005A515E /* MainWindow.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MainWindow.xib; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A61071EC0E34970800975244 /* HessianKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HessianKit.framework; path = ../Debug/HessianKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -107,9 +120,8 @@
 		A6CE15BB0FE01ED1009CD7AA /* MacTest-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "MacTest-Info.plist"; sourceTree = "<group>"; };
 		A6CE163F0FE01F51009CD7AA /* CWHessianKitBasicTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CWHessianKitBasicTests.h; path = Classes/CWHessianKitBasicTests.h; sourceTree = "<group>"; };
 		A6CE16400FE01F51009CD7AA /* CWHessianKitBasicTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CWHessianKitBasicTests.m; path = Classes/CWHessianKitBasicTests.m; sourceTree = "<group>"; };
-		A6CE16710FE022AF009CD7AA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
-		A6CE168F0FE025DF009CD7AA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
-		A6CE169C0FE026B5009CD7AA /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Developer/Library/Frameworks/SenTestingKit.framework; sourceTree = SDKROOT; };
+		A6CE17BD0FE048BF009CD7AA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		A6CE180E0FE048E3009CD7AA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		A6D0F5310E22846000ECE7C3 /* CWValueObject+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "CWValueObject+Private.h"; path = "HessianClasses/CWValueObject+Private.h"; sourceTree = "<group>"; };
 		A6D0F5320E22846000ECE7C3 /* CWValueObject+Private.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "CWValueObject+Private.m"; path = "HessianClasses/CWValueObject+Private.m"; sourceTree = "<group>"; };
 		A6D0F5340E228A9200ECE7C3 /* ValueTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ValueTest.h; path = Classes/ValueTest.h; sourceTree = "<group>"; };
@@ -118,7 +130,6 @@
 		A6D0F8FB0E23C7B300ECE7C3 /* headerDoc2HTML.config */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = headerDoc2HTML.config; sourceTree = "<group>"; };
 		A6D0F8FC0E23C7E100ECE7C3 /* HeaderDocTOCTemplate.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = HeaderDocTOCTemplate.html; sourceTree = "<group>"; };
 		A6E44B3D0E348B8500742087 /* HessianKit-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "HessianKit-Info.plist"; sourceTree = "<group>"; };
-		A6E44BA90E348CEB00742087 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -126,6 +137,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A6CE17BE0FE048BF009CD7AA /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -133,6 +145,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A6CE180F0FE048E3009CD7AA /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -148,6 +161,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A6CE184A0FE04C15009CD7AA /* HessianKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -168,7 +182,6 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
-				A6CE169C0FE026B5009CD7AA /* SenTestingKit.framework */,
 				A6CE150F0FE01898009CD7AA /* Unit Test */,
 				A66189AC0E19FA0900EBFE66 /* HessianKit */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
@@ -179,8 +192,6 @@
 				A6E44B3D0E348B8500742087 /* HessianKit-Info.plist */,
 				A6CE15B00FE01E7C009CD7AA /* iPhoneTests-Info.plist */,
 				A6CE15BB0FE01ED1009CD7AA /* MacTest-Info.plist */,
-				A6CE16710FE022AF009CD7AA /* Foundation.framework */,
-				A6CE168F0FE025DF009CD7AA /* Foundation.framework */,
 			);
 			name = CustomTemplate;
 			sourceTree = "<group>";
@@ -204,7 +215,7 @@
 		29B97323FDCFA39411CA2CEA /* TouchFrameworks */ = {
 			isa = PBXGroup;
 			children = (
-				1D30AB110D05D00D00671497 /* Foundation.framework */,
+				A6CE17BD0FE048BF009CD7AA /* Foundation.framework */,
 			);
 			name = TouchFrameworks;
 			sourceTree = "<group>";
@@ -279,7 +290,7 @@
 		A6E44BA50E348CB800742087 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				A6E44BA90E348CEB00742087 /* Foundation.framework */,
+				A6CE180E0FE048E3009CD7AA /* Foundation.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -389,6 +400,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = A6CE15BE0FE01ED2009CD7AA /* Build configuration list for PBXNativeTarget "MacTests" */;
 			buildPhases = (
+				A6CE18260FE049B7009CD7AA /* CopyFiles */,
 				A6CE15B50FE01ED1009CD7AA /* Resources */,
 				A6CE15B60FE01ED1009CD7AA /* Sources */,
 				A6CE15B70FE01ED1009CD7AA /* Frameworks */,
@@ -397,7 +409,7 @@
 			buildRules = (
 			);
 			dependencies = (
-				A6CE16EB0FE03C58009CD7AA /* PBXTargetDependency */,
+				A6CE18420FE04B91009CD7AA /* PBXTargetDependency */,
 			);
 			name = MacTests;
 			productName = MacTest;
@@ -539,10 +551,10 @@
 			target = A6CE14C90FE01620009CD7AA /* StaticHessianKit */;
 			targetProxy = A6CE16750FE022DF009CD7AA /* PBXContainerItemProxy */;
 		};
-		A6CE16EB0FE03C58009CD7AA /* PBXTargetDependency */ = {
+		A6CE18420FE04B91009CD7AA /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = A6CE15140FE018C8009CD7AA /* HessianKit */;
-			targetProxy = A6CE16EA0FE03C58009CD7AA /* PBXContainerItemProxy */;
+			targetProxy = A6CE18410FE04B91009CD7AA /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
