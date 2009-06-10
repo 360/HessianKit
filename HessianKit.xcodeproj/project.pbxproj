@@ -90,8 +90,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		280E754C0DD40C5E005A515E /* MainWindow.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MainWindow.xib; sourceTree = "<group>"; };
-		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A61071EC0E34970800975244 /* HessianKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HessianKit.framework; path = ../Debug/HessianKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A66189FA0E1A817B00EBFE66 /* CWHessianConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CWHessianConnection.h; path = HessianClasses/CWHessianConnection.h; sourceTree = "<group>"; };
 		A66189FB0E1A817B00EBFE66 /* CWHessianConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CWHessianConnection.m; path = HessianClasses/CWHessianConnection.m; sourceTree = "<group>"; };
@@ -186,30 +184,20 @@
 				A6CE184E0FE04F4A009CD7AA /* README.TXT */,
 				A6CE150F0FE01898009CD7AA /* Unit Test */,
 				A66189AC0E19FA0900EBFE66 /* HessianKit */,
-				29B97315FDCFA39411CA2CEA /* Other Sources */,
 				29B97317FDCFA39411CA2CEA /* Resources */,
 				A6E44BA50E348CB800742087 /* Frameworks */,
 				29B97323FDCFA39411CA2CEA /* TouchFrameworks */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
-				A6E44B3D0E348B8500742087 /* HessianKit-Info.plist */,
-				A6CE15B00FE01E7C009CD7AA /* iPhoneTests-Info.plist */,
-				A6CE15BB0FE01ED1009CD7AA /* MacTests-Info.plist */,
 			);
 			name = CustomTemplate;
-			sourceTree = "<group>";
-		};
-		29B97315FDCFA39411CA2CEA /* Other Sources */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = "Other Sources";
 			sourceTree = "<group>";
 		};
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				280E754C0DD40C5E005A515E /* MainWindow.xib */,
-				8D1107310486CEB800E47090 /* Info.plist */,
+				A6E44B3D0E348B8500742087 /* HessianKit-Info.plist */,
+				A6CE15B00FE01E7C009CD7AA /* iPhoneTests-Info.plist */,
+				A6CE15BB0FE01ED1009CD7AA /* MacTests-Info.plist */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
