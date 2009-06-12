@@ -21,6 +21,8 @@
 
 @protocol Test
 
+-(void)methodNull;
+
 -(NSString*)greeting;
 
 -(int)add:(int)a :(int)b;

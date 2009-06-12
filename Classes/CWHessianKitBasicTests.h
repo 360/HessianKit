@@ -26,6 +26,8 @@
 	CWDistantHessianObject<Test>* proxy;
 }
 
+-(void)testSanity;
+/*
 -(void)testGreeting;
 
 -(void)testPrimitives;
@@ -37,5 +39,6 @@
 -(void)testMap;
 
 -(void)testObject;
+*/
 
 @end

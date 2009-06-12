@@ -20,12 +20,14 @@
 #import "HessianKit.h"
 #import "ValueTest.h"
 
+#import "CWDistantHessianObject+Private.h"
+
 @implementation CWHessianKitBasicTests
 
 -(void)setUp;
 {
   CWHessianConnection* connection = [[CWHessianConnection alloc] initWithHessianVersion:CWHessianVersion1_00];
-  NSURL* URL = [NSURL URLWithString:@"http://localhost:8080/HessianServletTest/HelloHessian"];
+  NSURL* URL = [NSURL URLWithString:@"http://hessian.caucho.com/test/test"];
   proxy = [connection proxyWithURL:URL protocol:@protocol(Test)];
   [connection release];
 }
@@ -35,6 +37,12 @@
  	[proxy release]; 
 }
 
+-(void)testSanity;
+{
+	STAssertNoThrow([proxy methodNull], @"Sanity call to methodNull");  
+}
+
+/*
 -(void)testGreeting;
 {
   NSString* result = [proxy greeting];
@@ -110,6 +118,6 @@
   
 }
 
-
+*/
 
 @end

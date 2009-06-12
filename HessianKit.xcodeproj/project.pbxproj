@@ -55,14 +55,14 @@
 			isa = PBXContainerItemProxy;
 			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = A6CE14C90FE01620009CD7AA /* StaticHessianKit */;
+			remoteGlobalIDString = A6CE14C90FE01620009CD7AA;
 			remoteInfo = StaticHessianKit;
 		};
 		A6CE18410FE04B91009CD7AA /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = A6CE15140FE018C8009CD7AA /* HessianKit */;
+			remoteGlobalIDString = A6CE15140FE018C8009CD7AA;
 			remoteInfo = HessianKit;
 		};
 /* End PBXContainerItemProxy section */
@@ -112,9 +112,9 @@
 		A685FA750E1F0270009547F2 /* CWValueObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CWValueObject.h; path = HessianClasses/CWValueObject.h; sourceTree = "<group>"; };
 		A685FA760E1F0270009547F2 /* CWValueObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CWValueObject.m; path = HessianClasses/CWValueObject.m; sourceTree = "<group>"; };
 		A6CE14CA0FE01620009CD7AA /* libStaticHessianKit.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libStaticHessianKit.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		A6CE15AF0FE01E7C009CD7AA /* iPhoneTest.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = iPhoneTest.octest; sourceTree = BUILT_PRODUCTS_DIR; };
+		A6CE15AF0FE01E7C009CD7AA /* iPhoneTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = iPhoneTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
 		A6CE15B00FE01E7C009CD7AA /* iPhoneTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "iPhoneTests-Info.plist"; sourceTree = "<group>"; };
-		A6CE15BA0FE01ED1009CD7AA /* MacTest.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MacTest.octest; sourceTree = BUILT_PRODUCTS_DIR; };
+		A6CE15BA0FE01ED1009CD7AA /* MacTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MacTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
 		A6CE15BB0FE01ED1009CD7AA /* MacTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "MacTests-Info.plist"; sourceTree = "<group>"; };
 		A6CE163F0FE01F51009CD7AA /* CWHessianKitBasicTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CWHessianKitBasicTests.h; path = Classes/CWHessianKitBasicTests.h; sourceTree = "<group>"; };
 		A6CE16400FE01F51009CD7AA /* CWHessianKitBasicTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CWHessianKitBasicTests.m; path = Classes/CWHessianKitBasicTests.m; sourceTree = "<group>"; };
@@ -172,8 +172,8 @@
 			children = (
 				A61071EC0E34970800975244 /* HessianKit.framework */,
 				A6CE14CA0FE01620009CD7AA /* libStaticHessianKit.a */,
-				A6CE15AF0FE01E7C009CD7AA /* iPhoneTest.octest */,
-				A6CE15BA0FE01ED1009CD7AA /* MacTest.octest */,
+				A6CE15AF0FE01E7C009CD7AA /* iPhoneTests.octest */,
+				A6CE15BA0FE01ED1009CD7AA /* MacTests.octest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -383,7 +383,7 @@
 			);
 			name = iPhoneTests;
 			productName = iPhoneTest;
-			productReference = A6CE15AF0FE01E7C009CD7AA /* iPhoneTest.octest */;
+			productReference = A6CE15AF0FE01E7C009CD7AA /* iPhoneTests.octest */;
 			productType = "com.apple.product-type.bundle";
 		};
 		A6CE15B90FE01ED1009CD7AA /* MacTests */ = {
@@ -403,7 +403,7 @@
 			);
 			name = MacTests;
 			productName = MacTest;
-			productReference = A6CE15BA0FE01ED1009CD7AA /* MacTest.octest */;
+			productReference = A6CE15BA0FE01ED1009CD7AA /* MacTests.octest */;
 			productType = "com.apple.product-type.bundle";
 		};
 /* End PBXNativeTarget section */
@@ -556,6 +556,7 @@
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
+				OTHER_LDFLAGS = "-ObjC";
 				PREBINDING = NO;
 				PRODUCT_NAME = StaticHessianKit;
 				SDKROOT = iphonesimulator2.0;
@@ -668,15 +669,14 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				INFOPLIST_FILE = "iPhoneTests-Info.plist";
 				OTHER_LDFLAGS = (
+					"-ObjC",
 					"-framework",
 					Foundation,
 					"-framework",
 					SenTestingKit,
-					"-framework",
-					UIKit,
 				);
 				PREBINDING = NO;
-				PRODUCT_NAME = iPhoneTest;
+				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = octest;
 			};
 			name = Debug;
@@ -731,7 +731,7 @@
 					SenTestingKit,
 				);
 				PREBINDING = NO;
-				PRODUCT_NAME = MacTest;
+				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx10.5;
 				WRAPPER_EXTENSION = octest;
 			};
