@@ -28,13 +28,13 @@
 {
   CWHessianConnection* connection = [[CWHessianConnection alloc] initWithHessianVersion:CWHessianVersion1_00];
   NSURL* URL = [NSURL URLWithString:@"http://hessian.caucho.com/test/test"];
-  proxy = [connection proxyWithURL:URL protocol:@protocol(Test)];
+  proxy = [[connection proxyWithURL:URL protocol:@protocol(Test)] retain];
   [connection release];
 }
 
 -(void)tearDown;
 {
- 	[proxy release]; 
+  [proxy release]; 
 }
 
 -(void)testSanity;

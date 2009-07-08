@@ -219,7 +219,7 @@
   	[NSException raise:NSInvalidUnarchiveOperationException format:@"Unsupported type %s", type];
   }
   if (isInvalidClass) {
-  	[NSException raise:NSInvalidUnarchiveOperationException format:@"Invalid type %@", [NSString stringWithCString:class_getName([value class])]];
+  	[NSException raise:NSInvalidUnarchiveOperationException format:@"Invalid type %@", NSStringFromClass([value class])];
   }
 }
 

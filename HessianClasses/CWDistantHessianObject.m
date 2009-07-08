@@ -101,11 +101,11 @@ static NSMethodSignature* getMethodSignatureRecursively(Protocol *p, SEL aSel)
 {
 	NSData* requestData = [self archivedDataForInvocation:invocation];
 #if DEBUG
-  NSLog([requestData description]);
+  NSLog(@"%@", [requestData description]);
 #endif
   NSData* responseData = [self sendRequestWithPostData:requestData];
 #if DEBUG
-  NSLog([responseData description]);
+  NSLog(@"%@", [responseData description]);
 #endif
   id returnValue = [self unarchiveData:responseData];
   if (returnValue) {

@@ -206,7 +206,7 @@
     	className = [CWHessianArchiver classNameForProtocol:((CWValueObject*)object).protocol];
 		}
     if (!className) {
-      className = [NSString stringWithCString:class_getName([object class])];
+      className = NSStringFromClass([object class]);
     }
     [self writeChar:'M'];
     [self writeChar:'t'];
@@ -214,7 +214,7 @@
     [object encodeWithCoder:self];
     [self writeChar:'z'];
   } else {
-  	NSString* className = [NSString stringWithCString:class_getName([object class])];
+  	NSString* className = NSStringFromClass([object class]);
   	[NSException raise:NSInvalidArchiveOperationException format:@"%@ do not conform to NSCoding", className];
   }
 }

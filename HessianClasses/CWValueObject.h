@@ -19,7 +19,7 @@
 #import <Foundation/Foundation.h>
 
 /*!
- * @abstract <code>CWValueObject</code> is a abstract bas clase for defining value object with automatic keyed coding, or
+ * @abstract <code>CWValueObject</code> is a abstract base clase for defining value object with automatic keyed coding, or
  * automatically create objects conforming to a given protocol as a concrete subclass of <code>CWValueObject</code>.
  * 
  * @discussion <code>CWValueObject</code> conforms to <code>NSCoding</code> protocol, and implements keyed coding.

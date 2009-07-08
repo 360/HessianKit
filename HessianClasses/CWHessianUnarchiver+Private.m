@@ -368,7 +368,7 @@
       if (cls) {
         if (![object isKindOfClass:cls]) {
           [NSException raise:NSInvalidUnarchiveOperationException format:@"encoutered invalid class, expected:%s got:%@", 
-              class_getName(cls), [NSString stringWithCString:class_getName([object class])]];
+              class_getName(cls), NSStringFromClass([object class])];
         }
       }
       return object;
