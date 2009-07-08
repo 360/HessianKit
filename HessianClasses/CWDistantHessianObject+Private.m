@@ -58,12 +58,13 @@
 
 -(void)writeArgumentAtIndex:(int*)pIndex type:(const char*)type archiver:(CWHessianArchiver*)archiver invocation:(NSInvocation*)invocation;
 {
-	int index = *pIndex;
+  int index = *pIndex;
   id object = nil;
-	if (strcmp(type, @encode(BOOL)) == 0) {
+  if (strcmp(type, @encode(BOOL)) == 0) {
   	BOOL value;
     [invocation getArgument:&value atIndex:index];
     [archiver writeBool:value];
+    return;
   } else if (strcmp(type, @encode(int32_t)) == 0) {
   	int32_t value;
     [invocation getArgument:&value atIndex:index];
@@ -97,13 +98,13 @@
 
 -(NSData*)archivedDataForInvocation:(NSInvocation*)invocation;
 {
-	NSMutableData* data = [NSMutableData data];
+  NSMutableData* data = [NSMutableData data];
   CWHessianArchiver* archiver = [[[CWHessianArchiver alloc] initWithConnection:self.connection mutableData:data] autorelease];
   [archiver writeChar:'c'];
   [archiver writeChar:0x01];
   [archiver writeChar:0x00];
-	[self writeHeadersToArchiver:archiver];
-	[archiver writeChar:'m'];
+  [self writeHeadersToArchiver:archiver];
+  [archiver writeChar:'m'];
   [archiver writeString:[self methodNameFromInvocation:invocation] withTag:'S'];
   NSMethodSignature* signature = [invocation methodSignature];
   for (int index = 2; index < [signature numberOfArguments]; index++) {

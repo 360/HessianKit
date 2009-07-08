@@ -26,19 +26,24 @@
 	CWDistantHessianObject<Test>* proxy;
 }
 
--(void)testSanity;
-/*
--(void)testGreeting;
+-(void)testNull;
 
--(void)testPrimitives;
- 
--(void)testPublicTest;
+-(void)testBool;
+
+-(void)testInt;
+
+-(void)testLong;
+
+-(void)testDouble;
+
+-(void)testString;
+
+-(void)testBinary;
+
+-(void)testDate;
 
 -(void)testList;
 
 -(void)testMap;
-
--(void)testObject;
-*/
 
 @end

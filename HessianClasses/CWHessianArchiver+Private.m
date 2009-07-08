@@ -144,7 +144,7 @@
 
 -(void)writeTypedObject:(id)object;
 {
-	if (object == nil || [object isKindOfClass:[NSNull class]]) {
+  if (object == nil || [object isKindOfClass:[NSNull class]]) {
   	[self writeChar:'N'];
     return;
   }
