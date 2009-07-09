@@ -23,23 +23,25 @@
 
 @implementation CWHessianConnection
 
+@synthesize serviceURL = _serviceURL;
 @synthesize version = _version;
 
--(id)initWithHessianVersion:(CWHessianVersion)version;
+-(id)initWithURL:(NSURL*)URL version:(CWHessianVersion)version;
 {
-	self = [super init];
+  self = [super init];
   if (self) {
-		self.version = version;
+    self.serviceURL = URL;
+    self.version = version;
   }
   return self;
 }
 
-+(CWDistantHessianObject*)proxyWithURL:(NSURL*)URL protocol:(Protocol*)aProtocol;
++(CWDistantHessianObject*)rootProxyWithURL:(NSURL*)URL protocol:(Protocol*)aProtocol;
 {
 	CWDistantHessianObject* proxy = nil;
-	CWHessianConnection* connection = [[CWHessianConnection alloc] initWithHessianVersion:CWHessianVersion1_00];
+  CWHessianConnection* connection = [[CWHessianConnection alloc] initWithURL:URL version:CWHessianVersion1_00];
 	if (connection) {
-  	proxy = [connection proxyWithURL:URL protocol:aProtocol];
+  	proxy = [connection rootProxyWithProtocol:aProtocol];
     if (proxy) {
 	    proxy.connection = connection;
     }
@@ -48,10 +50,10 @@
   return proxy;
 }
 
--(CWDistantHessianObject*)proxyWithURL:(NSURL*)URL protocol:(Protocol*)aProtocol;
+-(CWDistantHessianObject*)rootProxyWithProtocol:(Protocol*)aProtocol;
 {
-	CWDistantHessianObject* proxy = [CWDistantHessianObject alloc];
-  [proxy initWithConnection:self URL:URL protocol:aProtocol];
+  CWDistantHessianObject* proxy = [CWDistantHessianObject alloc];
+  [proxy initWithConnection:self remoteId:nil protocol:aProtocol];
   return [proxy autorelease];
 }
 

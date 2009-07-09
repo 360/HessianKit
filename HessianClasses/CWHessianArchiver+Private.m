@@ -198,7 +198,7 @@
       [self writeChar:'t'];
 		  [self writeString:[((CWDistantHessianObject*)object) remoteClassName] withTag:'S'];
       [self writeChar:'S'];
-      [self writeString:[((CWDistantHessianObject*)object).URL description] withTag:'S'];
+      [self writeString:[((CWDistantHessianObject*)object).remoteId description] withTag:'S'];
   } else if ([object conformsToProtocol:@protocol(NSCoding)]) {
   	[self.objectReferences addObject:object];
 		NSString* className = [CWHessianArchiver classNameForClass:[object class]];

@@ -19,6 +19,7 @@
 #import "CWHessianArchiver+Private.h"
 #import "CWHessianConnection.h"
 #import "CWValueObject.h"
+#import "CWDistantHessianObject.h"
 #import <objc/runtime.h>
 
 
@@ -297,11 +298,13 @@
   if (!aProtocol) {
   	[NSException raise:NSInvalidUnarchiveOperationException format:@"no proxy protocol for remote clas %@", className];
   }
-  NSString* URLString = [self readTypedObject];
-  if (!URLString || ![URLString isKindOfClass:[NSString class]]) {
+  NSString* remoteId = [self readTypedObject];
+  if (!remoteId || ![remoteId isKindOfClass:[NSString class]]) {
   	[NSException raise:NSInvalidUnarchiveOperationException format:@"expected string"];
   }
-	return [self.connection proxyWithURL:[NSURL URLWithString:URLString] protocol:aProtocol];
+  return [CWDistantHessianObject proxyWithConnection:self.connection 
+                                            remoteId:remoteId 
+                                            protocol:aProtocol];
 }
 
 -(id)readTypedObject;

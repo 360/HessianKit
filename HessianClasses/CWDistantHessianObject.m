@@ -41,7 +41,7 @@ static NSMethodSignature* getMethodSignatureRecursively(Protocol *p, SEL aSel)
 }
 
 @interface CWDistantHessianObject ()
-@property(retain, nonatomic) NSURL* URL;
+@property(retain, nonatomic) NSString* remoteId;
 @property(assign, nonatomic) Protocol* protocol;
 @property(retain, nonatomic) NSMutableDictionary* methodSignatures;
 @end
@@ -49,24 +49,32 @@ static NSMethodSignature* getMethodSignatureRecursively(Protocol *p, SEL aSel)
 @implementation CWDistantHessianObject
 
 @synthesize connection = _connection;
-@synthesize URL = _URL;
+@synthesize remoteId = _remoteId;
 @synthesize protocol = _protocol;
 @synthesize methodSignatures = _methodSignatures;
 
 -(void)dealloc;
 {
-	self.connection = nil;
-  self.URL = nil;
+  self.connection = nil;
+  self.remoteId = nil;
   self.protocol = nil;
   self.methodSignatures = nil;
   [super dealloc];
 }
 
--(id)initWithConnection:(CWHessianConnection*)connection URL:(NSURL*)URL protocol:(Protocol*)aProtocol;
++(CWDistantHessianObject*)proxyWithConnection:(CWHessianConnection*)connection remoteId:(NSString*)remoteId protocol:(Protocol*)aProtocol;
+{
+  CWDistantHessianObject* proxy = [[CWDistantHessianObject alloc] initWithConnection:connection
+                                                                            remoteId:remoteId
+                                                                            protocol:aProtocol];
+  return [proxy autorelease];
+}
+
+-(id)initWithConnection:(CWHessianConnection*)connection remoteId:(NSString*)remoteId protocol:(Protocol*)aProtocol;
 {
   self.connection = connection;
-  self.URL = URL;
-	self.protocol = aProtocol;
+  self.remoteId = remoteId;
+  self.protocol = aProtocol;
   self.methodSignatures = [NSMutableDictionary dictionary];
   return self;
 }

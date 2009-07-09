@@ -16,6 +16,7 @@
 //  limitations under the License.
 //
 
+#import "CWHessianConnection.h"
 #import "CWDistantHessianObject+Private.h"
 #import "CWHessianArchiver+Private.h"
 #import <objc/runtime.h>
@@ -118,8 +119,9 @@
 -(NSData*)sendRequestWithPostData:(NSData*)postData;
 {
   NSData* responseData = nil;
-  NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:self.URL
-    cachePolicy:NSURLRequestReloadIgnoringCacheData timeoutInterval:60.0];
+  NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:self.connection.serviceURL
+                                                         cachePolicy:NSURLRequestReloadIgnoringCacheData 
+                                                     timeoutInterval:60.0];
   [request setHTTPMethod:@"POST"];   
   [request setHTTPBody:postData];
   // Fool Tomcat 4, fails otherwise...

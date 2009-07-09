@@ -23,10 +23,11 @@
 /*!
  * @abstract Hessian serialization version.
  *
- * Currently only version 1.00 is supported.
+ * Currently only version 1.00 is complete.
  */
 enum {
-	CWHessianVersion1_00 = 0x100
+  CWHessianVersion1_00 = 0x100,
+  CWHessianVersion2_00 = 0x200
 };
 typedef int CWHessianVersion;
 
@@ -47,8 +48,14 @@ typedef int CWHessianVersion;
  */
 @interface CWHessianConnection : NSObject {
 @private
-	CWHessianVersion _version;
+  CWHessianVersion _version;
+  NSURL* _serviceURL;
 }
+
+/*!
+ * @abstract The Hessian web service URL to use for this connection.
+ */
+@property(retain, nonatomic) NSURL* serviceURL;
 
 /*!
  * @abstract The Hessian serialization protocol version to use for this connection.
@@ -58,10 +65,11 @@ typedef int CWHessianVersion;
 /*!
  * @abstract Returns an inititialized <code>CWHessianConnection</code> object.
  *
+ * @param URL The URL of the Hessian web service.
  * @param version The Hessian serialization protocol version to use.
  * @result The initialized <code>CWHessianConnection</code> object.
  */
--(id)initWithHessianVersion:(CWHessianVersion)version;
+-(id)initWithURL:(NSURL*)URL version:(CWHessianVersion)version;
 
 /*!
  * @abstract Returns a Hessian web service proxy associated with a temporary <code>CWHessianConnection</code> object, 
@@ -73,7 +81,7 @@ typedef int CWHessianVersion;
  *
  * @seealso 
  */
-+(CWDistantHessianObject*)proxyWithURL:(NSURL*)URL protocol:(Protocol*)aProtocol;
++(CWDistantHessianObject*)rootProxyWithURL:(NSURL*)URL protocol:(Protocol*)aProtocol;
 
 /*!
  * @abstract Returns a Hessian web service proxy for a given URL, conforming to a given protocol.
@@ -82,6 +90,6 @@ typedef int CWHessianVersion;
  * @param aProtocol The Protocol that the proxy should conform to.
  * @result A proxy for the Hessian web service. 
  */
--(CWDistantHessianObject*)proxyWithURL:(NSURL*)URL protocol:(Protocol*)aProtocol;
+-(CWDistantHessianObject*)rootProxyWithProtocol:(Protocol*)aProtocol;
 
 @end

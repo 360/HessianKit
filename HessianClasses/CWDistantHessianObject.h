@@ -59,8 +59,8 @@
  */
 @interface CWDistantHessianObject : NSProxy {
 @private
-	CWHessianConnection* _connection;
-  NSURL* _URL;
+  CWHessianConnection* _connection;
+  NSString* _remoteId;
   Protocol* _protocol;
   NSMutableDictionary* _methodSignatures;
 }
@@ -71,9 +71,9 @@
 @property(readonly, retain, nonatomic) CWHessianConnection* connection;
 
 /*!
- * @abstract The URL publishing the recievers Hessian web service.
+ * @abstract The remote ID of the proxy object.
  */
-@property(readonly, retain, nonatomic) NSURL* URL;
+@property(readonly, retain, nonatomic) NSString* remoteId;
 
 /*!
  * @abstract The protocol the reciever conforms to, a mirror of the interface the Hessian web service publishes.
@@ -81,16 +81,28 @@
 @property(readonly, assign, nonatomic) Protocol* protocol;
 
 /*!
+ * @abstract Returns an <code>CWDistantHessianObject</code> associated with a given 
+ *           @link //hessiankit_ref/occ/cl/CWHessianConnection <code>CWHessianConnection</code>@/link object,
+ *           a Hessian web service published at an URL, and conforming to a given Protocol.
+ *
+ * @param connection The @link //hessiankit_ref/occ/cl/CWHessianConnection <code>CWHessianConnection</code>@/link object to asociate with.
+ * @param remoteId The remote ID of the proxy object.
+ * @param aProtocol a protol mirroring the published interface of the Hessian web service, to conform to.
+ * @result A proxy for the Hessian web service.
+ */
++(CWDistantHessianObject*)proxyWithConnection:(CWHessianConnection*)connection remoteId:(NSString*)remoteId protocol:(Protocol*)aProtocol;
+
+/*!
  * @abstract Returns a initialized <code>CWDistantHessianObject</code> associated with a given 
  *           @link //hessiankit_ref/occ/cl/CWHessianConnection <code>CWHessianConnection</code>@/link object,
  *           a Hessian web service published at an URL, and conforming to a given Protocol.
  *
  * @param connection The @link //hessiankit_ref/occ/cl/CWHessianConnection <code>CWHessianConnection</code>@/link object to asociate with.
- * @param URL URL of the published Hessian web service.
+ * @param remoteId The remote ID of the proxy object.
  * @param aProtocol a protol mirroring the published interface of the Hessian web service, to conform to.
  * @result A proxy for the Hessian web service.
  */
--(id)initWithConnection:(CWHessianConnection*)connection URL:(NSURL*)URL protocol:(Protocol*)aProtocol;
+-(id)initWithConnection:(CWHessianConnection*)connection remoteId:(NSString*)remoteId protocol:(Protocol*)aProtocol;
 
 /*!
  * @abstract Returns a Boolean value that indicates whether the receiver conforms to a given protocol.
