@@ -22,6 +22,7 @@
 @protocol Test
 
 -(void)methodNull;
+-(void)methodDoesNotExist;
 -(id)argNull:(id)v;
 -(void)replyNull;
 

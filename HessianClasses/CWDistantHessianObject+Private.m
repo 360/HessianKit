@@ -130,7 +130,8 @@
 		returningResponse:&returnResponse error:&requestError];
   if (requestError) {
     responseData = nil;
-	  [NSException raise:NSInvalidArchiveOperationException format:@"Network error domain:%@ code:%d", [requestError domain], [requestError code]];
+	  [NSException raise:NSInvalidArchiveOperationException 
+                  format:@"Network error domain:%@ code:%d", [requestError domain], [requestError code]];
 	} else if (returnResponse != nil) {
   	if ([returnResponse statusCode] == 200) {
 	  	[responseData retain];
@@ -151,13 +152,14 @@
 
 -(id)unarchiveData:(NSData*)data;
 {
-	CWHessianUnarchiver* unarchiver = [[[CWHessianUnarchiver alloc] 
+  CWHessianUnarchiver* unarchiver = [[[CWHessianUnarchiver alloc] 
   		initWithConnection:self.connection mutableData:(NSMutableData*)data] autorelease];
-	if ([unarchiver readChar] == 'r') {
+  char code = [unarchiver readChar];
+  if (code == 'r') {
   	int major = [unarchiver readChar];
     int minor = [unarchiver readChar];
   	if (major == 0x01 && minor == 0x00) {
-			[self readHeaderFromUnarchiver:unarchiver];
+      [self readHeaderFromUnarchiver:unarchiver];
       id object = [unarchiver readTypedObject];
       if ([unarchiver readChar] != 'z') {
     		[NSException raise:NSInvalidUnarchiveOperationException format:@"Did not find reply terminator z"];
@@ -167,6 +169,13 @@
     } else {
 			[NSException raise:NSInvalidUnarchiveOperationException format:@"Unsupported version %d.%d", major, minor];    
     }
+  } else  if (code == 'f') {
+    [self readHeaderFromUnarchiver:unarchiver];
+    NSDictionary* failMap = [unarchiver readMap];
+    NSException* exception = [NSException exceptionWithName:[failMap objectForKey:@"code"]
+                                                     reason:[failMap objectForKey:@"message"]
+                                                   userInfo:[failMap objectForKey:@"description"]];
+    [exception raise];
   } else {
 	  [NSException raise:NSInvalidUnarchiveOperationException format:@"Unknown response data"];
   }

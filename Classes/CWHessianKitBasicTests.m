@@ -37,13 +37,11 @@
   [proxy release]; 
 }
 
--(void)testSanity;
-{
-}
 
 -(void)testNull;
 {
   STAssertNoThrow([proxy methodNull], @"Call method with no arguments and no return value");  
+  STAssertThrows([proxy methodDoesNotExist], @"Call method that do not exists."); 
   STAssertNoThrow([proxy argNull:nil], @"Call method with null argument and");
 }
 
