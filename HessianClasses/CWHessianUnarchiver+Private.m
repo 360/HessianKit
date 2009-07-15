@@ -20,6 +20,7 @@
 #import "CWHessianConnection.h"
 #import "CWValueObject.h"
 #import "CWDistantHessianObject.h"
+#import "HessianKitTypes.h"
 #import <objc/runtime.h>
 
 
@@ -327,8 +328,8 @@
       return [self readDate];
     case 'x':
     case 'X':
-#if (TARGET_OS_MAC && !(TARGET_OS_EMBEDDED || TARGET_OS_IPHONE))
-			return [self readXMLWithTag:tag];
+#if XML_AVAILABLE
+      return [self readXMLWithTag:tag];
 #endif
     case 's':
     case 'S':

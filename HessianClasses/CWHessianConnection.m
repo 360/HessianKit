@@ -19,7 +19,7 @@
 #import <Foundation/Foundation.h>
 
 #import "CWHessianConnection.h"
-#import "CWDistantHessianObject+Private.h"
+#import "CWDistantHessianObject.h"
 
 @implementation CWHessianConnection
 
@@ -122,9 +122,6 @@
   CWHessianConnection* connection = [[CWHessianConnection alloc] initWithServiceURL:URL];
   if (connection) {
   	proxy = [connection rootProxyWithProtocol:aProtocol];
-    if (proxy) {
-      proxy.connection = connection;
-    }
     [connection release];
   }
   return proxy;

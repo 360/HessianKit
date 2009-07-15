@@ -26,7 +26,9 @@ enum {
 };
 typedef int CWHessianVersion;
 
+#ifndef DEFAULT_HESSIAN_VERSION
 #define DEFAULT_HESSIAN_VERSION CWHessianVersion1_00
+#endif
 
 /*!
  * @abstract Communication channel for hessian binary protocol.

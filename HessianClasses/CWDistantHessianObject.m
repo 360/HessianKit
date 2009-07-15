@@ -83,7 +83,7 @@ static NSMethodSignature* getMethodSignatureRecursively(Protocol *p, SEL aSel)
 
 -(BOOL)conformsToProtocol:(Protocol*)aProtocol;
 {
-	if (self.protocol == aProtocol) {
+  if (self.protocol == aProtocol) {
   	return YES;
   } else {
   	return [super conformsToProtocol:aProtocol];

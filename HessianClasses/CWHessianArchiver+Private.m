@@ -19,6 +19,7 @@
 #import "CWHessianArchiver+Private.h"
 #import "CWDistantHessianObject.h"
 #import "CWValueObject.h"
+#import "HessianKitTypes.h" 
 #import <objc/runtime.h>
 
 @implementation CWHessianArchiver (Private)
@@ -174,7 +175,7 @@
   	char tag = ([(NSString*)object length] > MAX_CHUNK_SIZE ? 's' : 'S');
 		[self writeChar:tag];
     [self writeString:(NSString*)object withTag:tag];
-#if (TARGET_OS_MAC && !(TARGET_OS_EMBEDDED || TARGET_OS_IPHONE))
+#ifdef XML_AVAILABLE
   } else if ([object isKindOfClass:[NSXMLNode class]]) {
   	NSString* xmlString = [(NSXMLNode*)object XMLStringWithOptions:NSXMLNodeOptionsNone];
   	char tag = ([xmlString length] > MAX_CHUNK_SIZE ? 'x' : 'X');
