@@ -17,10 +17,10 @@
 //
 
 #import "CWDistantHessianObject.h"
-#import "CWDistantHessianObject+Private.h"
 #import "CWHessianConnection.h"
 #import "CWHessianArchiver.h"
 #import "CWHessianArchiver+Private.h"
+#import "CWHessianConnection+Private.h"
 #import <objc/runtime.h>
 
 static NSMethodSignature* getMethodSignatureRecursively(Protocol *p, SEL aSel)
@@ -40,7 +40,9 @@ static NSMethodSignature* getMethodSignatureRecursively(Protocol *p, SEL aSel)
   return methodSignature;
 }
 
+
 @interface CWDistantHessianObject ()
+@property(retain, nonatomic) CWHessianConnection* connection;
 @property(retain, nonatomic) NSString* remoteId;
 @property(assign, nonatomic) Protocol* protocol;
 @property(retain, nonatomic) NSMutableDictionary* methodSignatures;
@@ -90,7 +92,7 @@ static NSMethodSignature* getMethodSignatureRecursively(Protocol *p, SEL aSel)
 
 -(BOOL)isKindOfClass:(Class)aClass;
 {
-	if (aClass == [self class] || aClass == [NSProxy class]) {
+  if (aClass == [self class] || aClass == [NSProxy class]) {
   	return YES;
   }
   return NO;
@@ -107,22 +109,7 @@ static NSMethodSignature* getMethodSignatureRecursively(Protocol *p, SEL aSel)
 
 -(void)forwardInvocation:(NSInvocation *)invocation;
 {
-	NSData* requestData = [self archivedDataForInvocation:invocation];
-#if DEBUG
-  NSLog(@"%@", [requestData description]);
-#endif
-  NSData* responseData = [self sendRequestWithPostData:requestData];
-#if DEBUG
-  NSLog(@"%@", [responseData description]);
-#endif
-  id returnValue = [self unarchiveData:responseData];
-  if (returnValue) {
-    if ([returnValue isKindOfClass:[NSException class]]) {
-      [(NSException*)returnValue raise];
-      return;  
-    }
-  }
-  [self setReturnValue:returnValue invocation:invocation];
+  [self.connection forwardInvocation:invocation forProxy:self];
 }
 
 - (NSMethodSignature *)methodSignatureForSelector:(SEL)aSelector;
@@ -140,6 +127,11 @@ static NSMethodSignature* getMethodSignatureRecursively(Protocol *p, SEL aSel)
   } else {
   	return nil;
   }
+}
+
+-(int)_cfTypeID;
+{
+  return 1;
 }
 
 @end

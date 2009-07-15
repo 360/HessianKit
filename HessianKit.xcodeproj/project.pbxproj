@@ -7,6 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A69EF9BE100E1B3100E2A2FD /* CWHessianConnection+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = A69EF9BC100E1B3100E2A2FD /* CWHessianConnection+Private.h */; };
+		A69EF9BF100E1B3100E2A2FD /* CWHessianConnection+Private.m in Sources */ = {isa = PBXBuildFile; fileRef = A69EF9BD100E1B3100E2A2FD /* CWHessianConnection+Private.m */; };
+		A69EF9C0100E1B3100E2A2FD /* CWHessianConnection+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = A69EF9BC100E1B3100E2A2FD /* CWHessianConnection+Private.h */; };
+		A69EF9C1100E1B3100E2A2FD /* CWHessianConnection+Private.m in Sources */ = {isa = PBXBuildFile; fileRef = A69EF9BD100E1B3100E2A2FD /* CWHessianConnection+Private.m */; };
+		A69EFA36100E222D00E2A2FD /* HessianKitTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = A69EFA35100E222D00E2A2FD /* HessianKitTypes.h */; };
+		A69EFA37100E222D00E2A2FD /* HessianKitTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = A69EFA35100E222D00E2A2FD /* HessianKitTypes.h */; };
 		A6CE14D90FE01684009CD7AA /* CWHessianConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = A66189FB0E1A817B00EBFE66 /* CWHessianConnection.m */; };
 		A6CE14DA0FE01684009CD7AA /* CWHessianCoder.m in Sources */ = {isa = PBXBuildFile; fileRef = A6618A0A0E1A92C600EBFE66 /* CWHessianCoder.m */; };
 		A6CE14DB0FE01684009CD7AA /* CWHessianArchiver.m in Sources */ = {isa = PBXBuildFile; fileRef = A66189FE0E1A819700EBFE66 /* CWHessianArchiver.m */; };
@@ -14,7 +20,6 @@
 		A6CE14DD0FE01684009CD7AA /* CWHessianUnarchiver.m in Sources */ = {isa = PBXBuildFile; fileRef = A6618A010E1A81AE00EBFE66 /* CWHessianUnarchiver.m */; };
 		A6CE14DE0FE01684009CD7AA /* CWHessianUnarchiver+Private.m in Sources */ = {isa = PBXBuildFile; fileRef = A6618D530E1E825000EBFE66 /* CWHessianUnarchiver+Private.m */; };
 		A6CE14DF0FE01684009CD7AA /* CWDistantHessianObject.m in Sources */ = {isa = PBXBuildFile; fileRef = A6618A040E1A81C600EBFE66 /* CWDistantHessianObject.m */; };
-		A6CE14E00FE01684009CD7AA /* CWDistantHessianObject+Private.m in Sources */ = {isa = PBXBuildFile; fileRef = A685F6F90E1EB9BE009547F2 /* CWDistantHessianObject+Private.m */; };
 		A6CE14E10FE01684009CD7AA /* CWValueObject.m in Sources */ = {isa = PBXBuildFile; fileRef = A685FA760E1F0270009547F2 /* CWValueObject.m */; };
 		A6CE14E20FE01684009CD7AA /* CWValueObject+Private.m in Sources */ = {isa = PBXBuildFile; fileRef = A6D0F5320E22846000ECE7C3 /* CWValueObject+Private.m */; };
 		A6CE14E30FE01684009CD7AA /* NSData+ReadableDescription.m in Sources */ = {isa = PBXBuildFile; fileRef = A685F94B0E1EED8B009547F2 /* NSData+ReadableDescription.m */; };
@@ -37,7 +42,6 @@
 		A6CE15260FE0193A009CD7AA /* CWHessianUnarchiver.m in Sources */ = {isa = PBXBuildFile; fileRef = A6618A010E1A81AE00EBFE66 /* CWHessianUnarchiver.m */; };
 		A6CE15270FE0193A009CD7AA /* CWHessianUnarchiver+Private.m in Sources */ = {isa = PBXBuildFile; fileRef = A6618D530E1E825000EBFE66 /* CWHessianUnarchiver+Private.m */; };
 		A6CE15280FE0193A009CD7AA /* CWDistantHessianObject.m in Sources */ = {isa = PBXBuildFile; fileRef = A6618A040E1A81C600EBFE66 /* CWDistantHessianObject.m */; };
-		A6CE15290FE0193A009CD7AA /* CWDistantHessianObject+Private.m in Sources */ = {isa = PBXBuildFile; fileRef = A685F6F90E1EB9BE009547F2 /* CWDistantHessianObject+Private.m */; };
 		A6CE152A0FE0193A009CD7AA /* CWValueObject.m in Sources */ = {isa = PBXBuildFile; fileRef = A685FA760E1F0270009547F2 /* CWValueObject.m */; };
 		A6CE152B0FE0193A009CD7AA /* CWValueObject+Private.m in Sources */ = {isa = PBXBuildFile; fileRef = A6D0F5320E22846000ECE7C3 /* CWValueObject+Private.m */; };
 		A6CE152C0FE0193A009CD7AA /* NSData+ReadableDescription.m in Sources */ = {isa = PBXBuildFile; fileRef = A685F94B0E1EED8B009547F2 /* NSData+ReadableDescription.m */; };
@@ -103,18 +107,19 @@
 		A6618A0A0E1A92C600EBFE66 /* CWHessianCoder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CWHessianCoder.m; path = HessianClasses/CWHessianCoder.m; sourceTree = "<group>"; };
 		A6618D500E1E81F500EBFE66 /* CWHessianArchiver+Private.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "CWHessianArchiver+Private.m"; path = "HessianClasses/CWHessianArchiver+Private.m"; sourceTree = "<group>"; };
 		A6618D530E1E825000EBFE66 /* CWHessianUnarchiver+Private.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "CWHessianUnarchiver+Private.m"; path = "HessianClasses/CWHessianUnarchiver+Private.m"; sourceTree = "<group>"; };
-		A685F6F80E1EB9BE009547F2 /* CWDistantHessianObject+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "CWDistantHessianObject+Private.h"; path = "HessianClasses/CWDistantHessianObject+Private.h"; sourceTree = "<group>"; };
-		A685F6F90E1EB9BE009547F2 /* CWDistantHessianObject+Private.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "CWDistantHessianObject+Private.m"; path = "HessianClasses/CWDistantHessianObject+Private.m"; sourceTree = "<group>"; };
 		A685F80E0E1EDAFA009547F2 /* Test.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Test.h; path = Classes/Test.h; sourceTree = "<group>"; };
 		A685F8110E1EDBCF009547F2 /* HessianKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HessianKit.h; path = HessianClasses/HessianKit.h; sourceTree = "<group>"; };
 		A685F94A0E1EED8B009547F2 /* NSData+ReadableDescription.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSData+ReadableDescription.h"; path = "Classes/NSData+ReadableDescription.h"; sourceTree = "<group>"; };
 		A685F94B0E1EED8B009547F2 /* NSData+ReadableDescription.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSData+ReadableDescription.m"; path = "Classes/NSData+ReadableDescription.m"; sourceTree = "<group>"; };
 		A685FA750E1F0270009547F2 /* CWValueObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CWValueObject.h; path = HessianClasses/CWValueObject.h; sourceTree = "<group>"; };
 		A685FA760E1F0270009547F2 /* CWValueObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CWValueObject.m; path = HessianClasses/CWValueObject.m; sourceTree = "<group>"; };
+		A69EF9BC100E1B3100E2A2FD /* CWHessianConnection+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "CWHessianConnection+Private.h"; path = "HessianClasses/CWHessianConnection+Private.h"; sourceTree = "<group>"; };
+		A69EF9BD100E1B3100E2A2FD /* CWHessianConnection+Private.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "CWHessianConnection+Private.m"; path = "HessianClasses/CWHessianConnection+Private.m"; sourceTree = "<group>"; };
+		A69EFA35100E222D00E2A2FD /* HessianKitTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HessianKitTypes.h; path = HessianClasses/HessianKitTypes.h; sourceTree = "<group>"; };
 		A6CE14CA0FE01620009CD7AA /* libStaticHessianKit.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libStaticHessianKit.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		A6CE15AF0FE01E7C009CD7AA /* iPhoneTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = iPhoneTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
+		A6CE15AF0FE01E7C009CD7AA /* iPhoneTest.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = iPhoneTest.octest; sourceTree = BUILT_PRODUCTS_DIR; };
 		A6CE15B00FE01E7C009CD7AA /* iPhoneTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "iPhoneTests-Info.plist"; sourceTree = "<group>"; };
-		A6CE15BA0FE01ED1009CD7AA /* MacTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MacTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
+		A6CE15BA0FE01ED1009CD7AA /* MacTest.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MacTest.octest; sourceTree = BUILT_PRODUCTS_DIR; };
 		A6CE15BB0FE01ED1009CD7AA /* MacTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "MacTests-Info.plist"; sourceTree = "<group>"; };
 		A6CE163F0FE01F51009CD7AA /* CWHessianKitBasicTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CWHessianKitBasicTests.h; path = Classes/CWHessianKitBasicTests.h; sourceTree = "<group>"; };
 		A6CE16400FE01F51009CD7AA /* CWHessianKitBasicTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CWHessianKitBasicTests.m; path = Classes/CWHessianKitBasicTests.m; sourceTree = "<group>"; };
@@ -172,8 +177,8 @@
 			children = (
 				A61071EC0E34970800975244 /* HessianKit.framework */,
 				A6CE14CA0FE01620009CD7AA /* libStaticHessianKit.a */,
-				A6CE15AF0FE01E7C009CD7AA /* iPhoneTests.octest */,
-				A6CE15BA0FE01ED1009CD7AA /* MacTests.octest */,
+				A6CE15AF0FE01E7C009CD7AA /* iPhoneTest.octest */,
+				A6CE15BA0FE01ED1009CD7AA /* MacTest.octest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -223,6 +228,7 @@
 		A6618A080E1A92AB00EBFE66 /* Public */ = {
 			isa = PBXGroup;
 			children = (
+				A69EFA35100E222D00E2A2FD /* HessianKitTypes.h */,
 				A685F8110E1EDBCF009547F2 /* HessianKit.h */,
 				A66189FA0E1A817B00EBFE66 /* CWHessianConnection.h */,
 				A6618A090E1A92C600EBFE66 /* CWHessianCoder.h */,
@@ -237,18 +243,18 @@
 		A685F6FB0E1EBA10009547F2 /* Private */ = {
 			isa = PBXGroup;
 			children = (
+				A69EF9BC100E1B3100E2A2FD /* CWHessianConnection+Private.h */,
 				A6618A000E1A81AE00EBFE66 /* CWHessianArchiver+Private.h */,
-				A685F6F80E1EB9BE009547F2 /* CWDistantHessianObject+Private.h */,
 				A6D0F5310E22846000ECE7C3 /* CWValueObject+Private.h */,
 				A685F94A0E1EED8B009547F2 /* NSData+ReadableDescription.h */,
 				A66189FB0E1A817B00EBFE66 /* CWHessianConnection.m */,
+				A69EF9BD100E1B3100E2A2FD /* CWHessianConnection+Private.m */,
 				A6618A0A0E1A92C600EBFE66 /* CWHessianCoder.m */,
 				A66189FE0E1A819700EBFE66 /* CWHessianArchiver.m */,
 				A6618D500E1E81F500EBFE66 /* CWHessianArchiver+Private.m */,
 				A6618A010E1A81AE00EBFE66 /* CWHessianUnarchiver.m */,
 				A6618D530E1E825000EBFE66 /* CWHessianUnarchiver+Private.m */,
 				A6618A040E1A81C600EBFE66 /* CWDistantHessianObject.m */,
-				A685F6F90E1EB9BE009547F2 /* CWDistantHessianObject+Private.m */,
 				A685FA760E1F0270009547F2 /* CWValueObject.m */,
 				A6D0F5320E22846000ECE7C3 /* CWValueObject+Private.m */,
 				A685F94B0E1EED8B009547F2 /* NSData+ReadableDescription.m */,
@@ -298,6 +304,8 @@
 				A6CE14E70FE016A2009CD7AA /* CWHessianArchiver.h in Headers */,
 				A6CE14E80FE016A2009CD7AA /* CWDistantHessianObject.h in Headers */,
 				A6CE14E90FE016A2009CD7AA /* CWValueObject.h in Headers */,
+				A69EF9BE100E1B3100E2A2FD /* CWHessianConnection+Private.h in Headers */,
+				A69EFA36100E222D00E2A2FD /* HessianKitTypes.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -311,6 +319,8 @@
 				A6CE151F0FE0191E009CD7AA /* CWHessianArchiver.h in Headers */,
 				A6CE15200FE0191E009CD7AA /* CWDistantHessianObject.h in Headers */,
 				A6CE15210FE0191E009CD7AA /* CWValueObject.h in Headers */,
+				A69EF9C0100E1B3100E2A2FD /* CWHessianConnection+Private.h in Headers */,
+				A69EFA37100E222D00E2A2FD /* HessianKitTypes.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -383,7 +393,7 @@
 			);
 			name = iPhoneTests;
 			productName = iPhoneTest;
-			productReference = A6CE15AF0FE01E7C009CD7AA /* iPhoneTests.octest */;
+			productReference = A6CE15AF0FE01E7C009CD7AA /* iPhoneTest.octest */;
 			productType = "com.apple.product-type.bundle";
 		};
 		A6CE15B90FE01ED1009CD7AA /* MacTests */ = {
@@ -403,7 +413,7 @@
 			);
 			name = MacTests;
 			productName = MacTest;
-			productReference = A6CE15BA0FE01ED1009CD7AA /* MacTests.octest */;
+			productReference = A6CE15BA0FE01ED1009CD7AA /* MacTest.octest */;
 			productType = "com.apple.product-type.bundle";
 		};
 /* End PBXNativeTarget section */
@@ -492,10 +502,10 @@
 				A6CE14DD0FE01684009CD7AA /* CWHessianUnarchiver.m in Sources */,
 				A6CE14DE0FE01684009CD7AA /* CWHessianUnarchiver+Private.m in Sources */,
 				A6CE14DF0FE01684009CD7AA /* CWDistantHessianObject.m in Sources */,
-				A6CE14E00FE01684009CD7AA /* CWDistantHessianObject+Private.m in Sources */,
 				A6CE14E10FE01684009CD7AA /* CWValueObject.m in Sources */,
 				A6CE14E20FE01684009CD7AA /* CWValueObject+Private.m in Sources */,
 				A6CE14E30FE01684009CD7AA /* NSData+ReadableDescription.m in Sources */,
+				A69EF9BF100E1B3100E2A2FD /* CWHessianConnection+Private.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -510,10 +520,10 @@
 				A6CE15260FE0193A009CD7AA /* CWHessianUnarchiver.m in Sources */,
 				A6CE15270FE0193A009CD7AA /* CWHessianUnarchiver+Private.m in Sources */,
 				A6CE15280FE0193A009CD7AA /* CWDistantHessianObject.m in Sources */,
-				A6CE15290FE0193A009CD7AA /* CWDistantHessianObject+Private.m in Sources */,
 				A6CE152A0FE0193A009CD7AA /* CWValueObject.m in Sources */,
 				A6CE152B0FE0193A009CD7AA /* CWValueObject+Private.m in Sources */,
 				A6CE152C0FE0193A009CD7AA /* NSData+ReadableDescription.m in Sources */,
+				A69EF9C1100E1B3100E2A2FD /* CWHessianConnection+Private.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

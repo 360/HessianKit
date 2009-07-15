@@ -135,7 +135,9 @@
  */
 -(NSString*)remoteClassName;
 
-- (void)forwardInvocation:(NSInvocation *)anInvocation;
-- (NSMethodSignature *)methodSignatureForSelector:(SEL)aSelector;
+-(void)forwardInvocation:(NSInvocation*)anInvocation;
+-(NSMethodSignature*)methodSignatureForSelector:(SEL)aSelector;
+// Used by TollFree bridge
+-(int)_cfTypeID;
 
 @end

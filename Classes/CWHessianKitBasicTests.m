@@ -20,8 +20,6 @@
 #import "HessianKit.h"
 #import "ValueTest.h"
 
-#import "CWDistantHessianObject+Private.h"
-
 @implementation CWHessianKitBasicTests
 
 -(void)setUp;

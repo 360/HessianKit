@@ -23,27 +23,107 @@
 
 @implementation CWHessianConnection
 
-@synthesize serviceURL = _serviceURL;
 @synthesize version = _version;
+@synthesize serviceURL = _serviceURL;
+@synthesize receivePort = _receivePort;
+@synthesize sendPort = _sendPort;
+#ifdef GAMEKIT_AVAILABLE
+@synthesize gameKitSession = _gameKitSession;
+#endif
 
--(id)initWithURL:(NSURL*)URL version:(CWHessianVersion)version;
+-(CWHessianChannel)channel;
+{
+  if (_serviceURL != nil) {
+    return CWHessianChannelHTTP;
+  }
+  if (_receivePort != nil && _sendPort != nil) {
+    return CWHessianChannelPort;
+  }
+#ifdef GAMEKIT_AVAILABLE
+  if (_gameKitSession != nil) {
+    return CWHessianChannelGameKit;
+  }
+#endif
+  [NSException raise:NSInternalInconsistencyException format:@"Unknown communication channel."];
+  return -1;
+}
+
+-(id)init;
 {
   self = [super init];
   if (self) {
-    self.serviceURL = URL;
-    self.version = version;
+    _version = DEFAULT_HESSIAN_VERSION;
   }
   return self;
 }
 
+-(void)dealloc;
+{
+  [_serviceURL release];
+  [_receivePort release];
+  [_sendPort release];
+#ifdef GAMEKIT_AVAILABLE
+  [_gameKitSession release];
+#endif
+  [super dealloc];
+}
+
+-(id)initWithServiceURL:(NSURL*)URL;
+{
+  if (URL == nil) {
+    [self release];
+    [NSException raise:NSInvalidArgumentException format:@"Service URL must not be nil"];
+    self = nil;
+  } else {
+    self = [self init];
+  } 
+  if (self) {
+    _serviceURL = [URL copy];
+  }
+  return self;
+}
+
+-(id)initWithReceivePort:(NSPort*)receivePort sendPort:(NSPort*)sendPort;
+{
+  if (receivePort == nil || sendPort == nil) {
+    [self release];
+    [NSException raise:NSInvalidArgumentException format:@"Receieve and send ports must not be nil"];
+    self = nil;
+  } else {
+    self = [self init];
+  } 
+  if (self) {
+    _receivePort = [receivePort retain];
+    _sendPort = [sendPort retain];
+  }
+  return self;
+}
+
+#ifdef GAMEKIT_AVAILABLE
+-(id)initWithGameKitSession:(GKSession*)session;
+{
+  if (session == nil) {
+    [self release];
+    [NSException raise:NSInvalidArgumentException format:@"GameKit session must not be nil"];
+    self = nil;
+  } else {
+    self = [self init];
+  }
+  if (self) {
+    _gameKitSession = [session retain];
+  } 
+  return self;
+}
+#endif
+
 +(CWDistantHessianObject*)rootProxyWithURL:(NSURL*)URL protocol:(Protocol*)aProtocol;
 {
 	CWDistantHessianObject* proxy = nil;
-  CWHessianConnection* connection = [[CWHessianConnection alloc] initWithURL:URL version:CWHessianVersion1_00];
-	if (connection) {
+  CWHessianConnection* connection = [[CWHessianConnection alloc] initWithServiceURL:URL];
+  if (connection) {
   	proxy = [connection rootProxyWithProtocol:aProtocol];
     if (proxy) {
-	    proxy.connection = connection;
+      proxy.connection = connection;
     }
     [connection release];
   }
@@ -52,8 +132,8 @@
 
 -(CWDistantHessianObject*)rootProxyWithProtocol:(Protocol*)aProtocol;
 {
-  CWDistantHessianObject* proxy = [CWDistantHessianObject alloc];
-  [proxy initWithConnection:self remoteId:nil protocol:aProtocol];
+  CWDistantHessianObject* proxy = [[CWDistantHessianObject alloc] 
+                                   initWithConnection:self remoteId:nil protocol:aProtocol];
   return [proxy autorelease];
 }
 

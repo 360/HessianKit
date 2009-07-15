@@ -1,42 +1,53 @@
 //
-//  CWDistantHessianObject+Private.m
+//  CWHessianConnection+Private.m
 //  HessianKit
 //
-//  Copyright 2008 Fredrik Olsson, Cocoway. All rights reserved.
-//  Licensed under the Apache License, Version 2.0 (the "License");
-//  you may not use this file except in compliance with the License. 
-//  You may obtain a copy of the License at 
-// 
-//  http://www.apache.org/licenses/LICENSE-2.0 
-//  
-//  Unless required by applicable law or agreed to in writing, software
-//  distributed under the License is distributed on an "AS IS" BASIS, 
-//  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-//  See the License for the specific language governing permissions and
-//  limitations under the License.
+//  Created by Fredrik Olsson on 2009-07-15.
+//  Copyright 2009 __MyCompanyName__. All rights reserved.
 //
 
-#import "CWHessianConnection.h"
-#import "CWDistantHessianObject+Private.h"
+#import "CWHessianConnection+Private.h"
 #import "CWHessianArchiver+Private.h"
-#import <objc/runtime.h>
 
-@implementation CWDistantHessianObject (Private)
+@implementation CWHessianConnection (Private)
 
--(int)_cfTypeID;
+#ifdef GAMEKIT_AVAILABLE
+-(void)receiveData:(NSData*)data fromPeer:(NSString*)peer inSession:(GKSession*)session context:(void*)context;
 {
-	return 1;
+  
 }
+#endif
+
+-(void)forwardInvocation:(NSInvocation*)invocation forProxy:(CWDistantHessianObject*)proxy;
+{
+  NSData* requestData = [self archivedDataForInvocation:invocation];
+#if DEBUG
+  NSLog(@"%@", [requestData description]);
+#endif
+  NSData* responseData = [self sendRequestWithPostData:requestData];
+#if DEBUG
+  NSLog(@"%@", [responseData description]);
+#endif
+  id returnValue = [self unarchiveData:responseData];
+  if (returnValue) {
+    if ([returnValue isKindOfClass:[NSException class]]) {
+      [(NSException*)returnValue raise];
+      return;  
+    }
+  }
+  [self setReturnValue:returnValue invocation:invocation];
+}
+
 
 -(NSString*)methodNameFromInvocation:(NSInvocation*)invocation;
 {
   NSString* methodName = [CWHessianArchiver methodNameForSelector:[invocation selector]];
   if (!methodName) {
-		NSString* selectorName = NSStringFromSelector([invocation selector]);
-		NSMutableArray* splittedName = [NSMutableArray arrayWithArray:[selectorName componentsSeparatedByString:@":"]];
+    NSString* selectorName = NSStringFromSelector([invocation selector]);
+    NSMutableArray* splittedName = [NSMutableArray arrayWithArray:[selectorName componentsSeparatedByString:@":"]];
     for (int index = 1; index < [splittedName count]; index++) {
-    	NSString* namePart = [splittedName objectAtIndex:index];
-			if ([namePart length] > 0) {
+      NSString* namePart = [splittedName objectAtIndex:index];
+      if ([namePart length] > 0) {
       	NSString* firstChar = [[namePart substringToIndex:1] uppercaseString];
         NSString* remainingChars = [namePart substringFromIndex:1];
         namePart = [firstChar stringByAppendingString:remainingChars];
@@ -45,8 +56,8 @@
     }
     methodName = [splittedName componentsJoinedByString:@""];
     int realParamCount = [[invocation methodSignature] numberOfArguments] - 2;
-		if (realParamCount > 0) {
-	    methodName = [methodName stringByAppendingFormat:@"__%d", realParamCount];
+    if (realParamCount > 0) {
+      methodName = [methodName stringByAppendingFormat:@"__%d", realParamCount];
     }
     [CWHessianArchiver setMethodName:methodName forSelector:[invocation selector]];
   }
@@ -100,7 +111,7 @@
 -(NSData*)archivedDataForInvocation:(NSInvocation*)invocation;
 {
   NSMutableData* data = [NSMutableData data];
-  CWHessianArchiver* archiver = [[[CWHessianArchiver alloc] initWithConnection:self.connection mutableData:data] autorelease];
+  CWHessianArchiver* archiver = [[[CWHessianArchiver alloc] initWithConnection:self mutableData:data] autorelease];
   [archiver writeChar:'c'];
   [archiver writeChar:0x01];
   [archiver writeChar:0x00];
@@ -119,7 +130,7 @@
 -(NSData*)sendRequestWithPostData:(NSData*)postData;
 {
   NSData* responseData = nil;
-  NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:self.connection.serviceURL
+  NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:self.serviceURL
                                                          cachePolicy:NSURLRequestReloadIgnoringCacheData 
                                                      timeoutInterval:60.0];
   [request setHTTPMethod:@"POST"];   
@@ -129,19 +140,19 @@
   NSHTTPURLResponse * returnResponse = nil; 
   NSError* requestError = nil;
   responseData = [NSURLConnection sendSynchronousRequest:request 
-		returningResponse:&returnResponse error:&requestError];
+                                       returningResponse:&returnResponse error:&requestError];
   if (requestError) {
     responseData = nil;
-	  [NSException raise:NSInvalidArchiveOperationException 
-                  format:@"Network error domain:%@ code:%d", [requestError domain], [requestError code]];
-	} else if (returnResponse != nil) {
+    [NSException raise:NSInvalidArchiveOperationException 
+                format:@"Network error domain:%@ code:%d", [requestError domain], [requestError code]];
+  } else if (returnResponse != nil) {
   	if ([returnResponse statusCode] == 200) {
-	  	[responseData retain];
+      [responseData retain];
     } else {
-    	responseData = nil;
-	    [NSException raise:NSInvalidArchiveOperationException format:@"HTTP error %d", [returnResponse statusCode]];    
+      responseData = nil;
+      [NSException raise:NSInvalidArchiveOperationException format:@"HTTP error %d", [returnResponse statusCode]];    
     }
-	} else {
+  } else {
     responseData = nil;
   	[NSException raise:NSInvalidArchiveOperationException format:@"Unknown network error"];
   }
@@ -155,7 +166,7 @@
 -(id)unarchiveData:(NSData*)data;
 {
   CWHessianUnarchiver* unarchiver = [[[CWHessianUnarchiver alloc] 
-  		initWithConnection:self.connection mutableData:(NSMutableData*)data] autorelease];
+                                      initWithConnection:self mutableData:(NSMutableData*)data] autorelease];
   char code = [unarchiver readChar];
   if (code == 'r') {
   	int major = [unarchiver readChar];
@@ -164,12 +175,12 @@
       [self readHeaderFromUnarchiver:unarchiver];
       id object = [unarchiver readTypedObject];
       if ([unarchiver readChar] != 'z') {
-    		[NSException raise:NSInvalidUnarchiveOperationException format:@"Did not find reply terminator z"];
+        [NSException raise:NSInvalidUnarchiveOperationException format:@"Did not find reply terminator z"];
       	return nil;
       }
       return object;
     } else {
-			[NSException raise:NSInvalidUnarchiveOperationException format:@"Unsupported version %d.%d", major, minor];    
+      [NSException raise:NSInvalidUnarchiveOperationException format:@"Unsupported version %d.%d", major, minor];    
     }
   } else  if (code == 'f') {
     [self readHeaderFromUnarchiver:unarchiver];
@@ -179,51 +190,51 @@
                                                    userInfo:[failMap objectForKey:@"description"]];
     [exception raise];
   } else {
-	  [NSException raise:NSInvalidUnarchiveOperationException format:@"Unknown response data"];
+    [NSException raise:NSInvalidUnarchiveOperationException format:@"Unknown response data"];
   }
-	return nil;
+  return nil;
 }
 
 -(void)setReturnValue:(id)value invocation:(NSInvocation*)invocation;
 {
-	BOOL isInvalidClass = NO;
-	const char* type = [[invocation methodSignature] methodReturnType];
+  BOOL isInvalidClass = NO;
+  const char* type = [[invocation methodSignature] methodReturnType];
   if (strcmp(type, @encode(void)) == 0) {
   	// void methods return NULL
   } else if (strcmp(type, @encode(BOOL)) == 0) {
-		if ([value isKindOfClass:[NSNumber class]]) {
-    	BOOL tmp = [(NSNumber*)value boolValue];
-    	[invocation setReturnValue:&tmp];
+    if ([value isKindOfClass:[NSNumber class]]) {
+      BOOL tmp = [(NSNumber*)value boolValue];
+      [invocation setReturnValue:&tmp];
     } else {
-    	isInvalidClass = YES;
+      isInvalidClass = YES;
     }
   } else if (strcmp(type, @encode(int32_t)) == 0) {
-		if ([value isKindOfClass:[NSNumber class]]) {
-    	int32_t tmp = [(NSNumber*)value intValue];
-    	[invocation setReturnValue:&tmp];
+    if ([value isKindOfClass:[NSNumber class]]) {
+      int32_t tmp = [(NSNumber*)value intValue];
+      [invocation setReturnValue:&tmp];
     } else {
-    	isInvalidClass = YES;
+      isInvalidClass = YES;
     }
   } else if (strcmp(type, @encode(int64_t)) == 0) {
-		if ([value isKindOfClass:[NSNumber class]]) {
-    	int64_t tmp = [(NSNumber*)value longLongValue];
-    	[invocation setReturnValue:&tmp];
+    if ([value isKindOfClass:[NSNumber class]]) {
+      int64_t tmp = [(NSNumber*)value longLongValue];
+      [invocation setReturnValue:&tmp];
     } else {
-    	isInvalidClass = YES;
+      isInvalidClass = YES;
     }
   } else if (strcmp(type, @encode(float)) == 0) {
-		if ([value isKindOfClass:[NSNumber class]]) {
-    	float tmp = [(NSNumber*)value floatValue];
-    	[invocation setReturnValue:&tmp];
+    if ([value isKindOfClass:[NSNumber class]]) {
+      float tmp = [(NSNumber*)value floatValue];
+      [invocation setReturnValue:&tmp];
     } else {
-    	isInvalidClass = YES;
+      isInvalidClass = YES;
     }
   } else if (strcmp(type, @encode(double)) == 0) {
-		if ([value isKindOfClass:[NSNumber class]]) {
-    	double tmp = [(NSNumber*)value doubleValue];
-    	[invocation setReturnValue:&tmp];
+    if ([value isKindOfClass:[NSNumber class]]) {
+      double tmp = [(NSNumber*)value doubleValue];
+      [invocation setReturnValue:&tmp];
     } else {
-    	isInvalidClass = YES;
+      isInvalidClass = YES;
     }
   } else if (strcmp(type, @encode(id)) == 0) {
   	[invocation setReturnValue:&value];
@@ -234,5 +245,6 @@
   	[NSException raise:NSInvalidUnarchiveOperationException format:@"Invalid type %@", NSStringFromClass([value class])];
   }
 }
+
 
 @end

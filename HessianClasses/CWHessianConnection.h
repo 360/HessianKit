@@ -18,18 +18,15 @@
 
 #import <Foundation/Foundation.h>
 
-@class CWDistantHessianObject;
+#if (TARGET_OS_MAC && !(TARGET_OS_EMBEDDED || TARGET_OS_IPHONE))
+#import <HessianKit/HessianKitTypes.h>
+#else
+#import "HessianKitTypes.h"
+#endif
 
-/*!
- * @abstract Hessian serialization version.
- *
- * Currently only version 1.00 is complete.
- */
-enum {
-  CWHessianVersion1_00 = 0x100,
-  CWHessianVersion2_00 = 0x200
-};
-typedef int CWHessianVersion;
+#ifdef GAMEKIT_AVAILABLE
+@class GKSession;
+#endif
 
 @class CWDistantHessianObject;
 
@@ -50,12 +47,12 @@ typedef int CWHessianVersion;
 @private
   CWHessianVersion _version;
   NSURL* _serviceURL;
+  NSPort* _receivePort;
+  NSPort* _sendPort;
+#ifdef GAMEKIT_AVAILABLE
+  GKSession* _gameKitSession;
+#endif  
 }
-
-/*!
- * @abstract The Hessian web service URL to use for this connection.
- */
-@property(retain, nonatomic) NSURL* serviceURL;
 
 /*!
  * @abstract The Hessian serialization protocol version to use for this connection.
@@ -63,13 +60,74 @@ typedef int CWHessianVersion;
 @property(assign, nonatomic) CWHessianVersion version;
 
 /*!
- * @abstract Returns an inititialized <code>CWHessianConnection</code> object.
+ * The channel for this Hessian connection.
+ */
+@property(readonly, nonatomic) CWHessianChannel channel;
+
+/*!
+ * @abstract The URL of the Hessian web service.
+ */
+@property(readonly, nonatomic) NSURL* serviceURL;
+
+/*!
+ * @abstract The recieve port for the Hessian connection
+ */
+@property(readonly, nonatomic) NSPort* receivePort;
+
+/*!
+ * @abstract The send port for the Hessian connection
+ */
+@property(readonly, nonatomic) NSPort* sendPort;
+
+#ifdef GAMEKIT_AVAILABLE
+/*!
+ * @abstract The initialized GameKit session for the Hessian connection.
+ */
+@property(readonly, nonatomic) GKSession* gameKitSession;
+#endif
+
+
+/*!
+ * @abstract Returns an inititialized <code>CWHessianConnection</code> object over a HTTP channel.
+ *
+ * @discussion A Hessian connection over HTTP channel can only receive proxy objects, not vend them 
+ *             for the server.
+ *             Method name translation is used by default as the service is assumed to be implemented
+ *             in Java or another language but Objective-C. Translation can be turned off if desired.
  *
  * @param URL The URL of the Hessian web service.
- * @param version The Hessian serialization protocol version to use.
  * @result The initialized <code>CWHessianConnection</code> object.
  */
--(id)initWithURL:(NSURL*)URL version:(CWHessianVersion)version;
+-(id)initWithServiceURL:(NSURL*)URL;
+
+/*!
+ * @abstract Returns an inititialized <code>CWHessianConnection</code> object over a port channel.
+ *
+ * @discussion A Hessian connection over port channel can recieve and vend proxy objects, both by 
+ *             vending a root object and by sending proxies as method arguments.
+ *             Method name translation is not used by default as the receiving service is assumed
+ *             to be implemented in Objective-C as well. Translation can be turned on of desired.
+ *
+ * @param recievePort The recieve port for the Hessian connection.
+ * @param sendPort The send port for the Hessian connection. 
+ * @result The initialized <code>CWHessianConnection</code> object.
+ */
+-(id)initWithReceivePort:(NSPort*)receivePort sendPort:(NSPort*)sendPort;
+
+#ifdef GAMEKIT_AVAILABLE
+/*!
+ * @abstract Returns an inititialized <code>CWHessianConnection</code> object over a GameKit channel.
+ *
+ * @discussion A Hessian connection over GameKit channel can recieve and vend proxy objects, both by 
+ *             vending a root object and by sending proxies as method arguments.
+ *             Method name translation is not used by default as all connected clients can safely be 
+ *             assumed to be implemented in Objective-C. Translation can be turned on of desired.
+ *
+ * @param session The initialized GameKit session for the Hessian connection.
+ * @result The initialized <code>CWHessianConnection</code> object.
+ */
+-(id)initWithGameKitSession:(GKSession*)session;
+#endif
 
 /*!
  * @abstract Returns a Hessian web service proxy associated with a temporary <code>CWHessianConnection</code> object, 
