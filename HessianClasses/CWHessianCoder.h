@@ -35,8 +35,7 @@
  */
 @interface CWHessianCoder : NSCoder {
 @private
-	CWHessianConnection* _connection;
-  NSMutableData* _archiveData;
+  CWHessianConnection* _connection;
   NSMutableArray* _objectReferences;
 }
 
@@ -44,11 +43,6 @@
  * @abstract The recievers associated @link //hessiankit_ref/occ/cl/CWHessianConnection <code>CWHessianConnection</code>@/link object.
  */
 @property(readonly, retain, nonatomic) CWHessianConnection* connection;
-
-/*!
- * @abstract A <code>NSMutableData</code> object that is used by concrete subclasses to store and retrieve serialized data.
- */
-@property(readonly, retain, nonatomic) NSMutableData* archiveData;
 
 /*!
  * @abstract A <code>NSMutableArray</code> object that is used by concrete subclasses to keep track of reference object to avoid
@@ -60,10 +54,9 @@
  * @abstract Returns an initialized <code>CWHessianCoder</code> object.
  * 
  * @param connection The @link //hessiankit_ref/occ/cl/CWHessianConnection <code>CWHessianConnection</code>@/link object to asociate with.
- * @param data The <code>NSMutableData</code> object to store to or retrieve data from.
  * @result A Hessian coder.
  */
--(id)initWithConnection:(CWHessianConnection*)connection mutableData:(NSMutableData*)data;
+-(id)initWithConnection:(CWHessianConnection*)connection;
 
 /*!
  * @abstract Default implementation returns YES to allow NCoding conformant objects to suse keyed archiving.

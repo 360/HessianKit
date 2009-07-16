@@ -30,4 +30,5 @@
 #import "CWHessianArchiver.h"
 #import "CWDistantHessianObject.h"
 #import "CWValueObject.h"
+#import "NSStream+CWiPhoneAdditions.h"
 #endif

@@ -25,7 +25,7 @@
 -(void)setUp;
 {
   NSURL* URL = [NSURL URLWithString:@"http://hessian.caucho.com/test/test"];
-  proxy = [[CWHessianConnection rootProxyWithURL:URL protocol:@protocol(Test)] retain];
+  proxy = [[CWHessianConnection rootProxyWithServiceURL:URL protocol:@protocol(Test)] retain];
 }
 
 -(void)tearDown;

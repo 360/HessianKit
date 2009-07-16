@@ -11,6 +11,17 @@
 
 @implementation CWHessianConnection (Private)
 
+-(id)init;
+{
+  self = [super init];
+  if (self) {
+    _version = DEFAULT_HESSIAN_VERSION;
+    _requestTimeout = DEFAULT_HESSIAN_REQUEST_TIMEOUT;
+    _replyTimeout = DEFAULT_HESSIAN_REPLY_TIMEOUT;
+  }
+  return self;
+}
+
 #ifdef GAMEKIT_AVAILABLE
 -(void)receiveData:(NSData*)data fromPeer:(NSString*)peer inSession:(GKSession*)session context:(void*)context;
 {
@@ -20,15 +31,20 @@
 
 -(void)forwardInvocation:(NSInvocation*)invocation forProxy:(CWDistantHessianObject*)proxy;
 {
-  NSData* requestData = [self archivedDataForInvocation:invocation];
+  NSOutputStream* outputStream = [NSOutputStream outputStreamToMemory]; 
+  [outputStream open];
+  [self archivedDataForInvocation:invocation toOutputStream:outputStream];
+  NSData* requestData = [outputStream propertyForKey:NSStreamDataWrittenToMemoryStreamKey];
 #if DEBUG
   NSLog(@"%@", [requestData description]);
 #endif
-  NSData* responseData = [self sendRequestWithPostData:requestData];
+  NSData* responseData = [self sendAndRecieveDataOnHTTPChannel:requestData];
 #if DEBUG
   NSLog(@"%@", [responseData description]);
 #endif
-  id returnValue = [self unarchiveData:responseData];
+  NSInputStream* inputStream = [NSInputStream inputStreamWithData:responseData];
+  [inputStream open];
+  id returnValue = [self unarchiveDataFromInputStream:inputStream];
   if (returnValue) {
     if ([returnValue isKindOfClass:[NSException class]]) {
       [(NSException*)returnValue raise];
@@ -108,10 +124,10 @@
   [archiver writeTypedObject:object];
 }
 
--(NSData*)archivedDataForInvocation:(NSInvocation*)invocation;
+-(void)archivedDataForInvocation:(NSInvocation*)invocation toOutputStream:(NSOutputStream*)outputStream;
 {
-  NSMutableData* data = [NSMutableData data];
-  CWHessianArchiver* archiver = [[[CWHessianArchiver alloc] initWithConnection:self mutableData:data] autorelease];
+    
+  CWHessianArchiver* archiver = [[[CWHessianArchiver alloc] initWithConnection:self outputStream:outputStream] autorelease];
   [archiver writeChar:'c'];
   [archiver writeChar:0x01];
   [archiver writeChar:0x00];
@@ -124,10 +140,9 @@
   	[self writeArgumentAtIndex:&index type:type archiver:archiver invocation:invocation];
   }
   [archiver writeChar:'z'];
-  return data;
 }
 
--(NSData*)sendRequestWithPostData:(NSData*)postData;
+-(NSData*)sendAndRecieveDataOnHTTPChannel:(NSData*)postData;
 {
   NSData* responseData = nil;
   NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:self.serviceURL
@@ -159,14 +174,26 @@
   return responseData ? [responseData autorelease] : nil;
 }
 
+-(NSData*)sendAndRecieveDataOnStreamChannel:(NSData*)postData;
+{
+  return nil; 
+}
+
+#ifdef GAMEKIT_AVAILABLE
+-(NSData*)sendAndRecieveDataOnGameKitChannel:(NSData*)postData;
+{
+  return nil;
+}
+#endif
+
 -(void)readHeaderFromUnarchiver:(CWHessianUnarchiver*)unarchiver;
 {
 }
 
--(id)unarchiveData:(NSData*)data;
+-(id)unarchiveDataFromInputStream:(NSInputStream*)inputStream;
 {
   CWHessianUnarchiver* unarchiver = [[[CWHessianUnarchiver alloc] 
-                                      initWithConnection:self mutableData:(NSMutableData*)data] autorelease];
+                                      initWithConnection:self inputStream:inputStream] autorelease];
   char code = [unarchiver readChar];
   if (code == 'r') {
   	int major = [unarchiver readChar];

@@ -24,9 +24,11 @@
 @implementation CWHessianConnection
 
 @synthesize version = _version;
+@synthesize requestTimeout = _requestTimeout;
+@synthesize replyTimeout = _replyTimeout;
 @synthesize serviceURL = _serviceURL;
-@synthesize receivePort = _receivePort;
-@synthesize sendPort = _sendPort;
+@synthesize receiveStream = _receiveStream;
+@synthesize sendStream = _sendStream;
 #ifdef GAMEKIT_AVAILABLE
 @synthesize gameKitSession = _gameKitSession;
 #endif
@@ -36,8 +38,8 @@
   if (_serviceURL != nil) {
     return CWHessianChannelHTTP;
   }
-  if (_receivePort != nil && _sendPort != nil) {
-    return CWHessianChannelPort;
+  if (_receiveStream != nil && _sendStream != nil) {
+    return CWHessianChannelStream;
   }
 #ifdef GAMEKIT_AVAILABLE
   if (_gameKitSession != nil) {
@@ -48,20 +50,12 @@
   return -1;
 }
 
--(id)init;
-{
-  self = [super init];
-  if (self) {
-    _version = DEFAULT_HESSIAN_VERSION;
-  }
-  return self;
-}
 
 -(void)dealloc;
 {
   [_serviceURL release];
-  [_receivePort release];
-  [_sendPort release];
+  [_receiveStream release];
+  [_sendStream release];
 #ifdef GAMEKIT_AVAILABLE
   [_gameKitSession release];
 #endif
@@ -83,6 +77,7 @@
   return self;
 }
 
+/*
 -(id)initWithReceivePort:(NSPort*)receivePort sendPort:(NSPort*)sendPort;
 {
   if (receivePort == nil || sendPort == nil) {
@@ -98,6 +93,7 @@
   }
   return self;
 }
+*/
 
 #ifdef GAMEKIT_AVAILABLE
 -(id)initWithGameKitSession:(GKSession*)session;
@@ -116,7 +112,7 @@
 }
 #endif
 
-+(CWDistantHessianObject*)rootProxyWithURL:(NSURL*)URL protocol:(Protocol*)aProtocol;
++(CWDistantHessianObject*)rootProxyWithServiceURL:(NSURL*)URL protocol:(Protocol*)aProtocol;
 {
 	CWDistantHessianObject* proxy = nil;
   CWHessianConnection* connection = [[CWHessianConnection alloc] initWithServiceURL:URL];

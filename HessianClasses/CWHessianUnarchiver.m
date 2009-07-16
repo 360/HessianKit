@@ -27,7 +27,7 @@ static NSMutableDictionary* _protocolTranslations = nil;
 
 @implementation CWHessianUnarchiver
 
-@synthesize offset = _offset;
+@synthesize inputStream = _inputStream;
 @synthesize currentObjectMap = _currentObjectMap;
 
 +(void)initialize;

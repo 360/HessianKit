@@ -14,6 +14,8 @@
 
 @interface CWHessianConnection (Private)
 
+-(id)init;
+
 #ifdef GAMEKIT_AVAILABLE
 -(void)receiveData:(NSData*)data fromPeer:(NSString*)peer inSession:(GKSession*)session context:(void*)context;
 #endif
@@ -24,12 +26,16 @@
 
 -(void)writeHeadersToArchiver:(CWHessianArchiver*)archiver;
 -(void)writeArgumentAtIndex:(int*)pIndex type:(const char*)type archiver:(CWHessianArchiver*)archiver invocation:(NSInvocation*)invocation;
--(NSData*)archivedDataForInvocation:(NSInvocation*)invocation;
+-(void)archivedDataForInvocation:(NSInvocation*)invocation toOutputStream:(NSOutputStream*)outputStream;
 
--(NSData*)sendRequestWithPostData:(NSData*)postData;
+-(NSData*)sendAndRecieveDataOnHTTPChannel:(NSData*)postData;
+-(NSData*)sendAndRecieveDataOnStreamChannel:(NSData*)postData;
+#ifdef GAMEKIT_AVAILABLE
+-(NSData*)sendAndRecieveDataOnGameKitChannel:(NSData*)postData;
+#endif
 
 -(void)readHeaderFromUnarchiver:(CWHessianUnarchiver*)unarchiver;
--(id)unarchiveData:(NSData*)data;
+-(id)unarchiveDataFromInputStream:(NSInputStream*)inputStream;
 -(void)setReturnValue:(id)value invocation:(NSInvocation*)invocation;
 
 @end

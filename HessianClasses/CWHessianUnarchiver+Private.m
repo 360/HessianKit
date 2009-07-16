@@ -20,11 +20,25 @@
 #import "CWHessianConnection.h"
 #import "CWValueObject.h"
 #import "CWDistantHessianObject.h"
-#import "HessianKitTypes.h"
 #import <objc/runtime.h>
 
 
 @implementation CWHessianUnarchiver (Private)
+
+-(id)initWithConnection:(CWHessianConnection*)connection inputStream:(NSInputStream*)inputStream;
+{
+  self = [super initWithConnection:connection];
+  if (self) {
+    self.inputStream = inputStream;
+  }
+  return self;
+}
+
+-(void)dealloc;
+{
+  self.inputStream = nil;
+  [super dealloc];
+}
 
 -(int)decodeIntForKey:(NSString*)key;
 {
@@ -46,15 +60,28 @@
 
 -(void)readBytes:(void*)buffer count:(NSInteger)count;
 {
-  [self.archiveData getBytes:buffer range:NSMakeRange(self.offset, count)];
-  self.offset += count;
+  NSUInteger read = 0;
+  if (hasPeekChar) {
+    hasPeekChar = NO;
+    read++;
+    *(char*)buffer = peekChar;
+  }
+  while (read < count) {
+    read = [self.inputStream read:buffer + read maxLength:count - read];
+    if (read == -1) {
+      [NSException raise:NSInternalInconsistencyException format:@"Coyuld not read from stream"];
+      return;
+    }
+  }
 }
 
 -(char)peekChar;
 {
-  char ch = '\0';
-  [self.archiveData getBytes:&ch range:NSMakeRange(self.offset, 1)];
-  return ch;
+  if (!hasPeekChar) {
+    [self readBytes:&peekChar count:1];
+    hasPeekChar = YES;
+  }
+  return peekChar;
 }
 
 -(char)readChar;
@@ -177,9 +204,8 @@
     return nil;
   } else if ('B' == toupper(tag)) {
     int len = [self readUInt16];
-    data = [NSMutableData dataWithCapacity:len];
-    [data appendData:[self.archiveData subdataWithRange:NSMakeRange(self.offset, len)]];
-    self.offset += len;
+    data = [NSMutableData dataWithLength:len];
+    [self readBytes:[data mutableBytes] count:len];
   } else {
     [NSException raise:NSInvalidArchiveOperationException format:@"expected binary marker"];
   }
@@ -328,7 +354,7 @@
       return [self readDate];
     case 'x':
     case 'X':
-#if XML_AVAILABLE
+#ifdef XML_AVAILABLE
       return [self readXMLWithTag:tag];
 #endif
     case 's':
@@ -361,6 +387,7 @@
   if (self.currentObjectMap) {
   	return [self.currentObjectMap objectForKey:key];
   } else {
+    /* TODO: Validate that this nver happens!
   	int offset = self.offset;
     BOOL validKey = YES;
     if (key) {
@@ -379,6 +406,7 @@
     } else {
     	self.offset = offset;
     }
+     */
     return nil;
   }
 }

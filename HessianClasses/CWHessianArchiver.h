@@ -31,7 +31,14 @@
  * @discussion Only keyed archiving is supported.
  */
 @interface CWHessianArchiver : CWHessianCoder {
+ @private 
+  NSOutputStream* _outputStream;
 }
+
+/*!
+ * @abstract The output stream to archive data to.
+ */
+@property(readonly, retain, nonatomic) NSOutputStream* outputStream; 
 
 /*!
  * @abstract Adds a class translation mapping to <code>CWHessianArchiver</code> whereby instances of a given class 
@@ -106,9 +113,16 @@
  */
 @interface CWHessianUnarchiver : CWHessianCoder {
 @private
-  NSInteger _offset;
+  NSInputStream* _inputStream;
+  BOOL hasPeekChar;
+  char peekChar;
   NSDictionary* _currentObjectMap;
 }
+
+/*!
+ * @abstract The input stream to archive data from.
+ */
+@property(readonly, retain, nonatomic) NSInputStream* inputStream; 
 
 /*!
  * @abstract Adds a class translation mapping to <code>CWHessianUnarchiver</code> whereby instances of a given class 

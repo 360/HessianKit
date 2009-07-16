@@ -24,6 +24,21 @@
 
 @implementation CWHessianArchiver (Private)
 
+-(id)initWithConnection:(CWHessianConnection*)connection outputStream:(NSOutputStream*)outputStream;
+{
+  self = [super initWithConnection:connection];
+  if (self) {
+    self.outputStream = outputStream;
+  }
+  return self;
+}
+
+-(void)dealloc;
+{
+  self.outputStream = nil;
+  [super dealloc];
+}
+
 -(void)encodeInt:(int)intv forKey:(NSString*)key;
 {
 	if (sizeof(int) == sizeof(int32_t)) {
@@ -44,7 +59,14 @@
 
 -(void)writeBytes:(const void*)buffer count:(NSInteger)count;
 {
-  [self.archiveData appendBytes:buffer length:count];
+  NSInteger written = 0;
+  while (written < count) {
+    written = [self.outputStream write:buffer + written maxLength:count - written];
+    if (written == -1) {
+      [NSException raise:NSInternalInconsistencyException format:@"Could not write to stream"];
+      return;
+    }
+  }
 }
 
 -(void)writeChar:(char)ch;

@@ -25,6 +25,8 @@ static NSMutableDictionary* _selectorTranslations = nil;
 
 @implementation CWHessianArchiver
 
+@synthesize outputStream = _outputStream;
+
 +(void)initialize;
 {
 	if (self == [CWHessianArchiver class]) {

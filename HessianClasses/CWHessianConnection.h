@@ -46,9 +46,11 @@
 @interface CWHessianConnection : NSObject {
 @private
   CWHessianVersion _version;
+  NSTimeInterval _requestTimeout;
+  NSTimeInterval _replyTimeout;
   NSURL* _serviceURL;
-  NSPort* _receivePort;
-  NSPort* _sendPort;
+  NSInputStream* _receiveStream;
+  NSOutputStream* _sendStream;
 #ifdef GAMEKIT_AVAILABLE
   GKSession* _gameKitSession;
 #endif  
@@ -58,6 +60,16 @@
  * @abstract The Hessian serialization protocol version to use for this connection.
  */
 @property(assign, nonatomic) CWHessianVersion version;
+
+/*!
+ * @abstract The timeout for outgoing method call requests. 
+ */
+@property(assign, nonatomic) NSTimeInterval requestTimeout;
+
+/*!
+ * @abstract The timeout for outgoing method call replies. 
+ */
+@property(assign, nonatomic) NSTimeInterval replyTimeout;
 
 /*!
  * The channel for this Hessian connection.
@@ -72,12 +84,12 @@
 /*!
  * @abstract The recieve port for the Hessian connection
  */
-@property(readonly, nonatomic) NSPort* receivePort;
+@property(readonly, nonatomic) NSInputStream* receiveStream;
 
 /*!
  * @abstract The send port for the Hessian connection
  */
-@property(readonly, nonatomic) NSPort* sendPort;
+@property(readonly, nonatomic) NSOutputStream* sendStream;
 
 #ifdef GAMEKIT_AVAILABLE
 /*!
@@ -112,7 +124,7 @@
  * @param sendPort The send port for the Hessian connection. 
  * @result The initialized <code>CWHessianConnection</code> object.
  */
--(id)initWithReceivePort:(NSPort*)receivePort sendPort:(NSPort*)sendPort;
+//-(id)initWithReceivePort:(NSPort*)receivePort sendPort:(NSPort*)sendPort;
 
 #ifdef GAMEKIT_AVAILABLE
 /*!
@@ -139,7 +151,7 @@
  *
  * @seealso 
  */
-+(CWDistantHessianObject*)rootProxyWithURL:(NSURL*)URL protocol:(Protocol*)aProtocol;
++(CWDistantHessianObject*)rootProxyWithServiceURL:(NSURL*)URL protocol:(Protocol*)aProtocol;
 
 /*!
  * @abstract Returns a Hessian web service proxy for a given URL, conforming to a given protocol.

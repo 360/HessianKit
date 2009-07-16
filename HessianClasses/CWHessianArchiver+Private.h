@@ -24,7 +24,15 @@
 
 @class CWDistantHessianObject;
 
+@interface CWHessianArchiver () 
+
+@property(retain, nonatomic) NSOutputStream* outputStream; 
+
+@end
+
 @interface CWHessianArchiver (Private)
+
+-(id)initWithConnection:(CWHessianConnection*)connection outputStream:(NSOutputStream*)outputStream;
 
 -(void)encodeInt:(int)intv forKey:(NSString*)key;
 -(void)encodeInteger:(NSInteger)intv forKey:(NSString*)key;
@@ -49,12 +57,14 @@
 
 @interface CWHessianUnarchiver ()
 
-@property(assign, nonatomic) NSInteger offset;
+@property(retain, nonatomic) NSInputStream* inputStream; 
 @property(retain, nonatomic) NSDictionary* currentObjectMap;
 
 @end
 
 @interface CWHessianUnarchiver (Private)
+
+-(id)initWithConnection:(CWHessianConnection*)connection inputStream:(NSInputStream*)inputStream;
 
 -(int)decodeIntForKey:(NSString*)key;
 -(NSInteger)decodeIntegerForKey:(NSString*)key;

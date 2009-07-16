@@ -8,11 +8,11 @@
  */
 
 #if (TARGET_OS_MAC && !(TARGET_OS_EMBEDDED || TARGET_OS_IPHONE))
-#define GAMEKIT_AVAILABLE
-#undef XML_AVAILABLE
-#else
 #undef GAMEKIT_AVAILABLE
 #define XML_AVAILABLE
+#else
+#define GAMEKIT_AVAILABLE
+#undef XML_AVAILABLE
 #endif
 
 /*!
@@ -30,12 +30,20 @@ typedef int CWHessianVersion;
 #define DEFAULT_HESSIAN_VERSION CWHessianVersion1_00
 #endif
 
+#ifndef DEFAULT_HESSIAN_REQUEST_TIMEOUT
+#define DEFAULT_HESSIAN_REQUEST_TIMEOUT 30.0
+#endif
+
+#ifndef DEFAULT_HESSIAN_REPLY_TIMEOUT
+#define DEFAULT_HESSIAN_REPLY_TIMEOUT 30.0
+#endif
+
 /*!
  * @abstract Communication channel for hessian binary protocol.
  */
 enum {
   CWHessianChannelHTTP = 0,
-  CWHessianChannelPort = 1
+  CWHessianChannelStream = 1
 #ifdef GAMEKIT_AVAILABLE  
   , CWHessianChannelGameKit = 2
 #endif  
