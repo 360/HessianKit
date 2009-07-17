@@ -15,6 +15,13 @@
 #undef XML_AVAILABLE
 #endif
 
+
+/*!
+ * @abstract IO timeout.
+ */
+extern NSString* const CWHessianTimeoutException;
+
+
 /*!
  * @abstract Hessian serialization version.
  *

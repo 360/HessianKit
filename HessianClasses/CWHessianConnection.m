@@ -21,6 +21,10 @@
 #import "CWHessianConnection.h"
 #import "CWDistantHessianObject.h"
 
+
+NSString* const CWHessianTimeoutException = @"CWHessianTimeoutException";
+
+
 @implementation CWHessianConnection
 
 @synthesize version = _version;
@@ -59,6 +63,8 @@
 #ifdef GAMEKIT_AVAILABLE
   [_gameKitSession release];
 #endif
+  [responseMap dealloc];
+  [lock release];
   [super dealloc];
 }
 

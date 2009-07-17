@@ -18,8 +18,19 @@
     _version = DEFAULT_HESSIAN_VERSION;
     _requestTimeout = DEFAULT_HESSIAN_REQUEST_TIMEOUT;
     _replyTimeout = DEFAULT_HESSIAN_REPLY_TIMEOUT;
+    responseMap = [[NSMutableDictionary alloc] init];
+    lock = [[NSRecursiveLock alloc] init]; 
   }
   return self;
+}
+
+-(NSNumber*)nextMessageNumber;
+{
+  return [NSNumber numberWithUnsignedInteger:messageCount++];
+}
+-(NSNumber*)lastMessageNumber;
+{
+  return [NSNumber numberWithUnsignedInteger:messageCount - 1]; 
 }
 
 #ifdef GAMEKIT_AVAILABLE
@@ -29,31 +40,127 @@
 }
 #endif
 
--(void)forwardInvocation:(NSInvocation*)invocation forProxy:(CWDistantHessianObject*)proxy;
+-(NSOutputStream*)outputStreamForHTTPChannel;
 {
   NSOutputStream* outputStream = [NSOutputStream outputStreamToMemory]; 
   [outputStream open];
-  [self archivedDataForInvocation:invocation toOutputStream:outputStream];
-  NSData* requestData = [outputStream propertyForKey:NSStreamDataWrittenToMemoryStreamKey];
-#if DEBUG
-  NSLog(@"%@", [requestData description]);
-#endif
-  NSData* responseData = [self sendAndRecieveDataOnHTTPChannel:requestData];
-#if DEBUG
-  NSLog(@"%@", [responseData description]);
-#endif
-  NSInputStream* inputStream = [NSInputStream inputStreamWithData:responseData];
-  [inputStream open];
-  id returnValue = [self unarchiveDataFromInputStream:inputStream];
-  if (returnValue) {
-    if ([returnValue isKindOfClass:[NSException class]]) {
-      [(NSException*)returnValue raise];
-      return;  
-    }
-  }
-  [self setReturnValue:returnValue invocation:invocation];
+  return outputStream;
 }
 
+-(void)finishOutputStreamForHTTPChannel:(NSOutputStream*)outputStream;
+{
+  NSData* postData = [outputStream propertyForKey:NSStreamDataWrittenToMemoryStreamKey];
+  NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:self.serviceURL
+                                                         cachePolicy:NSURLRequestReloadIgnoringCacheData 
+                                                     timeoutInterval:60.0];
+  [request setHTTPMethod:@"POST"];   
+  [request setHTTPBody:postData];
+  // Fool Tomcat 4, fails otherwise...
+  [request setValue:@"text/xml" forHTTPHeaderField:@"Content-type"];
+  NSHTTPURLResponse * returnResponse = nil; 
+  NSError* requestError = nil;
+  NSData* responseData = responseData = [NSURLConnection sendSynchronousRequest:request
+                                                              returningResponse:&returnResponse error:&requestError];
+  if (requestError) {
+    responseData = nil;
+    [NSException raise:NSInvalidArchiveOperationException 
+                format:@"Network error domain:%@ code:%d", [requestError domain], [requestError code]];
+  } else if (returnResponse != nil) {
+  	if ([returnResponse statusCode] == 200) {
+      [responseData retain];
+    } else {
+      [NSException raise:NSInvalidArchiveOperationException format:@"HTTP error %d", [returnResponse statusCode]];
+      return;
+    }
+  } else {
+  	[NSException raise:NSInvalidArchiveOperationException format:@"Unknown network error"];
+    return;
+  }
+  NSInputStream* inputStream = [NSInputStream inputStreamWithData:responseData];
+  [inputStream open];
+  [self unarchiveReplyFromInputStream:inputStream];
+}
+
+-(NSOutputStream*)outputStreamForStreamChannel;
+{
+  NSAssert(NO, @"Not implemented");
+  return nil;
+}
+-(void)finishOutputStreamForStreamChannel:(NSOutputStream*)outputStream;
+{
+  NSAssert(NO, @"Not implemented");
+}
+
+#ifdef GAMEKIT_AVAILABLE
+-(NSOutputStream*)outputStreamForGameKitChannel;
+{
+  NSAssert(NO, @"Not implemented");
+  return nil;
+}
+-(void)finishOutputStreamForGameKitChannel:(NSOutputStream*)outputStream;
+{
+  NSAssert(NO, @"Not implemented");
+}
+#endif
+
+
+-(void)forwardInvocation:(NSInvocation*)invocation forProxy:(CWDistantHessianObject*)proxy;
+{
+  NSOutputStream* outputStream = [self outputStreamForHTTPChannel];
+
+  [lock lock];
+  NSNumber* messageNumber = [self nextMessageNumber];
+  [responseMap setObject:[NSRunLoop currentRunLoop] forKey:messageNumber];
+  [lock unlock];
+  
+  [self archiveInvocation:invocation asMessage:messageNumber toOutputStream:outputStream];
+  [self finishOutputStreamForHTTPChannel:outputStream];
+
+  [self waitForReturnValueForMessage:messageNumber invocation:invocation];
+}
+
+-(void)waitForReturnValueForMessage:(NSNumber*)messageNumber invocation:(NSInvocation*)invocation;
+{
+  [lock lock];
+  id result = [responseMap objectForKey:messageNumber];
+  [lock unlock];
+  if ([result isKindOfClass:[NSRunLoop class]]) {
+    NSRunLoop* runloop = result;
+    NSDate* timeoutDate = [NSDate dateWithTimeIntervalSinceNow:self.requestTimeout];
+    NSTimeInterval delayInterval = 0.0001;
+    do {
+      NSDate* delayDate = [NSDate dateWithTimeIntervalSinceNow:delayInterval];
+      if ([timeoutDate earlierDate:delayDate] == timeoutDate) {
+        delayDate = timeoutDate;
+      }
+      NSLog(@"runMode:beforeDate:%@", [delayDate description]);
+      if ([runloop runMode:NSDefaultRunLoopMode beforeDate:delayDate]) {
+        [lock lock];
+        result = [responseMap objectForKey:messageNumber];
+        [lock unlock];
+        if (result && ![result isKindOfClass:[NSRunLoop class]]) {
+          break;
+        }
+      } else if ([timeoutDate timeIntervalSinceNow] <= 0.0) {
+        result = [NSException exceptionWithName:CWHessianTimeoutException reason:@"Timeout waitng for reply" userInfo:nil];
+        break;
+      }
+      if (delayInterval < 1.0) {
+        delayInterval *= 2;
+      }
+    } while (YES);
+  }
+  NSLog(@"Fetched result:%@", [result description]);
+  [[result retain] autorelease];
+  [lock lock];
+  [responseMap removeObjectForKey:messageNumber];
+  [lock unlock];
+  if ([result isKindOfClass:[NSException class]]) {
+    [result raise];
+  } else {
+    [self setReturnValue:result invocation:invocation];
+  }
+}
 
 -(NSString*)methodNameFromInvocation:(NSInvocation*)invocation;
 {
@@ -124,9 +231,8 @@
   [archiver writeTypedObject:object];
 }
 
--(void)archivedDataForInvocation:(NSInvocation*)invocation toOutputStream:(NSOutputStream*)outputStream;
+-(void)archiveInvocation:(NSInvocation*)invocation asMessage:(NSNumber*)messageNumber toOutputStream:(NSOutputStream*)outputStream;
 {
-    
   CWHessianArchiver* archiver = [[[CWHessianArchiver alloc] initWithConnection:self outputStream:outputStream] autorelease];
   [archiver writeChar:'c'];
   [archiver writeChar:0x01];
@@ -142,49 +248,7 @@
   [archiver writeChar:'z'];
 }
 
--(NSData*)sendAndRecieveDataOnHTTPChannel:(NSData*)postData;
-{
-  NSData* responseData = nil;
-  NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:self.serviceURL
-                                                         cachePolicy:NSURLRequestReloadIgnoringCacheData 
-                                                     timeoutInterval:60.0];
-  [request setHTTPMethod:@"POST"];   
-  [request setHTTPBody:postData];
-  // Fool Tomcat 4, fails otherwise...
-  [request setValue:@"text/xml" forHTTPHeaderField:@"Content-type"];
-  NSHTTPURLResponse * returnResponse = nil; 
-  NSError* requestError = nil;
-  responseData = [NSURLConnection sendSynchronousRequest:request 
-                                       returningResponse:&returnResponse error:&requestError];
-  if (requestError) {
-    responseData = nil;
-    [NSException raise:NSInvalidArchiveOperationException 
-                format:@"Network error domain:%@ code:%d", [requestError domain], [requestError code]];
-  } else if (returnResponse != nil) {
-  	if ([returnResponse statusCode] == 200) {
-      [responseData retain];
-    } else {
-      responseData = nil;
-      [NSException raise:NSInvalidArchiveOperationException format:@"HTTP error %d", [returnResponse statusCode]];    
-    }
-  } else {
-    responseData = nil;
-  	[NSException raise:NSInvalidArchiveOperationException format:@"Unknown network error"];
-  }
-  return responseData ? [responseData autorelease] : nil;
-}
 
--(NSData*)sendAndRecieveDataOnStreamChannel:(NSData*)postData;
-{
-  return nil; 
-}
-
-#ifdef GAMEKIT_AVAILABLE
--(NSData*)sendAndRecieveDataOnGameKitChannel:(NSData*)postData;
-{
-  return nil;
-}
-#endif
 
 -(void)readHeaderFromUnarchiver:(CWHessianUnarchiver*)unarchiver;
 {
@@ -192,32 +256,37 @@
 
 -(id)unarchiveDataFromInputStream:(NSInputStream*)inputStream;
 {
-  CWHessianUnarchiver* unarchiver = [[[CWHessianUnarchiver alloc] 
-                                      initWithConnection:self inputStream:inputStream] autorelease];
-  char code = [unarchiver readChar];
-  if (code == 'r') {
-  	int major = [unarchiver readChar];
-    int minor = [unarchiver readChar];
-  	if (major == 0x01 && minor == 0x00) {
-      [self readHeaderFromUnarchiver:unarchiver];
-      id object = [unarchiver readTypedObject];
-      if ([unarchiver readChar] != 'z') {
-        [NSException raise:NSInvalidUnarchiveOperationException format:@"Did not find reply terminator z"];
-      	return nil;
+  @try {
+    CWHessianUnarchiver* unarchiver = [[[CWHessianUnarchiver alloc] 
+                                        initWithConnection:self inputStream:inputStream] autorelease];
+    char code = [unarchiver readChar];
+    if (code == 'r') {
+      int major = [unarchiver readChar];
+      int minor = [unarchiver readChar];
+      if (major == 0x01 && minor == 0x00) {
+        [self readHeaderFromUnarchiver:unarchiver];
+        id object = [unarchiver readTypedObject];
+        if ([unarchiver readChar] != 'z') {
+          [NSException raise:NSInvalidUnarchiveOperationException format:@"Did not find reply terminator z"];
+          return nil;
+        }
+        return object;
+      } else {
+        [NSException raise:NSInvalidUnarchiveOperationException format:@"Unsupported version %d.%d", major, minor];    
       }
-      return object;
+    } else  if (code == 'f') {
+      [self readHeaderFromUnarchiver:unarchiver];
+      NSDictionary* failMap = [unarchiver readMap];
+      NSException* exception = [NSException exceptionWithName:[failMap objectForKey:@"code"]
+                                                       reason:[failMap objectForKey:@"message"]
+                                                     userInfo:[failMap objectForKey:@"description"]];
+      [exception raise];
     } else {
-      [NSException raise:NSInvalidUnarchiveOperationException format:@"Unsupported version %d.%d", major, minor];    
+      [NSException raise:NSInvalidUnarchiveOperationException format:@"Unknown response data"];
     }
-  } else  if (code == 'f') {
-    [self readHeaderFromUnarchiver:unarchiver];
-    NSDictionary* failMap = [unarchiver readMap];
-    NSException* exception = [NSException exceptionWithName:[failMap objectForKey:@"code"]
-                                                     reason:[failMap objectForKey:@"message"]
-                                                   userInfo:[failMap objectForKey:@"description"]];
-    [exception raise];
-  } else {
-    [NSException raise:NSInvalidUnarchiveOperationException format:@"Unknown response data"];
+  } 
+  @catch (NSException* exception) {
+    return exception;
   }
   return nil;
 }
@@ -264,6 +333,9 @@
       isInvalidClass = YES;
     }
   } else if (strcmp(type, @encode(id)) == 0) {
+    if ([value isKindOfClass:[NSNull class]]) {
+      value = nil;
+    }
   	[invocation setReturnValue:&value];
   } else {
   	[NSException raise:NSInvalidUnarchiveOperationException format:@"Unsupported type %s", type];
@@ -273,5 +345,33 @@
   }
 }
 
+-(void)handleReturnValue:(NSArray*)args;
+{
+  id returnValue = [args objectAtIndex:0];
+  NSLog(@"Executed handleReturnValue:%@", [returnValue description]);
+  NSNumber* messageNumber = [args objectAtIndex:1];
+  [lock lock];
+  [responseMap setObject:returnValue forKey:messageNumber];
+  [lock unlock];
+}
+
+-(void)unarchiveReplyFromInputStream:(NSInputStream*)inputStream;
+{
+  id returnValue = [self unarchiveDataFromInputStream:inputStream];
+  if (returnValue == nil) {
+    returnValue = [NSNull null];
+  }
+  // TODO: this should be read fromt he headers. 
+  NSNumber* messageNumber = [self lastMessageNumber];
+  [lock lock];
+  NSRunLoop* runloop = [responseMap objectForKey:messageNumber];
+  [lock unlock];
+  NSLog(@"Schedule handleReturnValue:%@", [returnValue description]);
+  [runloop performSelector:@selector(handleReturnValue:) 
+                    target:self 
+                  argument:[NSArray arrayWithObjects:returnValue, messageNumber, nil] 
+                     order:0 
+                     modes:[NSArray arrayWithObject:NSDefaultRunLoopMode]];
+}
 
 @end

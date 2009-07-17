@@ -16,6 +16,9 @@
 
 -(id)init;
 
+-(NSNumber*)nextMessageNumber;
+-(NSNumber*)lastMessageNumber;
+
 #ifdef GAMEKIT_AVAILABLE
 -(void)receiveData:(NSData*)data fromPeer:(NSString*)peer inSession:(GKSession*)session context:(void*)context;
 #endif
@@ -26,16 +29,25 @@
 
 -(void)writeHeadersToArchiver:(CWHessianArchiver*)archiver;
 -(void)writeArgumentAtIndex:(int*)pIndex type:(const char*)type archiver:(CWHessianArchiver*)archiver invocation:(NSInvocation*)invocation;
--(void)archivedDataForInvocation:(NSInvocation*)invocation toOutputStream:(NSOutputStream*)outputStream;
+-(void)archiveInvocation:(NSInvocation*)invocation asMessage:(NSNumber*)messageNumber toOutputStream:(NSOutputStream*)outputStream;
 
--(NSData*)sendAndRecieveDataOnHTTPChannel:(NSData*)postData;
--(NSData*)sendAndRecieveDataOnStreamChannel:(NSData*)postData;
+-(NSOutputStream*)outputStreamForHTTPChannel;
+-(void)finishOutputStreamForHTTPChannel:(NSOutputStream*)outputStream;
+
+-(NSOutputStream*)outputStreamForStreamChannel;
+-(void)finishOutputStreamForStreamChannel:(NSOutputStream*)outputStream;
+
 #ifdef GAMEKIT_AVAILABLE
--(NSData*)sendAndRecieveDataOnGameKitChannel:(NSData*)postData;
+-(NSOutputStream*)outputStreamForGameKitChannel;
+-(void)finishOutputStreamForGameKitChannel:(NSOutputStream*)outputStream;
 #endif
+
+-(void)waitForReturnValueForMessage:(NSNumber*)messageNumber invocation:(NSInvocation*)invocation;
 
 -(void)readHeaderFromUnarchiver:(CWHessianUnarchiver*)unarchiver;
 -(id)unarchiveDataFromInputStream:(NSInputStream*)inputStream;
 -(void)setReturnValue:(id)value invocation:(NSInvocation*)invocation;
+
+-(void)unarchiveReplyFromInputStream:(NSInputStream*)inputStream;
 
 @end

@@ -53,7 +53,10 @@
   NSOutputStream* _sendStream;
 #ifdef GAMEKIT_AVAILABLE
   GKSession* _gameKitSession;
-#endif  
+#endif
+  NSMutableDictionary* responseMap;
+  NSUInteger messageCount;
+  NSRecursiveLock* lock;
 }
 
 /*!
