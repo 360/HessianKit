@@ -1,5 +1,5 @@
 //
-//  CWHessianObject.m
+//  CWValueObject.m
 //  HessianKit
 //
 //  Copyright 2008 Fredrik Olsson, Cocoway. All rights reserved.
@@ -26,7 +26,7 @@
 
 - (void)dealloc
 {
-	[_instanceVariables release];
+  [_instanceVariables release];
   _instanceVariables = nil;  
   [super dealloc];
 }
@@ -34,9 +34,9 @@
 
 +(CWValueObject*)valueObjectWithProtocol:(Protocol*)aProtocol;
 {
-	CWValueObject* valueObject = [[CWValueObject alloc] initWithProtocol:aProtocol];
-	if (valueObject) {
-	  return [valueObject autorelease];
+  CWValueObject* valueObject = [[CWValueObject alloc] initWithProtocol:aProtocol];
+  if (valueObject) {
+    return [valueObject autorelease];
   } else {
   	return nil;
   }
@@ -45,10 +45,10 @@
 -(id)initWithProtocol:(Protocol*)aProtocol;
 {
   Class aClass = [self classForProtocol:aProtocol];
-	[self release];
+  [self release];
   self = nil;
   if (aClass) {
-	  self = class_createInstance(aClass, 0);
+    self = class_createInstance(aClass, 0);
     self = [self init];
     self->_protocol = aProtocol;
     self->_instanceVariables = [[NSMutableDictionary alloc] init];
@@ -58,48 +58,51 @@
 
 -(id)initWithCoder:(NSCoder *)decoder;
 {
-	if (![decoder allowsKeyedCoding]) {
-		[NSException raise:NSInvalidArgumentException format:@"Only KeyedCoding is supported"];
+  if (![decoder allowsKeyedCoding]) {
+    [NSException raise:NSInvalidArgumentException format:@"Only KeyedCoding is supported"];
   }
   if (self) {
     NSArray* propertyNames = [self allPropertyNames];
     for (NSString* propertyName in propertyNames) {
-    	id value = [decoder decodeObjectForKey:propertyName];
-			[self setValue:value forKey:propertyName];
+      id value = [decoder decodeObjectForKey:propertyName];
+      [self setValue:value forKey:propertyName];
     }
-	}
+  }
   return self;
 }
 
 -(void)encodeWithCoder:(NSCoder *)encoder;
 {
-	if (![encoder allowsKeyedCoding]) {
-		[NSException raise:NSInvalidArgumentException format:@"Only KeyedCoding is supported"];
+  if (![encoder allowsKeyedCoding]) {
+    [NSException raise:NSInvalidArgumentException format:@"Only KeyedCoding is supported"];
   }
   NSArray* propertyNames = [self allPropertyNames];
   for (NSString* propertyName in propertyNames) {
   	id value = [self valueForKey:propertyName];
   	objc_property_t property = protocol_getProperty(self.protocol, [propertyName cStringUsingEncoding:NSASCIIStringEncoding], YES, YES);
-		char type = property_getAttributes(property)[1];
-		if (type == @encode(BOOL)[0]) {
-			[encoder encodeBool:[value boolValue] forKey:propertyName];
+    char type = property_getAttributes(property)[1];
+    if (type == @encode(BOOL)[0]) {
+      [encoder encodeBool:[value boolValue] forKey:propertyName];
     } else if (type == @encode(int32_t)[0]) {
-			[encoder encodeInt32:[value intValue] forKey:propertyName];
+      [encoder encodeInt32:[value intValue] forKey:propertyName];
     } else if (type == @encode(int64_t)[0]) {
-			[encoder encodeInt64:[value longLongValue] forKey:propertyName];
+      [encoder encodeInt64:[value longLongValue] forKey:propertyName];
     } else if (type == @encode(float)[0]) {
-			[encoder encodeFloat:[value floatValue] forKey:propertyName];
+      [encoder encodeFloat:[value floatValue] forKey:propertyName];
     } else if (type == @encode(double)[0]) {
-			[encoder encodeDouble:[value doubleValue] forKey:propertyName];
+      [encoder encodeDouble:[value doubleValue] forKey:propertyName];
+    } else if (type == @encode(id)[0]){
+      [encoder encodeObject:value forKey:propertyName];
     } else {
-			[encoder encodeObject:value forKey:propertyName];
+      [NSException raise:NSInternalInconsistencyException 
+                  format:@"Unknown type %s for property %@ in protocol %@", type, propertyName, NSStringFromProtocol(self.protocol)];
     }
   }
 }
 
 -(NSString*)description;
 {
-	return [_instanceVariables description];
+  return [_instanceVariables description];
 }
 
 @end

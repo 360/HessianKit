@@ -1,5 +1,5 @@
 //
-//  CWHessianValueObject+Private.h
+//  CWValueObject+Private.h
 //  HessianKit
 //
 //  Copyright 2008 Fredrik Olsson, Cocoway. All rights reserved.

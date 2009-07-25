@@ -323,7 +323,7 @@
   	aProtocol = [CWHessianUnarchiver protocolForClassName:className];
   }
   if (!aProtocol) {
-  	[NSException raise:NSInvalidUnarchiveOperationException format:@"no proxy protocol for remote clas %@", className];
+  	[NSException raise:NSInvalidUnarchiveOperationException format:@"no proxy protocol for remote class %@", className];
   }
   NSString* remoteId = [self readTypedObject];
   if (!remoteId || ![remoteId isKindOfClass:[NSString class]]) {

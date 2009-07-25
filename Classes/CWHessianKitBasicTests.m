@@ -2,7 +2,7 @@
 //  CWHessianKitBasicTests.m
 //  HessianKit
 //
-//  Copyright 2008 Fredrik Olsson, Cocoway. All rights reserved.
+//  Copyright 2009 Fredrik Olsson, Cocoway. All rights reserved.
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License. 
 //  You may obtain a copy of the License at 
@@ -63,14 +63,14 @@
 
 -(void)testLong;
 {
-  STAssertNoThrow([proxy argLong_0:0L], @"Call method with (int64_t)0 argument.");
-  STAssertNoThrow([proxy argLong_0x7fffffff:0x7fffffffL], @"Call method with (int64_t)0x7fffffff argument.");
-  STAssertNoThrow([proxy argLong_0x80000000:0x80000000L], @"Call method with (int64_t)0x80000000 argument.");
-  STAssertNoThrow([proxy argLong_m0x80000000:-0x80000000L], @"Call method with (int64_t)-0x80000000 argument.");
-  STAssertEquals([proxy replyLong_0], (int64_t)0L, @"Call method with (int64_t)0 reply.");
-  STAssertEquals([proxy replyLong_0x7fffffff], (int64_t)0x7fffffffL, @"Call method with (int64_t)0x7fffffff reply.");
-  STAssertEquals([proxy replyLong_0x80000000], (int64_t)0x80000000L, @"Call method with (int64_t)0x80000000 reply.");
-  STAssertEquals([proxy replyLong_m0x80000000], (int64_t)-0x80000000L, @"Call method with (int64_t)-0x80000000 reply.");
+  STAssertNoThrow([proxy argLong_0:0LL], @"Call method with (int64_t)0 argument.");
+  STAssertNoThrow([proxy argLong_0x7fffffff:0x7fffffffLL], @"Call method with (int64_t)0x7fffffff argument.");
+  STAssertNoThrow([proxy argLong_0x80000000:0x80000000LL], @"Call method with (int64_t)0x80000000 argument.");
+  STAssertNoThrow([proxy argLong_m0x80000000:-0x80000000LL], @"Call method with (int64_t)-0x80000000 argument.");
+  STAssertEquals([proxy replyLong_0], 0LL, @"Call method with (int64_t)0 reply.");
+  STAssertEquals([proxy replyLong_0x7fffffff], 0x7fffffffLL, @"Call method with (int64_t)0x7fffffff reply.");
+  STAssertEquals([proxy replyLong_0x80000000], 0x80000000LL, @"Call method with (int64_t)0x80000000 reply.");
+  STAssertEquals([proxy replyLong_m0x80000000], -0x80000000LL, @"Call method with (int64_t)-0x80000000 reply.");
 }
 
 -(void)testDouble;
