@@ -52,7 +52,7 @@ of @link //hessiankit_ref/occ/cl/CWValueObject <code>CWValueObject</code>@/link,
 Given the above example the code to get all available persons and write their age and name to logs, could be
 wimplemented as this:
 <pre>@textblock NSURL* url = [URL URLWithString:@"http:/someserver.org/hessianservice"];
-id<Service> proxy = [CWHessianConnection proxyWithURL:url protocol:@protocol(Service)];
+id<Service> proxy = [CWHessianConnection rootProxyWithURL:url protocol:@protocol(Service)];
 int count = [proxy getPersonCount];
 for (int index = 0; index < count; index++) {
   id<Person> person = [proxy getPerson:index];

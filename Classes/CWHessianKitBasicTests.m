@@ -2,7 +2,7 @@
 //  CWHessianKitBasicTests.m
 //  HessianKit
 //
-//  Copyright 2008 Fredrik Olsson, Cocoway. All rights reserved.
+//  Copyright 2008-2009 Fredrik Olsson, Cocoway. All rights reserved.
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License. 
 //  You may obtain a copy of the License at 
@@ -69,14 +69,14 @@
 
 -(void)testLong;
 {
-  STAssertNoThrow([proxy argLong_0:0L], @"Call method with (int64_t)0 argument.");
-  STAssertNoThrow([proxy argLong_0x7fffffff:0x7fffffffL], @"Call method with (int64_t)0x7fffffff argument.");
-  STAssertNoThrow([proxy argLong_0x80000000:0x80000000L], @"Call method with (int64_t)0x80000000 argument.");
-  STAssertNoThrow([proxy argLong_m0x80000000:-0x80000000L], @"Call method with (int64_t)-0x80000000 argument.");
-  STAssertEquals([proxy replyLong_0], (int64_t)0L, @"Call method with (int64_t)0 reply.");
-  STAssertEquals([proxy replyLong_0x7fffffff], (int64_t)0x7fffffffL, @"Call method with (int64_t)0x7fffffff reply.");
-  STAssertEquals([proxy replyLong_0x80000000], (int64_t)0x80000000L, @"Call method with (int64_t)0x80000000 reply.");
-  STAssertEquals([proxy replyLong_m0x80000000], (int64_t)-0x80000000L, @"Call method with (int64_t)-0x80000000 reply.");
+  STAssertNoThrow([proxy argLong_0:0LL], @"Call method with (int64_t)0 argument.");
+  STAssertNoThrow([proxy argLong_0x7fffffff:0x7fffffffLL], @"Call method with (int64_t)0x7fffffff argument.");
+  STAssertNoThrow([proxy argLong_0x80000000:0x80000000LL], @"Call method with (int64_t)0x80000000 argument.");
+  STAssertNoThrow([proxy argLong_m0x80000000:-0x80000000LL], @"Call method with (int64_t)-0x80000000 argument.");
+  STAssertEquals([proxy replyLong_0], 0LL, @"Call method with (int64_t)0 reply.");
+  STAssertEquals([proxy replyLong_0x7fffffff], 0x7fffffffLL, @"Call method with (int64_t)0x7fffffff reply.");
+  STAssertEquals([proxy replyLong_0x80000000], 0x80000000LL, @"Call method with (int64_t)0x80000000 reply.");
+  STAssertEquals([proxy replyLong_m0x80000000], -0x80000000LL, @"Call method with (int64_t)-0x80000000 reply.");
 }
 
 -(void)testDouble;
@@ -105,8 +105,10 @@
 {
   STAssertNoThrow([proxy argBinary_0:[NSData data]], @"Call with zero length data argument.");
   STAssertNoThrow([proxy argBinary_15:[NSData dataWithBytes:(void*)"abcdefghijklmno" length:15]], @"Call with 15 bytes of binary data argument.");
+  STAssertNoThrow([proxy argBinary_65536:[NSData dataWithBytesNoCopy:malloc(65536) length:65536]], @"Call with 65536 bytes of binary data argument.");
   STAssertEquals([[proxy replyBinary_0] length], (NSUInteger)0, @"Call with zero length data reply.");  
   STAssertEquals([[proxy replyBinary_15] length], (NSUInteger)15, @"Call with 15 bytes of binary data reply.");
+  STAssertEquals([[proxy replyBinary_65536] length], (NSUInteger)65536, @"Call with 65536 bytes of binary data reply.");
 }
 
 -(void)testDate;

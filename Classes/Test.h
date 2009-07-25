@@ -2,7 +2,7 @@
 //  Test.h
 //  HessianKit
 //
-//  Copyright 2008 Fredrik Olsson, Cocoway. All rights reserved.
+//  Copyright 2008-2009 Fredrik Olsson, Cocoway. All rights reserved.
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License. 
 //  You may obtain a copy of the License at 
@@ -66,8 +66,10 @@
 
 -(void)argBinary_0:(NSData*)v;
 -(void)argBinary_15:(NSData*)v;
+-(void)argBinary_65536:(NSData*)v;
 -(NSData*)replyBinary_0;
 -(NSData*)replyBinary_15;
+-(NSData*)replyBinary_65536;
 
 -(void)argDate_0:(NSDate*)v;
 -(void)argDate_1:(NSDate*)v;
