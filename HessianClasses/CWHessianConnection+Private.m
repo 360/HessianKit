@@ -118,7 +118,7 @@
 -(void)forwardInvocation:(NSInvocation*)invocation forProxy:(CWDistantHessianObject*)proxy;
 {
   NSOutputStream* outputStream = [self outputStreamForHTTPChannel];
-
+  
   [lock lock];
   NSNumber* messageNumber = [self nextMessageNumber];
   [responseMap setObject:[NSRunLoop currentRunLoop] forKey:messageNumber];
@@ -126,7 +126,7 @@
   
   [self archiveInvocation:invocation asMessage:messageNumber toOutputStream:outputStream];
   [self finishOutputStreamForHTTPChannel:outputStream];
-
+  
   [self waitForReturnValueForMessage:messageNumber invocation:invocation];
 }
 

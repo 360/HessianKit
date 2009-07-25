@@ -99,8 +99,10 @@
 {
   STAssertNoThrow([proxy argBinary_0:[NSData data]], @"Call with zero length data argument.");
   STAssertNoThrow([proxy argBinary_15:[NSData dataWithBytes:(void*)"abcdefghijklmno" length:15]], @"Call with 15 bytes of binary data argument.");
+  STAssertNoThrow([proxy argBinary_65536:[NSData dataWithBytesNoCopy:malloc(65536) length:65536]], @"Call with 65536 bytes of binary data argument.");
   STAssertEquals([[proxy replyBinary_0] length], (NSUInteger)0, @"Call with zero length data reply.");  
   STAssertEquals([[proxy replyBinary_15] length], (NSUInteger)15, @"Call with 15 bytes of binary data reply.");
+  STAssertEquals([[proxy replyBinary_65536] length], (NSUInteger)65536, @"Call with 65536 bytes of binary data reply.");
 }
 
 -(void)testDate;
@@ -108,7 +110,7 @@
   NSDate* date = [NSDate dateWithTimeIntervalSince1970:0.0];
   STAssertNoThrow([proxy argDate_0:date], @"Call with date 1970-01-01 00:00 argument.");
   STAssertTrue([date isEqualToDate:[proxy replyDate_0]], @"Call with date 1970-01-01 00:00 reply.");
-  // TODO: Alseo test for date_1 1998-05-08 07:51
+  // TODO: Also test for date_1 1998-05-08 07:51
 }
 
 -(void)testList;
