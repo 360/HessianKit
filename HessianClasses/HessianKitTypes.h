@@ -64,3 +64,22 @@ typedef int CWHessianVersion;
 #ifndef DEFAULT_HESSIAN_REPLY_TIMEOUT
 #define DEFAULT_HESSIAN_REPLY_TIMEOUT 30.0
 #endif
+
+/*!
+ * @abstract The <code>CWHessianRemoting</code> protocol defined one method used to determine the protocol by wich the object
+ *           should be known when vended.
+ *
+ * @discussion Only method defined by the protocol may be called by remote, with the exception of <code>retain</code>, 
+ *             <code>release</code> and <code>autorelease</code>. Do not remote <code>NSObject</code> protocol for
+ *             security reasons.
+ */
+@protocol CWHessianRemoting
+
+/*!
+ * Return the <code>Protocol</code> to vend object as.
+ *
+ * @result a <code>Protocol</code> that the object is vended as.
+ */
+-(Protocol*)remoteProtocol;
+
+@end

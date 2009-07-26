@@ -113,6 +113,11 @@ NSString* const CWHessianObjectNotVendableException = @"CWHessianObjectNotVendab
                      modes:[NSArray arrayWithObject:NSDefaultRunLoopMode]];
 }
 
+-(NSString*)coder:(CWHessianCoder*)coder willArchiveObjectAsProxy:(id)anObject protocol:(Protocol*)aProtocol;
+{
+  return [self.channel remoteIdForObject:anObject];
+}
+
 -(CWDistantHessianObject*)coder:(CWHessianCoder*)coder didUnarchiveProxyWithRemoteId:(NSString*)remoteId protocol:(Protocol*)aProtocol;
 {
   return [CWDistantHessianObject proxyWithConnection:self

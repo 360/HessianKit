@@ -223,7 +223,7 @@
     [self writeChar:'t'];
     [self writeString:[((CWDistantHessianObject*)object) remoteClassName] withTag:'S'];
     [self writeChar:'S'];
-    [self writeString:[((CWDistantHessianObject*)object).remoteId description] withTag:'S'];
+    [self writeString:((CWDistantHessianObject*)object).remoteId withTag:'S'];
   } else if ([object conformsToProtocol:@protocol(NSCoding)]) {
   	[self.objectReferences addObject:object];
     NSString* className = [CWHessianArchiver classNameForClass:[object class]];
@@ -238,9 +238,22 @@
     [self writeString:className withTag:'S'];
     [object encodeWithCoder:self];
     [self writeChar:'z'];
+  } else if ([object conformsToProtocol:@protocol(CWHessianRemoting)]) {
+    Protocol* aProtocol = [(id<CWHessianRemoting>)object remoteProtocol];
+    NSString* protocolName = [CWHessianArchiver classNameForProtocol:aProtocol];
+    if (protocolName == nil) {
+      protocolName = NSStringFromProtocol(aProtocol);
+    }
+    NSString* remoteId = [self.delegate coder:self willArchiveObjectAsProxy:object protocol:aProtocol];
+    [self writeChar:'r'];
+    [self writeChar:'t'];
+    [self writeString:protocolName withTag:'S'];
+    [self writeChar:'S'];
+    [self writeString:remoteId withTag:'S'];
   } else {
   	NSString* className = NSStringFromClass([object class]);
-  	[NSException raise:NSInvalidArchiveOperationException format:@"%@ do not conform to NSCoding", className];
+  	[NSException raise:NSInvalidArchiveOperationException 
+                format:@"%@ do not conform to NSCoding or CWHessianRemoting", className];
   }
 }
 

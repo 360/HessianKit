@@ -85,15 +85,27 @@
 @protocol CWHessianCoderDelegate
 
 /*!
+ * @abstract Coder will archive an object as a remote proxy, and the delegate is asks to provide a remote ID to 
+ *           represent it with a given protocol.
+ *
+ * @param coder the coder instance.
+ * @param anObject the object to vend.
+ * @param protocol the protocol that the vended object conforms to.
+ * @result a proxy for the remote object.
+ */
+-(NSString*)coder:(CWHessianCoder*)coder willArchiveObjectAsProxy:(id)anObject protocol:(Protocol*)aProtocol;
+
+/*!
  * @abstract Coder did unarchive a remote proxy with a given remote ID, and the delegate is asks to provide a 
  *           <code>CWDistantHessianObject</code> to represent it with a given protocol.
  *
  * @param coder the coder instance.
- * @param reoteId a unique remote ID.
- * @param protocol the protocol that the remote objet conforms to.
+ * @param remoteId a unique remote ID.
+ * @param protocol the protocol that the remote object conforms to.
  * @result a proxy for the remote object.
  */
 -(CWDistantHessianObject*)coder:(CWHessianCoder*)coder didUnarchiveProxyWithRemoteId:(NSString*)remoteId protocol:(Protocol*)aProtocol;
+
 
 @end
 

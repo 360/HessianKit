@@ -25,13 +25,13 @@
 
 static NSMethodSignature* getMethodSignatureRecursively(Protocol *p, SEL aSel)
 {
-	NSMethodSignature* methodSignature = nil;
-	struct objc_method_description md = protocol_getMethodDescription(p, aSel, YES, YES);
+  NSMethodSignature* methodSignature = nil;
+  struct objc_method_description md = protocol_getMethodDescription(p, aSel, YES, YES);
   if (md.name == NULL) {
   	unsigned int count = 0;
   	Protocol **pList = protocol_copyProtocolList(p, &count);
     for (int index = 0; !methodSignature && index < 0; index++) {
-    	methodSignature = getMethodSignatureRecursively(pList[index], aSel);
+      methodSignature = getMethodSignatureRecursively(pList[index], aSel);
     }
     free(pList);
   } else {
@@ -100,7 +100,7 @@ static NSMethodSignature* getMethodSignatureRecursively(Protocol *p, SEL aSel)
 
 -(NSString*)remoteClassName;
 {
-	NSString* protocolName = [CWHessianArchiver classNameForProtocol:self.protocol];
+  NSString* protocolName = [CWHessianArchiver classNameForProtocol:self.protocol];
   if (!protocolName) {
   	protocolName = NSStringFromProtocol(self.protocol);
   }
@@ -114,7 +114,7 @@ static NSMethodSignature* getMethodSignatureRecursively(Protocol *p, SEL aSel)
 
 - (NSMethodSignature *)methodSignatureForSelector:(SEL)aSelector;
 {
-	if (aSelector != _cmd && ![NSStringFromSelector(aSelector) hasPrefix:@"_cf"]) {
+  if (aSelector != _cmd && ![NSStringFromSelector(aSelector) hasPrefix:@"_cf"]) {
     NSNumber* selectorKey = [NSNumber numberWithInteger:(NSInteger)aSelector];
     NSMethodSignature* signature = [self.methodSignatures objectForKey:selectorKey];
     if (!signature) {
