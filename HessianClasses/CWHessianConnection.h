@@ -24,11 +24,8 @@
 #import "HessianKitTypes.h"
 #endif
 
-#ifdef GAMEKIT_AVAILABLE
-@class GKSession;
-#endif
-
 @class CWDistantHessianObject;
+@class CWHessianChannel;
 
 /*!
  * @abstract An <code>CWHessianConnection</code> object is responsible for handling states related to the web service connection,
@@ -45,19 +42,19 @@
  */
 @interface CWHessianConnection : NSObject {
 @private
+  CWHessianChannel* _channel;
   CWHessianVersion _version;
   NSTimeInterval _requestTimeout;
   NSTimeInterval _replyTimeout;
-  NSURL* _serviceURL;
-  NSInputStream* _receiveStream;
-  NSOutputStream* _sendStream;
-#ifdef GAMEKIT_AVAILABLE
-  GKSession* _gameKitSession;
-#endif
   NSMutableDictionary* responseMap;
   NSUInteger messageCount;
   NSRecursiveLock* lock;
 }
+
+/*!
+ * The channel for this Hessian connection.
+ */
+@property(readonly, retain, nonatomic) CWHessianChannel* channel;
 
 /*!
  * @abstract The Hessian serialization protocol version to use for this connection.
@@ -73,33 +70,6 @@
  * @abstract The timeout for outgoing method call replies. 
  */
 @property(assign, nonatomic) NSTimeInterval replyTimeout;
-
-/*!
- * The channel for this Hessian connection.
- */
-@property(readonly, nonatomic) CWHessianChannel channel;
-
-/*!
- * @abstract The URL of the Hessian web service.
- */
-@property(readonly, nonatomic) NSURL* serviceURL;
-
-/*!
- * @abstract The recieve port for the Hessian connection
- */
-@property(readonly, nonatomic) NSInputStream* receiveStream;
-
-/*!
- * @abstract The send port for the Hessian connection
- */
-@property(readonly, nonatomic) NSOutputStream* sendStream;
-
-#ifdef GAMEKIT_AVAILABLE
-/*!
- * @abstract The initialized GameKit session for the Hessian connection.
- */
-@property(readonly, nonatomic) GKSession* gameKitSession;
-#endif
 
 
 /*!
@@ -123,11 +93,11 @@
  *             Method name translation is not used by default as the receiving service is assumed
  *             to be implemented in Objective-C as well. Translation can be turned on of desired.
  *
- * @param recievePort The recieve port for the Hessian connection.
- * @param sendPort The send port for the Hessian connection. 
+ * @param receiveStream The input stream to recieve data for the Hessian connection.
+ * @param sendStream The send stream to recieve data for the Hessian connection.
  * @result The initialized <code>CWHessianConnection</code> object.
  */
-//-(id)initWithReceivePort:(NSPort*)receivePort sendPort:(NSPort*)sendPort;
+-(id)initWithReceiveStream:(NSInputStream*)receiveStream sendStream:(NSOutputStream*)sendStream;
 
 #ifdef GAMEKIT_AVAILABLE
 /*!

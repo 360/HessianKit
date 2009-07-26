@@ -18,52 +18,27 @@
 
 #import <Foundation/Foundation.h>
 
-#import "CWHessianConnection.h"
+#import "CWHessianConnection+Private.h"
 #import "CWDistantHessianObject.h"
 
 
 NSString* const CWHessianTimeoutException = @"CWHessianTimeoutException";
+NSString* const CWHessianObjectNotAvailableException = @"CWHessianObjectNotAvailableException";
+NSString* const CWHessianObjectNotVendableException = @"CWHessianObjectNotVendableException";
 
 
 @implementation CWHessianConnection
 
+@synthesize channel = _channel;
 @synthesize version = _version;
 @synthesize requestTimeout = _requestTimeout;
 @synthesize replyTimeout = _replyTimeout;
-@synthesize serviceURL = _serviceURL;
-@synthesize receiveStream = _receiveStream;
-@synthesize sendStream = _sendStream;
-#ifdef GAMEKIT_AVAILABLE
-@synthesize gameKitSession = _gameKitSession;
-#endif
-
--(CWHessianChannel)channel;
-{
-  if (_serviceURL != nil) {
-    return CWHessianChannelHTTP;
-  }
-  if (_receiveStream != nil && _sendStream != nil) {
-    return CWHessianChannelStream;
-  }
-#ifdef GAMEKIT_AVAILABLE
-  if (_gameKitSession != nil) {
-    return CWHessianChannelGameKit;
-  }
-#endif
-  [NSException raise:NSInternalInconsistencyException format:@"Unknown communication channel."];
-  return -1;
-}
 
 
 -(void)dealloc;
 {
-  [_serviceURL release];
-  [_receiveStream release];
-  [_sendStream release];
-#ifdef GAMEKIT_AVAILABLE
-  [_gameKitSession release];
-#endif
-  [responseMap dealloc];
+  [_channel release];
+  [responseMap release];
   [lock release];
   [super dealloc];
 }
@@ -78,28 +53,32 @@ NSString* const CWHessianTimeoutException = @"CWHessianTimeoutException";
     self = [self init];
   } 
   if (self) {
-    _serviceURL = [URL copy];
+    _channel = [[CWHessianHTTPChannel alloc] initWithConnection:self serviceURL:URL];
+    if (_channel == nil) {
+      [self release];
+      [NSException raise:NSInvalidArgumentException format:@"Could not create HTTP Channel"];
+      self = nil;
+    }
   }
   return self;
 }
 
-/*
--(id)initWithReceivePort:(NSPort*)receivePort sendPort:(NSPort*)sendPort;
+
+-(id)initWithReceiveStream:(NSInputStream*)receiveStream sendStream:(NSOutputStream*)sendStream;
 {
-  if (receivePort == nil || sendPort == nil) {
+  if (receiveStream == nil || sendStream == nil) {
     [self release];
-    [NSException raise:NSInvalidArgumentException format:@"Receieve and send ports must not be nil"];
+    [NSException raise:NSInvalidArgumentException format:@"Receieve and send streams must not be nil"];
     self = nil;
   } else {
     self = [self init];
   } 
   if (self) {
-    _receivePort = [receivePort retain];
-    _sendPort = [sendPort retain];
+    NSAssert(NO, @"TODO: Create a Stream Channel");
   }
   return self;
 }
-*/
+
 
 #ifdef GAMEKIT_AVAILABLE
 -(id)initWithGameKitSession:(GKSession*)session;
@@ -112,7 +91,7 @@ NSString* const CWHessianTimeoutException = @"CWHessianTimeoutException";
     self = [self init];
   }
   if (self) {
-    _gameKitSession = [session retain];
+    NSAssert(NO, @"TODO: Create a GameKit Channel");
   } 
   return self;
 }

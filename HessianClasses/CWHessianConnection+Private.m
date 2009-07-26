@@ -44,80 +44,9 @@
   return [NSNumber numberWithUnsignedInteger:messageCount - 1]; 
 }
 
-#ifdef GAMEKIT_AVAILABLE
--(void)receiveData:(NSData*)data fromPeer:(NSString*)peer inSession:(GKSession*)session context:(void*)context;
-{
-  
-}
-#endif
-
--(NSOutputStream*)outputStreamForHTTPChannel;
-{
-  NSOutputStream* outputStream = [NSOutputStream outputStreamToMemory]; 
-  [outputStream open];
-  return outputStream;
-}
-
--(void)finishOutputStreamForHTTPChannel:(NSOutputStream*)outputStream;
-{
-  NSData* postData = [outputStream propertyForKey:NSStreamDataWrittenToMemoryStreamKey];
-  NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:self.serviceURL
-                                                         cachePolicy:NSURLRequestReloadIgnoringCacheData 
-                                                     timeoutInterval:60.0];
-  [request setHTTPMethod:@"POST"];   
-  [request setHTTPBody:postData];
-  // Fool Tomcat 4, fails otherwise...
-  [request setValue:@"text/xml" forHTTPHeaderField:@"Content-type"];
-  NSHTTPURLResponse * returnResponse = nil; 
-  NSError* requestError = nil;
-  NSData* responseData = responseData = [NSURLConnection sendSynchronousRequest:request
-                                                              returningResponse:&returnResponse error:&requestError];
-  if (requestError) {
-    responseData = nil;
-    [NSException raise:NSInvalidArchiveOperationException 
-                format:@"Network error domain:%@ code:%d", [requestError domain], [requestError code]];
-  } else if (returnResponse != nil) {
-  	if ([returnResponse statusCode] == 200) {
-      [responseData retain];
-    } else {
-      [NSException raise:NSInvalidArchiveOperationException format:@"HTTP error %d", [returnResponse statusCode]];
-      return;
-    }
-  } else {
-  	[NSException raise:NSInvalidArchiveOperationException format:@"Unknown network error"];
-    return;
-  }
-  NSInputStream* inputStream = [NSInputStream inputStreamWithData:responseData];
-  [inputStream open];
-  [self unarchiveReplyFromInputStream:inputStream];
-}
-
--(NSOutputStream*)outputStreamForStreamChannel;
-{
-  NSAssert(NO, @"Not implemented");
-  return nil;
-}
--(void)finishOutputStreamForStreamChannel:(NSOutputStream*)outputStream;
-{
-  NSAssert(NO, @"Not implemented");
-}
-
-#ifdef GAMEKIT_AVAILABLE
--(NSOutputStream*)outputStreamForGameKitChannel;
-{
-  NSAssert(NO, @"Not implemented");
-  return nil;
-}
--(void)finishOutputStreamForGameKitChannel:(NSOutputStream*)outputStream;
-{
-  NSAssert(NO, @"Not implemented");
-}
-#endif
-
-
 -(void)forwardInvocation:(NSInvocation*)invocation forProxy:(CWDistantHessianObject*)proxy;
 {
-  NSOutputStream* outputStream = [self outputStreamForHTTPChannel];
+  NSOutputStream* outputStream = [self.channel outputStreamForMessage];
   
   [lock lock];
   NSNumber* messageNumber = [self nextMessageNumber];
@@ -125,7 +54,7 @@
   [lock unlock];
   
   [self archiveInvocation:invocation asMessage:messageNumber toOutputStream:outputStream];
-  [self finishOutputStreamForHTTPChannel:outputStream];
+  [self.channel finishOutputStreamForMessage:outputStream];
   
   [self waitForReturnValueForMessage:messageNumber invocation:invocation];
 }

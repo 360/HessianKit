@@ -31,6 +31,16 @@
  */
 extern NSString* const CWHessianTimeoutException;
 
+/*!
+ * @abstract Remote object is not currently vended.
+ */
+extern NSString* const CWHessianObjectNotAvailableException;
+
+/*!
+ * @abstract Object can not be vended as remote proxy.
+ * @discussion Object might not implement a known protocol, or transport channel might not allow vended objects.
+ */
+extern NSString* const CWHessianObjectNotVendableException;
 
 /*!
  * @abstract Hessian serialization version.
@@ -54,15 +64,3 @@ typedef int CWHessianVersion;
 #ifndef DEFAULT_HESSIAN_REPLY_TIMEOUT
 #define DEFAULT_HESSIAN_REPLY_TIMEOUT 30.0
 #endif
-
-/*!
- * @abstract Communication channel for hessian binary protocol.
- */
-enum {
-  CWHessianChannelHTTP = 0,
-  CWHessianChannelStream = 1
-#ifdef GAMEKIT_AVAILABLE  
-  , CWHessianChannelGameKit = 2
-#endif  
-};
-typedef int CWHessianChannel;
