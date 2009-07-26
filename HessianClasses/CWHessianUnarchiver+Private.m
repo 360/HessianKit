@@ -17,7 +17,6 @@
 //
 
 #import "CWHessianArchiver+Private.h"
-#import "CWHessianConnection.h"
 #import "CWValueObject.h"
 #import "CWDistantHessianObject.h"
 #import <objc/runtime.h>
@@ -25,9 +24,9 @@
 
 @implementation CWHessianUnarchiver (Private)
 
--(id)initWithConnection:(CWHessianConnection*)connection inputStream:(NSInputStream*)inputStream;
+-(id)initWithDelegate:(id<CWHessianCoderDelegate>)delegate inputStream:(NSInputStream*)inputStream;
 {
-  self = [super initWithConnection:connection];
+  self = [super initWithDelegate:delegate];
   if (self) {
     self.inputStream = inputStream;
   }
@@ -329,9 +328,7 @@
   if (!remoteId || ![remoteId isKindOfClass:[NSString class]]) {
   	[NSException raise:NSInvalidUnarchiveOperationException format:@"expected string"];
   }
-  return [CWDistantHessianObject proxyWithConnection:self.connection 
-                                            remoteId:remoteId 
-                                            protocol:aProtocol];
+  return [self.delegate coder:self didUnarchiveProxyWithRemoteId:remoteId protocol:aProtocol];
 }
 
 -(id)readTypedObject;

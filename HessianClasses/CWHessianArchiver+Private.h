@@ -32,7 +32,7 @@
 
 @interface CWHessianArchiver (Private)
 
--(id)initWithConnection:(CWHessianConnection*)connection outputStream:(NSOutputStream*)outputStream;
+-(id)initWithDelegate:(id<CWHessianCoderDelegate>)delegate outputStream:(NSOutputStream*)outputStream;
 
 -(void)encodeInt:(int)intv forKey:(NSString*)key;
 -(void)encodeInteger:(NSInteger)intv forKey:(NSString*)key;
@@ -64,7 +64,7 @@
 
 @interface CWHessianUnarchiver (Private)
 
--(id)initWithConnection:(CWHessianConnection*)connection inputStream:(NSInputStream*)inputStream;
+-(id)initWithDelegate:(id<CWHessianCoderDelegate>)delegate inputStream:(NSInputStream*)inputStream;
 
 -(int)decodeIntForKey:(NSString*)key;
 -(NSInteger)decodeIntegerForKey:(NSString*)key;

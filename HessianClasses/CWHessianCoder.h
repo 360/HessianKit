@@ -18,9 +18,10 @@
 
 #import <Foundation/Foundation.h>
 
-@class CWHessianConnection;
-
 #define MAX_CHUNK_SIZE 0xffff
+
+@protocol CWHessianCoderDelegate;
+@class CWDistantHessianObject;
 
 /*!
  * @abstract The <code>CWHessianCoder</code> abstract class declares the interface in common for the two concrete subclasses
@@ -35,14 +36,14 @@
  */
 @interface CWHessianCoder : NSCoder {
 @private
-  CWHessianConnection* _connection;
+  id<CWHessianCoderDelegate> _delegate;
   NSMutableArray* _objectReferences;
 }
 
 /*!
- * @abstract The recievers associated @link //hessiankit_ref/occ/cl/CWHessianConnection <code>CWHessianConnection</code>@/link object.
+ * @abstract The Hessian coer delegate.
  */
-@property(readonly, retain, nonatomic) CWHessianConnection* connection;
+@property(readonly, assign, nonatomic) id<CWHessianCoderDelegate> delegate;
 
 /*!
  * @abstract A <code>NSMutableArray</code> object that is used by concrete subclasses to keep track of reference object to avoid
@@ -53,10 +54,10 @@
 /*!
  * @abstract Returns an initialized <code>CWHessianCoder</code> object.
  * 
- * @param connection The @link //hessiankit_ref/occ/cl/CWHessianConnection <code>CWHessianConnection</code>@/link object to asociate with.
+ * @param delegate The Hessian coder delegate.
  * @result A Hessian coder.
  */
--(id)initWithConnection:(CWHessianConnection*)connection;
+-(id)initWithDelegate:(id<CWHessianCoderDelegate>)delegate;
 
 /*!
  * @abstract Default implementation returns YES to allow NCoding conformant objects to suse keyed archiving.
@@ -77,6 +78,26 @@
 
 @end
 
+
+/*!
+ * @abstract Hessian coder delegate protocol.
+ */
+@protocol CWHessianCoderDelegate
+
+/*!
+ * @abstract Coder did unarchive a remote proxy with a given remote ID, and the delegate is asks to provide a 
+ *           <code>CWDistantHessianObject</code> to represent it with a given protocol.
+ *
+ * @param coder the coder instance.
+ * @param reoteId a unique remote ID.
+ * @param protocol the protocol that the remote objet conforms to.
+ * @result a proxy for the remote object.
+ */
+-(CWDistantHessianObject*)coder:(CWHessianCoder*)coder didUnarchiveProxyWithRemoteId:(NSString*)remoteId protocol:(Protocol*)aProtocol;
+
+@end
+
+
 @interface CWHessianCoder (Unsupported)
 
 -(void)encodeValueOfObjCType:(const char*)valueType at:(const void*)address;
@@ -85,3 +106,5 @@
 -(NSData*)decodeDataObject;
 
 @end
+
+

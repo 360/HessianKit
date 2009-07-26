@@ -173,7 +173,7 @@
 
 -(void)archiveInvocation:(NSInvocation*)invocation asMessage:(NSNumber*)messageNumber toOutputStream:(NSOutputStream*)outputStream;
 {
-  CWHessianArchiver* archiver = [[[CWHessianArchiver alloc] initWithConnection:self outputStream:outputStream] autorelease];
+  CWHessianArchiver* archiver = [[[CWHessianArchiver alloc] initWithDelegate:self outputStream:outputStream] autorelease];
   [archiver writeChar:'c'];
   [archiver writeChar:0x01];
   [archiver writeChar:0x00];
@@ -198,7 +198,7 @@
 {
   @try {
     CWHessianUnarchiver* unarchiver = [[[CWHessianUnarchiver alloc] 
-                                        initWithConnection:self inputStream:inputStream] autorelease];
+                                        initWithDelegate:self inputStream:inputStream] autorelease];
     char code = [unarchiver readChar];
     if (code == 'r') {
       int major = [unarchiver readChar];
@@ -293,25 +293,6 @@
   [lock lock];
   [responseMap setObject:returnValue forKey:messageNumber];
   [lock unlock];
-}
-
--(void)unarchiveReplyFromInputStream:(NSInputStream*)inputStream;
-{
-  id returnValue = [self unarchiveDataFromInputStream:inputStream];
-  if (returnValue == nil) {
-    returnValue = [NSNull null];
-  }
-  // TODO: this should be read fromt he headers. 
-  NSNumber* messageNumber = [self lastMessageNumber];
-  [lock lock];
-  NSRunLoop* runloop = [responseMap objectForKey:messageNumber];
-  [lock unlock];
-  NSLog(@"Schedule handleReturnValue:%@", [returnValue description]);
-  [runloop performSelector:@selector(handleReturnValue:) 
-                    target:self 
-                  argument:[NSArray arrayWithObjects:returnValue, messageNumber, nil] 
-                     order:0 
-                     modes:[NSArray arrayWithObject:NSDefaultRunLoopMode]];
 }
 
 @end

@@ -19,6 +19,7 @@
 #if (TARGET_OS_MAC && !(TARGET_OS_EMBEDDED || TARGET_OS_IPHONE))
 #import <HessianKit/HessianKitTypes.h>
 #import <HessianKit/CWHessianConnection.h>
+#import <HessianKit/CWHessianChannel.h>
 #import <HessianKit/CWHessianCoder.h>
 #import <HessianKit/CWHessianArchiver.h>
 #import <HessianKit/CWDistantHessianObject.h>
@@ -26,6 +27,7 @@
 #else
 #import "HessianKit/HessianKitTypes.h"
 #import "CWHessianConnection.h"
+#import "CWHessianChannel.h"
 #import "CWHessianCoder.h"
 #import "CWHessianArchiver.h"
 #import "CWDistantHessianObject.h"

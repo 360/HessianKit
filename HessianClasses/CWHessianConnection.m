@@ -37,45 +37,31 @@ NSString* const CWHessianObjectNotVendableException = @"CWHessianObjectNotVendab
 
 -(void)dealloc;
 {
-  [_channel release];
+  self.channel = nil;
   [responseMap release];
   [lock release];
   [super dealloc];
 }
 
--(id)initWithServiceURL:(NSURL*)URL;
+-(id)initWithChannel:(CWHessianChannel*)channel;
 {
-  if (URL == nil) {
-    [self release];
-    [NSException raise:NSInvalidArgumentException format:@"Service URL must not be nil"];
-    self = nil;
-  } else {
-    self = [self init];
-  } 
+  self = [self init];
   if (self) {
-    _channel = [[CWHessianHTTPChannel alloc] initWithConnection:self serviceURL:URL];
-    if (_channel == nil) {
-      [self release];
-      [NSException raise:NSInvalidArgumentException format:@"Could not create HTTP Channel"];
-      self = nil;
-    }
+    _channel = [channel retain];
   }
   return self;
 }
 
+-(id)initWithServiceURL:(NSURL*)URL;
+{
+  return [self initWithChannel:[[[CWHessianHTTPChannel alloc] initWithDelegate:self serviceURL:URL] autorelease]];
+}
 
 -(id)initWithReceiveStream:(NSInputStream*)receiveStream sendStream:(NSOutputStream*)sendStream;
 {
-  if (receiveStream == nil || sendStream == nil) {
-    [self release];
-    [NSException raise:NSInvalidArgumentException format:@"Receieve and send streams must not be nil"];
-    self = nil;
-  } else {
-    self = [self init];
-  } 
-  if (self) {
-    NSAssert(NO, @"TODO: Create a Stream Channel");
-  }
+  [self release];
+  self = nil;
+  NSAssert(NO, @"TODO: Create a Stream Channel");
   return self;
 }
 
@@ -83,23 +69,16 @@ NSString* const CWHessianObjectNotVendableException = @"CWHessianObjectNotVendab
 #ifdef GAMEKIT_AVAILABLE
 -(id)initWithGameKitSession:(GKSession*)session;
 {
-  if (session == nil) {
-    [self release];
-    [NSException raise:NSInvalidArgumentException format:@"GameKit session must not be nil"];
-    self = nil;
-  } else {
-    self = [self init];
-  }
-  if (self) {
-    NSAssert(NO, @"TODO: Create a GameKit Channel");
-  } 
+  [self release];
+  self = nil;
+  NSAssert(NO, @"TODO: Create a Stream Channel");
   return self;
 }
 #endif
 
 +(CWDistantHessianObject*)rootProxyWithServiceURL:(NSURL*)URL protocol:(Protocol*)aProtocol;
 {
-	CWDistantHessianObject* proxy = nil;
+  CWDistantHessianObject* proxy = nil;
   CWHessianConnection* connection = [[CWHessianConnection alloc] initWithServiceURL:URL];
   if (connection) {
   	proxy = [connection rootProxyWithProtocol:aProtocol];
@@ -113,6 +92,32 @@ NSString* const CWHessianObjectNotVendableException = @"CWHessianObjectNotVendab
   CWDistantHessianObject* proxy = [[CWDistantHessianObject alloc] 
                                    initWithConnection:self remoteId:nil protocol:aProtocol];
   return [proxy autorelease];
+}
+
+-(void)channel:(CWHessianChannel*)channel didRecieveMessageInInputStream:(NSInputStream*)inputStream;
+{
+  id returnValue = [self unarchiveDataFromInputStream:inputStream];
+  if (returnValue == nil) {
+    returnValue = [NSNull null];
+  }
+  // TODO: this should be read fromt he headers. 
+  NSNumber* messageNumber = [self lastMessageNumber];
+  [lock lock];
+  NSRunLoop* runloop = [responseMap objectForKey:messageNumber];
+  [lock unlock];
+  NSLog(@"Schedule handleReturnValue:%@", [returnValue description]);
+  [runloop performSelector:@selector(handleReturnValue:) 
+                    target:self 
+                  argument:[NSArray arrayWithObjects:returnValue, messageNumber, nil] 
+                     order:0 
+                     modes:[NSArray arrayWithObject:NSDefaultRunLoopMode]];
+}
+
+-(CWDistantHessianObject*)coder:(CWHessianCoder*)coder didUnarchiveProxyWithRemoteId:(NSString*)remoteId protocol:(Protocol*)aProtocol;
+{
+  return [CWDistantHessianObject proxyWithConnection:self
+                                            remoteId:remoteId 
+                                            protocol:aProtocol]; 
 }
 
 @end

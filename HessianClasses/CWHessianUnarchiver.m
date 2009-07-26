@@ -32,7 +32,7 @@ static NSMutableDictionary* _protocolTranslations = nil;
 
 +(void)initialize;
 {
-	if (self == [CWHessianUnarchiver class]) {
+  if (self == [CWHessianUnarchiver class]) {
   	_classTranslations = [[NSMutableDictionary alloc] init];
   	_protocolTranslations = [[NSMutableDictionary alloc] init];
   }
@@ -40,60 +40,60 @@ static NSMutableDictionary* _protocolTranslations = nil;
 
 -(void)dealloc;
 {
-	self.currentObjectMap = nil;
+  self.currentObjectMap = nil;
   [super dealloc];
 }
 
 +(void)setClass:(Class)aClass forClassName:(NSString*)className;
 {
-	[_classTranslations setObject:NSStringFromClass(aClass) forKey:className];
+  [_classTranslations setObject:NSStringFromClass(aClass) forKey:className];
 }
 
 +(void)setProtocol:(Protocol*)aProtocol forClassName:(NSString*)className;
 {
-	[_protocolTranslations setObject:NSStringFromProtocol(aProtocol) forKey:className];
+  [_protocolTranslations setObject:NSStringFromProtocol(aProtocol) forKey:className];
 }
 
 +(Class)classForClassName:(NSString*)className;
 {
-	Class aClass = NSClassFromString([_protocolTranslations objectForKey:className]);
+  Class aClass = NSClassFromString([_protocolTranslations objectForKey:className]);
   if (!aClass) {
   	NSInteger location = [className rangeOfString:@"." options:NSBackwardsSearch].location;
     if (NSNotFound != location) {
-    	className = [className substringFromIndex:location + 1];
+      className = [className substringFromIndex:location + 1];
       aClass = NSClassFromString([_protocolTranslations objectForKey:className]);
     }
   }
-	return aClass; 
+  return aClass; 
 }
 
 +(Protocol*)protocolForClassName:(NSString*)className;
 {
-	Protocol* aProtocol = NSProtocolFromString([_protocolTranslations objectForKey:className]);
+  Protocol* aProtocol = NSProtocolFromString([_protocolTranslations objectForKey:className]);
   if (!aProtocol) {
   	NSInteger location = [className rangeOfString:@"." options:NSBackwardsSearch].location;
     if (NSNotFound != location) {
-    	className = [className substringFromIndex:location + 1];
+      className = [className substringFromIndex:location + 1];
       aProtocol = NSProtocolFromString([_protocolTranslations objectForKey:className]);
     }
   }
-	return aProtocol; 
+  return aProtocol; 
 }
 
 -(BOOL)containsValueForKey:(NSString*)key;
 {
-	if (self.currentObjectMap) {
-		id object = [self.currentObjectMap objectForKey:key];
-		return object != nil;
+  if (self.currentObjectMap) {
+    id object = [self.currentObjectMap objectForKey:key];
+    return object != nil;
   } else {
-	  return NO;
+    return NO;
   }
 }
 
 -(BOOL)decodeBoolForKey:(NSString*)key;
 {
-	NSNumber* object = (NSNumber*)[self readDecodeCandidateForKey:key ofClass:[NSNumber class]];
-	if (object) {
+  NSNumber* object = (NSNumber*)[self readDecodeCandidateForKey:key ofClass:[NSNumber class]];
+  if (object) {
     return [object boolValue];
   } else {
   	return NO;
@@ -102,8 +102,8 @@ static NSMutableDictionary* _protocolTranslations = nil;
 
 -(int32_t)decodeInt32ForKey:(NSString*)key;
 {
-	NSNumber* object = (NSNumber*)[self readDecodeCandidateForKey:key ofClass:[NSNumber class]];
-	if (object) {
+  NSNumber* object = (NSNumber*)[self readDecodeCandidateForKey:key ofClass:[NSNumber class]];
+  if (object) {
     return [object intValue];
   } else {
   	return 0;
@@ -112,8 +112,8 @@ static NSMutableDictionary* _protocolTranslations = nil;
 
 -(int64_t)decodeInt64ForKey:(NSString*)key;
 {
-	NSNumber* object = (NSNumber*)[self readDecodeCandidateForKey:key ofClass:[NSNumber class]];
-	if (object) {
+  NSNumber* object = (NSNumber*)[self readDecodeCandidateForKey:key ofClass:[NSNumber class]];
+  if (object) {
     return [object longLongValue];
   } else {
   	return 0;
@@ -122,13 +122,13 @@ static NSMutableDictionary* _protocolTranslations = nil;
 
 -(float)decodeFloatForKey:(NSString*)key;
 {
-	return (float)[self decodeDoubleForKey:key];
+  return (float)[self decodeDoubleForKey:key];
 }
 
 -(double)decodeDoubleForKey:(NSString*)key;
 {
-	NSNumber* object = (NSNumber*)[self readDecodeCandidateForKey:key ofClass:[NSNumber class]];
-	if (object) {
+  NSNumber* object = (NSNumber*)[self readDecodeCandidateForKey:key ofClass:[NSNumber class]];
+  if (object) {
     return [object doubleValue];
   } else {
   	return 0.0;
@@ -137,19 +137,19 @@ static NSMutableDictionary* _protocolTranslations = nil;
 
 -(id)decodeObjectForKey:(NSString*)key;
 {
-	id object = [self readDecodeCandidateForKey:key ofClass:Nil];
-	if ([object isKindOfClass:[NSNull class]]) {
+  id object = [self readDecodeCandidateForKey:key ofClass:Nil];
+  if ([object isKindOfClass:[NSNull class]]) {
   	return nil;
   } else {
   	return object;
-	}
+  }
 }
 
 -(const uint8_t*)decodeBytesForKey:(NSString*)key returnedLength:(NSUInteger*)lengthp;
 {
-	NSData* object = (NSData*)[self readDecodeCandidateForKey:key ofClass:[NSData class]];
-	if (object) {
-		*lengthp = [(NSData*)object length];
+  NSData* object = (NSData*)[self readDecodeCandidateForKey:key ofClass:[NSData class]];
+  if (object) {
+    *lengthp = [(NSData*)object length];
     return [object bytes];
   } else {
   	return NULL;

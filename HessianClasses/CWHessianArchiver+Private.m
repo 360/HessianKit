@@ -24,9 +24,9 @@
 
 @implementation CWHessianArchiver (Private)
 
--(id)initWithConnection:(CWHessianConnection*)connection outputStream:(NSOutputStream*)outputStream;
+-(id)initWithDelegate:(id<CWHessianCoderDelegate>)delegate outputStream:(NSOutputStream*)outputStream;
 {
-  self = [super initWithConnection:connection];
+  self = [super initWithDelegate:delegate];
   if (self) {
     self.outputStream = outputStream;
   }

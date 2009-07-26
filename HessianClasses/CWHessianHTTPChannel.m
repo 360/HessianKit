@@ -17,26 +17,24 @@
 //
 
 #import "CWHessianHTTPChannel.h"
-#import "CWHessianConnection+Private.h"
 
 @implementation CWHessianHTTPChannel
 
 @synthesize serviceURL = _serviceURL;
 
--(id)initWithConnection:(CWHessianConnection*)connection serviceURL:(NSURL*)URL;
+-(id)initWithDelegate:(id<CWHessianChannelDelegate>)delegate serviceURL:(NSURL*)URL;
 {
-  self = [super initWithConnection:connection];
+  if (URL == nil) {
+    [self release];
+    [NSException raise:NSInvalidArgumentException format:@"Service URL must not be nil"];
+    self = nil;
+  } else {
+    self = [super initWithDelegate:delegate];
+  }
   if (self) {
     self.serviceURL = URL;
   }
   return self;
-}
-
--(NSString*)remoteIdForObject:(id)anObject;
-{
-  [NSException raise:CWHessianObjectNotVendableException
-              format:@"Can not vend remote objects over HTTP channel"];
-  return nil;
 }
 
 -(NSOutputStream*)outputStreamForMessage;
@@ -77,7 +75,8 @@
   }
   NSInputStream* inputStream = [NSInputStream inputStreamWithData:responseData];
   [inputStream open];
-  [self.connection unarchiveReplyFromInputStream:inputStream];
+  [self.delegate channel:self didRecieveMessageInInputStream:inputStream];
+  [inputStream close];
 }
 
 @end

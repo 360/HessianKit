@@ -17,39 +17,53 @@
 //
 
 #import "CWHessianChannel.h"
+#import "HessianKitTypes.h"
+
+
+@interface CWHessianChannel ()
+
+@property(readwrite, assign, nonatomic) id<CWHessianChannelDelegate> delegate;
+
+@end
 
 
 @implementation CWHessianChannel
 
-@synthesize connection = _connection;
+@synthesize delegate = _delegate;
 
--(id)initWithConnection:(CWHessianConnection*)connection;
+-(id)initWithDelegate:(id<CWHessianChannelDelegate>)delegate;
 {
   self = [super init];
   if (self) {
-    self.connection = connection;
+    self.delegate = delegate;
   }
   return self;
 }
 
+-(void)dealloc;
+{
+  self.delegate = nil;
+  [super dealloc];
+}
+
 -(NSString*)remoteIdForObject:(id)anObject;
 {
-  [NSException raise:NSInternalInconsistencyException 
-              format:@"-[CWHessianChannel remoteIdForObject:] not overridden"];
+  [NSException raise:CWHessianObjectNotVendableException
+              format:@"Can not vend remote objects over %@ channel", NSStringFromClass([self class])];
   return nil;
 }
 
 -(NSOutputStream*)outputStreamForMessage;
 {
   [NSException raise:NSInternalInconsistencyException 
-              format:@"-[CWHessianChannel outputStreamForMessage] not overridden"];
+              format:@"-[CWHessianChannel outputStreamForMessage] not overridden for %@", NSStringFromClass([self class])];
   return nil;
 }
 
 -(void)finishOutputStreamForMessage:(NSOutputStream*)outputStream;
 {
   [NSException raise:NSInternalInconsistencyException 
-              format:@"-[CWHessianChannel finnishOutputStreamForMessage] not overridden"];  
+              format:@"-[CWHessianChannel finnishOutputStreamForMessage] not overridden for %@", NSStringFromClass([self class])];
 }
 
 @end

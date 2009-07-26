@@ -20,27 +20,27 @@
 #include <objc/runtime.h>
 
 @interface CWHessianCoder ()
-@property(retain, nonatomic) CWHessianConnection* connection;
-@property(retain, nonatomic) NSMutableArray* objectReferences;
+@property(readwrite, assign, nonatomic) id<CWHessianCoderDelegate> delegate;
+@property(readwrite, retain, nonatomic) NSMutableArray* objectReferences;
 @end
 
 @implementation CWHessianCoder
 
-@synthesize connection = _connection;
+@synthesize delegate = _delegate;
 @synthesize objectReferences = _objectReferences;
 
 -(void)dealloc;
 {
-  self.connection = nil;
+  self.delegate = nil;
   self.objectReferences = nil;
   [super dealloc];
 }
 
--(id)initWithConnection:(CWHessianConnection*)connection;
+-(id)initWithDelegate:(id<CWHessianCoderDelegate>)delegate;
 {
   self = [super init];
   if (self) {
-  	self.connection = connection;
+  	self.delegate = delegate;
     self.objectReferences = [NSMutableArray array];
   }
   return self;

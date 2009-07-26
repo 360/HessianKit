@@ -73,6 +73,18 @@
 
 
 /*!
+ * @abstract Returns an inititialized <code>CWHessianConnection</code> object over a given channel.
+ *
+ * @discussion This is the designated initializer for <code>CWHessianConection</code>, call
+ *             <code>initWithChannel:</code> when implementing a custom channel. Use secondary
+ *             initializers for the default channels.
+ *
+ * @param channel The channel to send and recieve Hessian data.
+ * @result The initialized <code>CWHessianConnection</code> object.
+ */
+-(id)initWithChannel:(CWHessianChannel*)channel;
+
+/*!
  * @abstract Returns an inititialized <code>CWHessianConnection</code> object over a HTTP channel.
  *
  * @discussion A Hessian connection over HTTP channel can only receive proxy objects, not vend them 

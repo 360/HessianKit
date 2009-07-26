@@ -27,6 +27,6 @@
 
 @property(nonatomic,retain) NSURL* serviceURL;
 
--(id)initWithConnection:(CWHessianConnection*)connection serviceURL:(NSURL*)URL;
+-(id)initWithDelegate:(id<CWHessianChannelDelegate>)delegate serviceURL:(NSURL*)URL;
 
 @end
