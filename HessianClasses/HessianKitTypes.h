@@ -16,6 +16,7 @@
 //  limitations under the License.
 //
 
+#import <Foundation/Foundation.h>
 
 #if (TARGET_OS_MAC && !(TARGET_OS_EMBEDDED || TARGET_OS_IPHONE))
 #undef GAMEKIT_AVAILABLE
@@ -43,15 +44,10 @@ extern NSString* const CWHessianObjectNotAvailableException;
 extern NSString* const CWHessianObjectNotVendableException;
 
 /*!
- * @abstract Hessian serialization version.
- *
- * Currently only version 1.00 is complete.
+ * @abstract Hessian channel IO exception.
  */
-enum {
-  CWHessianVersion1_00 = 0x100,
-  CWHessianVersion2_00 = 0x200
-};
-typedef int CWHessianVersion;
+extern NSString* const CWHessianChannelIOException;
+
 
 #ifndef DEFAULT_HESSIAN_VERSION
 #define DEFAULT_HESSIAN_VERSION CWHessianVersion1_00

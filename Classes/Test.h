@@ -18,13 +18,13 @@
 
 #import <Foundation/Foundation.h>
 
+#import "HessianKit.h"
 
-@protocol Test
+@protocol StandardTest
 
 -(void)methodNull;
--(void)methodDoesNotExist;
--(id)argNull:(id)v;
--(void)replyNull;
+-(void)argNull:(id)v;
+-(id)replyNull;
 
 -(void)argFalse:(BOOL)v;
 -(void)argTrue:(BOOL)v;
@@ -86,5 +86,16 @@
 -(void)argUntypedMap_2:(NSDictionary*)v;
 -(NSDictionary*)replyUntypedMap_0;
 -(NSDictionary*)replyUntypedMap_2;
+
+@end
+
+@protocol Test <StandardTest>
+
+-(void)methodDoesNotExist;
+
+@end
+
+
+@interface Test : NSObject <CWHessianRemoting, StandardTest>
 
 @end

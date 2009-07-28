@@ -18,19 +18,25 @@
 
 #import <Foundation/Foundation.h>
 
+#import "CWHessianCoder.h"
+#import "CWHessianChannel.h"
+#import "CWHessianHTTPChannel.h"
 #import "CWHessianConnection+Private.h"
+#import "CWHessianArchiver.h"
 #import "CWDistantHessianObject.h"
 
 
 NSString* const CWHessianTimeoutException = @"CWHessianTimeoutException";
 NSString* const CWHessianObjectNotAvailableException = @"CWHessianObjectNotAvailableException";
 NSString* const CWHessianObjectNotVendableException = @"CWHessianObjectNotVendableException";
+NSString* const CWHessianChannelIOException = @"CWHessianChannelIOException";
 
 
 @implementation CWHessianConnection
 
 @synthesize channel = _channel;
 @synthesize version = _version;
+@dynamic rootObject;
 @synthesize requestTimeout = _requestTimeout;
 @synthesize replyTimeout = _replyTimeout;
 
@@ -38,7 +44,9 @@ NSString* const CWHessianObjectNotVendableException = @"CWHessianObjectNotVendab
 -(void)dealloc;
 {
   self.channel = nil;
-  [responseMap release];
+  [pendingResponses release];
+  [localObjects release];
+  [remoteProxies release];
   [lock release];
   [super dealloc];
 }
@@ -48,6 +56,8 @@ NSString* const CWHessianObjectNotVendableException = @"CWHessianObjectNotVendab
   self = [self init];
   if (self) {
     _channel = [channel retain];
+    localObjects = [NSMutableDictionary new];
+    remoteProxies = [NSMutableDictionary new];
   }
   return self;
 }
@@ -76,6 +86,20 @@ NSString* const CWHessianObjectNotVendableException = @"CWHessianObjectNotVendab
 }
 #endif
 
+-(id<CWHessianRemoting>)rootObject;
+{
+  return [localObjects objectForKey:[self.channel remoteIdPrefix]];
+}
+
+-(void)setRemoteObject:(id<CWHessianRemoting>)rootObject;
+{
+  if (![self.channel canVendObjects]) {
+    [NSException raise:CWHessianObjectNotVendableException
+                format:@"Can not vend remote objects over %@ channel", NSStringFromClass([self.channel class])];
+  }
+  [localObjects setObject:rootObject forKey:[self.channel remoteIdPrefix]];
+}
+
 +(CWDistantHessianObject*)rootProxyWithServiceURL:(NSURL*)URL protocol:(Protocol*)aProtocol;
 {
   CWDistantHessianObject* proxy = nil;
@@ -94,7 +118,7 @@ NSString* const CWHessianObjectNotVendableException = @"CWHessianObjectNotVendab
   return [proxy autorelease];
 }
 
--(void)channel:(CWHessianChannel*)channel didRecieveMessageInInputStream:(NSInputStream*)inputStream;
+-(void)channel:(CWHessianChannel*)channel didReceiveDataInInputStream:(NSInputStream*)inputStream;
 {
   id returnValue = [self unarchiveDataFromInputStream:inputStream];
   if (returnValue == nil) {
@@ -103,7 +127,7 @@ NSString* const CWHessianObjectNotVendableException = @"CWHessianObjectNotVendab
   // TODO: this should be read fromt he headers. 
   NSNumber* messageNumber = [self lastMessageNumber];
   [lock lock];
-  NSRunLoop* runloop = [responseMap objectForKey:messageNumber];
+  NSRunLoop* runloop = [pendingResponses objectForKey:messageNumber];
   [lock unlock];
   NSLog(@"Schedule handleReturnValue:%@", [returnValue description]);
   [runloop performSelector:@selector(handleReturnValue:) 

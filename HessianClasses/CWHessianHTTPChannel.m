@@ -37,6 +37,17 @@
   return self;
 }
 
+-(void)dealloc;
+{
+  self.serviceURL = nil;
+  [super dealloc];
+}
+
+-(BOOL)canVendObjects;
+{
+  return NO;
+}
+
 -(NSOutputStream*)outputStreamForMessage;
 {
   NSOutputStream* outputStream = [NSOutputStream outputStreamToMemory]; 
@@ -75,7 +86,7 @@
   }
   NSInputStream* inputStream = [NSInputStream inputStreamWithData:responseData];
   [inputStream open];
-  [self.delegate channel:self didRecieveMessageInInputStream:inputStream];
+  [self.delegate channel:self didReceiveDataInInputStream:inputStream];
   [inputStream close];
 }
 

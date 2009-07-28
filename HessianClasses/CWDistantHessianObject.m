@@ -17,10 +17,12 @@
 //
 
 #import "CWDistantHessianObject.h"
+#import "CWHessianCoder.h"
+#import "CWHessianChannel.h"
 #import "CWHessianConnection.h"
+#import "CWHessianConnection+Private.h"
 #import "CWHessianArchiver.h"
 #import "CWHessianArchiver+Private.h"
-#import "CWHessianConnection+Private.h"
 #import <objc/runtime.h>
 
 static NSMethodSignature* getMethodSignatureRecursively(Protocol *p, SEL aSel)
@@ -62,6 +64,11 @@ static NSMethodSignature* getMethodSignatureRecursively(Protocol *p, SEL aSel)
   self.protocol = nil;
   self.methodSignatures = nil;
   [super dealloc];
+}
+
+-(NSString*)description;
+{
+  return [[super description] stringByAppendingFormat:@"( => <%@:%@>)", NSStringFromProtocol(_protocol), self.remoteId];
 }
 
 +(CWDistantHessianObject*)proxyWithConnection:(CWHessianConnection*)connection remoteId:(NSString*)remoteId protocol:(Protocol*)aProtocol;

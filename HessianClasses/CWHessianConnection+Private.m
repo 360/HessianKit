@@ -17,6 +17,9 @@
 //
 
 
+#import "HessianKitTypes.h"
+#import "CWHessianChannel.h"
+#import "CWHessianCoder.h"
 #import "CWHessianConnection+Private.h"
 #import "CWHessianArchiver+Private.h"
 
@@ -29,7 +32,7 @@
     _version = DEFAULT_HESSIAN_VERSION;
     _requestTimeout = DEFAULT_HESSIAN_REQUEST_TIMEOUT;
     _replyTimeout = DEFAULT_HESSIAN_REPLY_TIMEOUT;
-    responseMap = [[NSMutableDictionary alloc] init];
+    pendingResponses = [[NSMutableDictionary alloc] init];
     lock = [[NSRecursiveLock alloc] init]; 
   }
   return self;
@@ -46,11 +49,12 @@
 
 -(void)forwardInvocation:(NSInvocation*)invocation forProxy:(CWDistantHessianObject*)proxy;
 {
+  NSLog(@"Forward method %@ for proxy %@", NSStringFromSelector([invocation selector]), [proxy description]);
   NSOutputStream* outputStream = [self.channel outputStreamForMessage];
   
   [lock lock];
   NSNumber* messageNumber = [self nextMessageNumber];
-  [responseMap setObject:[NSRunLoop currentRunLoop] forKey:messageNumber];
+  [pendingResponses setObject:[NSRunLoop currentRunLoop] forKey:messageNumber];
   [lock unlock];
   
   [self archiveInvocation:invocation asMessage:messageNumber toOutputStream:outputStream];
@@ -62,7 +66,7 @@
 -(void)waitForReturnValueForMessage:(NSNumber*)messageNumber invocation:(NSInvocation*)invocation;
 {
   [lock lock];
-  id result = [responseMap objectForKey:messageNumber];
+  id result = [pendingResponses objectForKey:messageNumber];
   [lock unlock];
   if ([result isKindOfClass:[NSRunLoop class]]) {
     NSRunLoop* runloop = result;
@@ -76,7 +80,7 @@
       NSLog(@"runMode:beforeDate:%@", [delayDate description]);
       if ([runloop runMode:NSDefaultRunLoopMode beforeDate:delayDate]) {
         [lock lock];
-        result = [responseMap objectForKey:messageNumber];
+        result = [pendingResponses objectForKey:messageNumber];
         [lock unlock];
         if (result && ![result isKindOfClass:[NSRunLoop class]]) {
           break;
@@ -93,7 +97,7 @@
   NSLog(@"Fetched result:%@", [result description]);
   [[result retain] autorelease];
   [lock lock];
-  [responseMap removeObjectForKey:messageNumber];
+  [pendingResponses removeObjectForKey:messageNumber];
   [lock unlock];
   if ([result isKindOfClass:[NSException class]]) {
     [result raise];
@@ -291,7 +295,7 @@
   NSLog(@"Executed handleReturnValue:%@", [returnValue description]);
   NSNumber* messageNumber = [args objectAtIndex:1];
   [lock lock];
-  [responseMap setObject:returnValue forKey:messageNumber];
+  [pendingResponses setObject:returnValue forKey:messageNumber];
   [lock unlock];
 }
 

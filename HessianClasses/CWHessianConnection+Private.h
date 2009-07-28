@@ -19,20 +19,22 @@
 
 #import <Foundation/Foundation.h>
 #import "CWHessianConnection.h"
-#import "CWHessianChannel.h"
-#import "CWHessianCoder.h"
-#import "CWHessianHTTPChannel.h"
 
-
+@class CWHessianCoder;
+@class CWHessianChannel;
 @class CWHessianArchiver;
 @class CWHessianUnarchiver;
+@class CWDistantHessianObject;
+
+@protocol CWHessianChannelDelegate;
+@protocol CWHessianCoderDelegate;
 
 
 @interface CWHessianConnection () <CWHessianChannelDelegate, CWHessianCoderDelegate>
 
 @property(readwrite, retain, nonatomic) CWHessianChannel* channel;
 
--(void)channel:(CWHessianChannel*)channel didRecieveMessageInInputStream:(NSInputStream*)inputStream;
+-(void)channel:(CWHessianChannel*)channel didReceiveDataInInputStream:(NSInputStream*)inputStream;
 
 -(CWDistantHessianObject*)coder:(CWHessianCoder*)coder didUnarchiveProxyWithRemoteId:(NSString*)remoteId protocol:(Protocol*)aProtocol;
 

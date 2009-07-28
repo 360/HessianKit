@@ -42,7 +42,7 @@
 }
 
 /*!
- * @abstract The protocol the automatically generated concrete subclass reciever conforms to,
+ * @abstract The protocol the automatically generated concrete subclass receiver conforms to,
  *           or nil if it is a manually implemented subclass.
  */
 @property(readonly, assign, nonatomic) Protocol* protocol;

@@ -16,11 +16,7 @@
 //  limitations under the License.
 //
 
-#if (TARGET_OS_MAC && !(TARGET_OS_EMBEDDED || TARGET_OS_IPHONE))
-#import <HessianKit/CWValueObject.h>
-#else
 #import "CWValueObject.h"
-#endif
 
 @interface CWValueObject (Private)
 

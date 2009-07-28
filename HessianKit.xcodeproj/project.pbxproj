@@ -11,6 +11,29 @@
 		A69EF9C1100E1B3100E2A2FD /* CWHessianConnection+Private.m in Sources */ = {isa = PBXBuildFile; fileRef = A69EF9BD100E1B3100E2A2FD /* CWHessianConnection+Private.m */; };
 		A69EFA36100E222D00E2A2FD /* HessianKitTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = A69EFA35100E222D00E2A2FD /* HessianKitTypes.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A69EFA37100E222D00E2A2FD /* HessianKitTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = A69EFA35100E222D00E2A2FD /* HessianKitTypes.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		A6C55C8E101F533F00688B3B /* CWHessianGameKitChannel.h in Headers */ = {isa = PBXBuildFile; fileRef = A6C55C8C101F533F00688B3B /* CWHessianGameKitChannel.h */; };
+		A6C55C8F101F533F00688B3B /* CWHessianGameKitChannel.m in Sources */ = {isa = PBXBuildFile; fileRef = A6C55C8D101F533F00688B3B /* CWHessianGameKitChannel.m */; };
+		A6C55C93101F542F00688B3B /* GameKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A6C55C92101F542F00688B3B /* GameKit.framework */; };
+		A6C55CDB101F5FA800688B3B /* CWHessianStreamChannel.h in Headers */ = {isa = PBXBuildFile; fileRef = A6C55CD9101F5FA800688B3B /* CWHessianStreamChannel.h */; };
+		A6C55CDC101F5FA800688B3B /* CWHessianStreamChannel.m in Sources */ = {isa = PBXBuildFile; fileRef = A6C55CDA101F5FA800688B3B /* CWHessianStreamChannel.m */; };
+		A6C55CDD101F5FA800688B3B /* CWHessianStreamChannel.h in Headers */ = {isa = PBXBuildFile; fileRef = A6C55CD9101F5FA800688B3B /* CWHessianStreamChannel.h */; };
+		A6C55CDE101F5FA800688B3B /* CWHessianStreamChannel.m in Sources */ = {isa = PBXBuildFile; fileRef = A6C55CDA101F5FA800688B3B /* CWHessianStreamChannel.m */; };
+		A6C55CE1101F65FE00688B3B /* CWStreamPipe.m in Sources */ = {isa = PBXBuildFile; fileRef = A6C55CE0101F65FE00688B3B /* CWStreamPipe.m */; };
+		A6C55CE2101F65FE00688B3B /* CWStreamPipe.m in Sources */ = {isa = PBXBuildFile; fileRef = A6C55CE0101F65FE00688B3B /* CWStreamPipe.m */; };
+		A6C55CE5101F6EBA00688B3B /* CWHessianKitStreamChannelTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A6C55CE4101F6EBA00688B3B /* CWHessianKitStreamChannelTests.m */; };
+		A6C55CE6101F6EBA00688B3B /* CWHessianKitStreamChannelTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A6C55CE4101F6EBA00688B3B /* CWHessianKitStreamChannelTests.m */; };
+		A6C55CE8101F6EE200688B3B /* Test.m in Sources */ = {isa = PBXBuildFile; fileRef = A6C55CE7101F6EE200688B3B /* Test.m */; };
+		A6C55CE9101F6EE200688B3B /* Test.m in Sources */ = {isa = PBXBuildFile; fileRef = A6C55CE7101F6EE200688B3B /* Test.m */; };
+		A6C55CEB101F806100688B3B /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A6C55CEA101F806100688B3B /* CoreFoundation.framework */; };
+		A6C55CED101F806100688B3B /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A6C55CEC101F806100688B3B /* IOKit.framework */; };
+		A6C55D48101F86AF00688B3B /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A6C55D47101F86AF00688B3B /* UIKit.framework */; };
+		A6C55ECB101FA2DC00688B3B /* libStaticHessianKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A6CE14CA0FE01620009CD7AA /* libStaticHessianKit.a */; };
+		A6C55EE8101FA53B00688B3B /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A6C55EE7101FA53B00688B3B /* SenTestingKit.framework */; };
+		A6C55EF6101FA5CB00688B3B /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A6C55EF5101FA5CB00688B3B /* Foundation.framework */; };
+		A6C55EFD101FA63000688B3B /* GameKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A6C55C92101F542F00688B3B /* GameKit.framework */; };
+		A6C55EFE101FA63000688B3B /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A6C55D47101F86AF00688B3B /* UIKit.framework */; };
+		A6C55F8B101FA88000688B3B /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A6C55EF5101FA5CB00688B3B /* Foundation.framework */; };
+		A6C55F91101FA93600688B3B /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A6C55F90101FA93600688B3B /* SenTestingKit.framework */; };
 		A6C7988C100E8B5C00676EC1 /* NSStream+CWiPhoneAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = A6C7988A100E8B5C00676EC1 /* NSStream+CWiPhoneAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A6C7988D100E8B5C00676EC1 /* NSStream+CWiPhoneAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = A6C7988B100E8B5C00676EC1 /* NSStream+CWiPhoneAdditions.m */; };
 		A6CE14D90FE01684009CD7AA /* CWHessianConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = A66189FB0E1A817B00EBFE66 /* CWHessianConnection.m */; };
@@ -45,7 +68,6 @@
 		A6CE152A0FE0193A009CD7AA /* CWValueObject.m in Sources */ = {isa = PBXBuildFile; fileRef = A685FA760E1F0270009547F2 /* CWValueObject.m */; };
 		A6CE152B0FE0193A009CD7AA /* CWValueObject+Private.m in Sources */ = {isa = PBXBuildFile; fileRef = A6D0F5320E22846000ECE7C3 /* CWValueObject+Private.m */; };
 		A6CE152C0FE0193A009CD7AA /* NSData+ReadableDescription.m in Sources */ = {isa = PBXBuildFile; fileRef = A685F94B0E1EED8B009547F2 /* NSData+ReadableDescription.m */; };
-		A6CE15B40FE01E9E009CD7AA /* libStaticHessianKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A6CE14CA0FE01620009CD7AA /* libStaticHessianKit.a */; };
 		A6CE16410FE01F51009CD7AA /* CWHessianKitBasicTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A6CE16400FE01F51009CD7AA /* CWHessianKitBasicTests.m */; };
 		A6CE16420FE01F51009CD7AA /* CWHessianKitBasicTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A6CE16400FE01F51009CD7AA /* CWHessianKitBasicTests.m */; };
 		A6CE17BE0FE048BF009CD7AA /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A6CE17BD0FE048BF009CD7AA /* Foundation.framework */; };
@@ -122,6 +144,23 @@
 		A69EF9BC100E1B3100E2A2FD /* CWHessianConnection+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "CWHessianConnection+Private.h"; path = "HessianClasses/CWHessianConnection+Private.h"; sourceTree = "<group>"; };
 		A69EF9BD100E1B3100E2A2FD /* CWHessianConnection+Private.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "CWHessianConnection+Private.m"; path = "HessianClasses/CWHessianConnection+Private.m"; sourceTree = "<group>"; };
 		A69EFA35100E222D00E2A2FD /* HessianKitTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HessianKitTypes.h; path = HessianClasses/HessianKitTypes.h; sourceTree = "<group>"; };
+		A6C55C8C101F533F00688B3B /* CWHessianGameKitChannel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CWHessianGameKitChannel.h; path = HessianClasses/CWHessianGameKitChannel.h; sourceTree = "<group>"; };
+		A6C55C8D101F533F00688B3B /* CWHessianGameKitChannel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CWHessianGameKitChannel.m; path = HessianClasses/CWHessianGameKitChannel.m; sourceTree = "<group>"; };
+		A6C55C92101F542F00688B3B /* GameKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameKit.framework; path = System/Library/Frameworks/GameKit.framework; sourceTree = SDKROOT; };
+		A6C55CD9101F5FA800688B3B /* CWHessianStreamChannel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CWHessianStreamChannel.h; path = HessianClasses/CWHessianStreamChannel.h; sourceTree = "<group>"; };
+		A6C55CDA101F5FA800688B3B /* CWHessianStreamChannel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CWHessianStreamChannel.m; path = HessianClasses/CWHessianStreamChannel.m; sourceTree = "<group>"; };
+		A6C55CDF101F65FE00688B3B /* CWStreamPipe.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CWStreamPipe.h; path = Classes/CWStreamPipe.h; sourceTree = "<group>"; };
+		A6C55CE0101F65FE00688B3B /* CWStreamPipe.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CWStreamPipe.m; path = Classes/CWStreamPipe.m; sourceTree = "<group>"; };
+		A6C55CE3101F6EBA00688B3B /* CWHessianKitStreamChannelTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CWHessianKitStreamChannelTests.h; path = Classes/CWHessianKitStreamChannelTests.h; sourceTree = "<group>"; };
+		A6C55CE4101F6EBA00688B3B /* CWHessianKitStreamChannelTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CWHessianKitStreamChannelTests.m; path = Classes/CWHessianKitStreamChannelTests.m; sourceTree = "<group>"; };
+		A6C55CE7101F6EE200688B3B /* Test.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Test.m; path = Classes/Test.m; sourceTree = "<group>"; };
+		A6C55CEA101F806100688B3B /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
+		A6C55CEC101F806100688B3B /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
+		A6C55D47101F86AF00688B3B /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		A6C55EE7101FA53B00688B3B /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = /Developer/Library/Frameworks/SenTestingKit.framework; sourceTree = "<absolute>"; };
+		A6C55EF5101FA5CB00688B3B /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		A6C55EF7101FA5CB00688B3B /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
+		A6C55F90101FA93600688B3B /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = /Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS3.0.sdk/Developer/Library/Frameworks/SenTestingKit.framework; sourceTree = "<absolute>"; };
 		A6C7988A100E8B5C00676EC1 /* NSStream+CWiPhoneAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSStream+CWiPhoneAdditions.h"; path = "HessianClasses/NSStream+CWiPhoneAdditions.h"; sourceTree = "<group>"; };
 		A6C7988B100E8B5C00676EC1 /* NSStream+CWiPhoneAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSStream+CWiPhoneAdditions.m"; path = "HessianClasses/NSStream+CWiPhoneAdditions.m"; sourceTree = "<group>"; };
 		A6CE14CA0FE01620009CD7AA /* libStaticHessianKit.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libStaticHessianKit.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -154,6 +193,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				A6CE17BE0FE048BF009CD7AA /* Foundation.framework in Frameworks */,
+				A6C55C93101F542F00688B3B /* GameKit.framework in Frameworks */,
+				A6C55D48101F86AF00688B3B /* UIKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -162,6 +203,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				A6CE180F0FE048E3009CD7AA /* Foundation.framework in Frameworks */,
+				A6C55CEB101F806100688B3B /* CoreFoundation.framework in Frameworks */,
+				A6C55CED101F806100688B3B /* IOKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -169,7 +212,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A6CE15B40FE01E9E009CD7AA /* libStaticHessianKit.a in Frameworks */,
+				A6C55ECB101FA2DC00688B3B /* libStaticHessianKit.a in Frameworks */,
+				A6C55EFD101FA63000688B3B /* GameKit.framework in Frameworks */,
+				A6C55EFE101FA63000688B3B /* UIKit.framework in Frameworks */,
+				A6C55F8B101FA88000688B3B /* Foundation.framework in Frameworks */,
+				A6C55F91101FA93600688B3B /* SenTestingKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -178,6 +225,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				A6CE184A0FE04C15009CD7AA /* HessianKit.framework in Frameworks */,
+				A6C55EE8101FA53B00688B3B /* SenTestingKit.framework in Frameworks */,
+				A6C55EF6101FA5CB00688B3B /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -205,6 +254,14 @@
 				A6E44BA50E348CB800742087 /* Frameworks */,
 				29B97323FDCFA39411CA2CEA /* TouchFrameworks */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
+				A6C55C92101F542F00688B3B /* GameKit.framework */,
+				A6C55CEA101F806100688B3B /* CoreFoundation.framework */,
+				A6C55CEC101F806100688B3B /* IOKit.framework */,
+				A6C55D47101F86AF00688B3B /* UIKit.framework */,
+				A6C55EE7101FA53B00688B3B /* SenTestingKit.framework */,
+				A6C55EF5101FA5CB00688B3B /* Foundation.framework */,
+				A6C55EF7101FA5CB00688B3B /* IOKit.framework */,
+				A6C55F90101FA93600688B3B /* SenTestingKit.framework */,
 			);
 			name = CustomTemplate;
 			sourceTree = "<group>";
@@ -260,6 +317,8 @@
 				A69EF9BC100E1B3100E2A2FD /* CWHessianConnection+Private.h */,
 				A6618A000E1A81AE00EBFE66 /* CWHessianArchiver+Private.h */,
 				A6EA974E101CC8DD0021DD42 /* CWHessianHTTPChannel.h */,
+				A6C55CD9101F5FA800688B3B /* CWHessianStreamChannel.h */,
+				A6C55C8C101F533F00688B3B /* CWHessianGameKitChannel.h */,
 				A6D0F5310E22846000ECE7C3 /* CWValueObject+Private.h */,
 				A685F94A0E1EED8B009547F2 /* NSData+ReadableDescription.h */,
 				A66189FB0E1A817B00EBFE66 /* CWHessianConnection.m */,
@@ -271,6 +330,8 @@
 				A6618D530E1E825000EBFE66 /* CWHessianUnarchiver+Private.m */,
 				A6EA9753101CCA2C0021DD42 /* CWHessianChannel.m */,
 				A6EA974F101CC8DD0021DD42 /* CWHessianHTTPChannel.m */,
+				A6C55CDA101F5FA800688B3B /* CWHessianStreamChannel.m */,
+				A6C55C8D101F533F00688B3B /* CWHessianGameKitChannel.m */,
 				A6618A040E1A81C600EBFE66 /* CWDistantHessianObject.m */,
 				A685FA760E1F0270009547F2 /* CWValueObject.m */,
 				A6D0F5320E22846000ECE7C3 /* CWValueObject+Private.m */,
@@ -284,9 +345,14 @@
 			isa = PBXGroup;
 			children = (
 				A685F80E0E1EDAFA009547F2 /* Test.h */,
+				A6C55CE7101F6EE200688B3B /* Test.m */,
 				A6D0F5340E228A9200ECE7C3 /* ValueTest.h */,
+				A6C55CDF101F65FE00688B3B /* CWStreamPipe.h */,
+				A6C55CE0101F65FE00688B3B /* CWStreamPipe.m */,
 				A6CE163F0FE01F51009CD7AA /* CWHessianKitBasicTests.h */,
 				A6CE16400FE01F51009CD7AA /* CWHessianKitBasicTests.m */,
+				A6C55CE3101F6EBA00688B3B /* CWHessianKitStreamChannelTests.h */,
+				A6C55CE4101F6EBA00688B3B /* CWHessianKitStreamChannelTests.m */,
 			);
 			name = "Unit Test";
 			sourceTree = "<group>";
@@ -325,6 +391,8 @@
 				A6CE14E80FE016A2009CD7AA /* CWDistantHessianObject.h in Headers */,
 				A6CE14E90FE016A2009CD7AA /* CWValueObject.h in Headers */,
 				A6C7988C100E8B5C00676EC1 /* NSStream+CWiPhoneAdditions.h in Headers */,
+				A6C55C8E101F533F00688B3B /* CWHessianGameKitChannel.h in Headers */,
+				A6C55CDB101F5FA800688B3B /* CWHessianStreamChannel.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -340,6 +408,7 @@
 				A6CE151F0FE0191E009CD7AA /* CWHessianArchiver.h in Headers */,
 				A6CE15200FE0191E009CD7AA /* CWDistantHessianObject.h in Headers */,
 				A6CE15210FE0191E009CD7AA /* CWValueObject.h in Headers */,
+				A6C55CDD101F5FA800688B3B /* CWHessianStreamChannel.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -528,6 +597,8 @@
 				A6CE14E20FE01684009CD7AA /* CWValueObject+Private.m in Sources */,
 				A6C7988D100E8B5C00676EC1 /* NSStream+CWiPhoneAdditions.m in Sources */,
 				A6CE14E30FE01684009CD7AA /* NSData+ReadableDescription.m in Sources */,
+				A6C55C8F101F533F00688B3B /* CWHessianGameKitChannel.m in Sources */,
+				A6C55CDC101F5FA800688B3B /* CWHessianStreamChannel.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -548,6 +619,7 @@
 				A6CE152A0FE0193A009CD7AA /* CWValueObject.m in Sources */,
 				A6CE152B0FE0193A009CD7AA /* CWValueObject+Private.m in Sources */,
 				A6CE152C0FE0193A009CD7AA /* NSData+ReadableDescription.m in Sources */,
+				A6C55CDE101F5FA800688B3B /* CWHessianStreamChannel.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -556,6 +628,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				A6CE16410FE01F51009CD7AA /* CWHessianKitBasicTests.m in Sources */,
+				A6C55CE1101F65FE00688B3B /* CWStreamPipe.m in Sources */,
+				A6C55CE5101F6EBA00688B3B /* CWHessianKitStreamChannelTests.m in Sources */,
+				A6C55CE8101F6EE200688B3B /* Test.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -564,6 +639,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				A6CE16420FE01F51009CD7AA /* CWHessianKitBasicTests.m in Sources */,
+				A6C55CE2101F65FE00688B3B /* CWStreamPipe.m in Sources */,
+				A6C55CE6101F6EBA00688B3B /* CWHessianKitStreamChannelTests.m in Sources */,
+				A6C55CE9101F6EE200688B3B /* Test.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -593,7 +671,7 @@
 				OTHER_LDFLAGS = "-ObjC";
 				PREBINDING = NO;
 				PRODUCT_NAME = StaticHessianKit;
-				SDKROOT = iphonesimulator2.0;
+				SDKROOT = iphonesimulator3.0;
 			};
 			name = Debug;
 		};
@@ -604,6 +682,7 @@
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				OTHER_LDFLAGS = "-ObjC";
 				PREBINDING = NO;
 				PRODUCT_NAME = StaticHessianKit;
 				SDKROOT = iphonesimulator2.0;
@@ -698,19 +777,14 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(DEVELOPER_LIBRARY_DIR)/Frameworks",
 					"\"$(SDKROOT)$(DEVELOPER_FRAMEWORKS_DIR)\"",
+					"\"$(DEVELOPER_DIR)/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS3.0.sdk/Developer/Library/Frameworks\"",
 				);
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				INFOPLIST_FILE = "iPhoneTests-Info.plist";
-				OTHER_LDFLAGS = (
-					"-ObjC",
-					"-framework",
-					Foundation,
-					"-framework",
-					SenTestingKit,
-				);
+				OTHER_LDFLAGS = "-ObjC";
 				PREBINDING = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = octest;
@@ -726,18 +800,12 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(DEVELOPER_LIBRARY_DIR)/Frameworks",
 					"\"$(SDKROOT)$(DEVELOPER_FRAMEWORKS_DIR)\"",
+					"\"$(DEVELOPER_DIR)/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS3.0.sdk/Developer/Library/Frameworks\"",
 				);
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				INFOPLIST_FILE = "iPhoneTests-Info.plist";
-				OTHER_LDFLAGS = (
-					"-framework",
-					Foundation,
-					"-framework",
-					SenTestingKit,
-					"-framework",
-					UIKit,
-				);
+				OTHER_LDFLAGS = "-ObjC";
 				PREBINDING = NO;
 				PRODUCT_NAME = iPhoneTest;
 				WRAPPER_EXTENSION = octest;
@@ -760,12 +828,6 @@
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/Cocoa.framework/Headers/Cocoa.h";
 				INFOPLIST_FILE = "MacTests-Info.plist";
 				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Bundles";
-				OTHER_LDFLAGS = (
-					"-framework",
-					Cocoa,
-					"-framework",
-					SenTestingKit,
-				);
 				PREBINDING = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx10.5;

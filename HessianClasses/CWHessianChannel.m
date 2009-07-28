@@ -19,6 +19,31 @@
 #import "CWHessianChannel.h"
 #import "HessianKitTypes.h"
 
+#if (TARGET_OS_MAC && !(TARGET_OS_EMBEDDED || TARGET_OS_IPHONE))
+#include <CoreFoundation/CoreFoundation.h>
+#include <IOKit/IOKitLib.h>
+
+void CopySerialNumber(CFStringRef *serialNumber) {
+  if (serialNumber != NULL) {
+    *serialNumber = NULL;
+    io_service_t platformExpert = IOServiceGetMatchingService(kIOMasterPortDefault,
+                                                              IOServiceMatching("IOPlatformExpertDevice"));    
+    if (platformExpert) {
+      CFTypeRef serialNumberAsCFString =
+      IORegistryEntryCreateCFProperty(platformExpert,
+                                      CFSTR(kIOPlatformSerialNumberKey),
+                                      kCFAllocatorDefault, 0);
+      if (serialNumberAsCFString) {
+        *serialNumber = serialNumberAsCFString;
+      }
+      IOObjectRelease(platformExpert);
+    }
+  }
+}
+#else
+#import <UIKit/UIDevice.h>
+#endif
+
 
 @interface CWHessianChannel ()
 
@@ -43,14 +68,40 @@
 -(void)dealloc;
 {
   self.delegate = nil;
+  [_remoteIdPrefix release];
   [super dealloc];
+}
+
+-(BOOL)canVendObjects;
+{
+  return YES;
+}
+
+-(NSString*)remoteIdPrefix;
+{
+  if (_remoteIdPrefix == nil) {
+#if (TARGET_OS_MAC && !(TARGET_OS_EMBEDDED || TARGET_OS_IPHONE))
+    CFStringRef serialNumber = NULL;
+    CopySerialNumber(&serialNumber);
+    _remoteIdPrefix = [[NSString alloc] initWithString:(NSString*)serialNumber];
+    CFRelease(serialNumber);
+#else
+    _remoteIdPrefix = [[UIDevice currentDevice].uniqueIdentifier retain];
+#endif
+  }
+  return _remoteIdPrefix;
 }
 
 -(NSString*)remoteIdForObject:(id)anObject;
 {
-  [NSException raise:CWHessianObjectNotVendableException
-              format:@"Can not vend remote objects over %@ channel", NSStringFromClass([self class])];
-  return nil;
+  if ([self canVendObjects]) {
+    uint64_t target = (NSUInteger)anObject;
+    return [NSString stringWithFormat:@"%@:%qx", [self remoteIdPrefix], target];
+  } else {
+    [NSException raise:CWHessianObjectNotVendableException
+                format:@"Can not vend remote objects over %@ channel", NSStringFromClass([self class])];
+    return nil;
+  }
 }
 
 -(NSOutputStream*)outputStreamForMessage;

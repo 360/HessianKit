@@ -35,6 +35,7 @@
 @interface CWHessianChannel : NSObject {
 @private
   id<CWHessianChannelDelegate> _delegate;
+  NSString* _remoteIdPrefix;
 }
 
 /*!
@@ -51,10 +52,27 @@
 -(id)initWithDelegate:(id<CWHessianChannelDelegate>)delegate;
 
 /*!
+ * @abstract Query if this channel is capable of vending objects.
+ *
+ * @details Default implementation returns YES, subclasses for channels that do not support vended objects must ovveride.
+ *
+ * @result <code>YES</code> if channel can vend remote objects.
+ */
+-(BOOL)canVendObjects;
+
+/*!
+ * @abstract Get a prefix that is unique for each divice to use as prefix for remote proxies.
+ *
+ * @result a unique remote ID prefix.
+ */
+-(NSString*)remoteIdPrefix;
+
+/*!
  * @abstract Generate a unique remote ID to use for a vended object.
  *
- * @discussion Default implementation throws an <code>CWHessianObjectNotVendableException</code> exception. Subclasses
- *             for channels that suports vended objects must override.
+ * @discussion Default implementation generates a correct remote ID using the <code>remoteIdPrefix</code>, or throws an
+ *             <code>CWHessianObjectNotVendableException</code> exception if <code>canVendObjects</code> return 
+ *             <code>NO</code>.
  *
  * @param anObject an object to generate a remote ID for.
  * @result a unique remote ID.
@@ -90,11 +108,11 @@
 @protocol CWHessianChannelDelegate
 
 /*!
- * @abstract A message or reply was recieved by channel and delegate should unarchive and act upon it.
+ * @abstract A message or reply was received by channel and delegate should unarchive and act upon it.
  *
  * @param channel the channel.
  * @param the input stream to read message or reply from.
  */
--(void)channel:(CWHessianChannel*)channel didRecieveMessageInInputStream:(NSInputStream*)inputStream;
+-(void)channel:(CWHessianChannel*)channel didReceiveDataInInputStream:(NSInputStream*)inputStream;
 
 @end

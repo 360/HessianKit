@@ -66,7 +66,7 @@
 }
 
 /*!
- * @abstract The recievers associated @link //hessiankit_ref/occ/cl/CWHessianConnection <code>CWHessianConnection</code>@/link object.
+ * @abstract The receivers associated @link //hessiankit_ref/occ/cl/CWHessianConnection <code>CWHessianConnection</code>@/link object.
  */
 @property(readonly, retain, nonatomic) CWHessianConnection* connection;
 
@@ -76,7 +76,7 @@
 @property(readonly, retain, nonatomic) NSString* remoteId;
 
 /*!
- * @abstract The protocol the reciever conforms to, a mirror of the interface the Hessian web service publishes.
+ * @abstract The protocol the receiver conforms to, a mirror of the interface the Hessian web service publishes.
  */
 @property(readonly, assign, nonatomic) Protocol* protocol;
 
@@ -110,7 +110,7 @@
  * @param aProtocol A protocol.
  * @result YES if the receiver conforms to aProtocol, otherwise NO.
  *
- * Will first check against the protocol the reciever is set to conform to, including any protocol that
+ * Will first check against the protocol the receiver is set to conform to, including any protocol that
  * protocol conforms to. And lastly call the super implementation. 
  */
 -(BOOL)conformsToProtocol:(Protocol*)aProtocol;
@@ -124,13 +124,13 @@
 -(BOOL)isKindOfClass:(Class)aClass;
 
 /*!
- * Return the remote class name on the Hessian web service that the reciever is a proxy for.
+ * Return the remote class name on the Hessian web service that the receiver is a proxy for.
  *
  * @result A class name.
  *
  * Unsess the class method @link //hessiankit_ref/occ/clm/CWHessianConnection/classNameForProtocol: <code>classNameForProtocol:</code>@/link 
  * on @link //hessiankit_ref/occ/cl/CWHessianArchiver <code>CWHessianArchiver</code>@/link class to determine the 
- * class name using the protocol this reciever is set to conform to. If no protocol mapping is found, the name of the 
+ * class name using the protocol this receiver is set to conform to. If no protocol mapping is found, the name of the 
  * protocol is returned.
  */
 -(NSString*)remoteClassName;

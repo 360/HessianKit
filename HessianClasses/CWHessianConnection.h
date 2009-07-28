@@ -18,14 +18,24 @@
 
 #import <Foundation/Foundation.h>
 
-#if (TARGET_OS_MAC && !(TARGET_OS_EMBEDDED || TARGET_OS_IPHONE))
-#import <HessianKit/HessianKitTypes.h>
-#else
-#import "HessianKitTypes.h"
-#endif
 
 @class CWDistantHessianObject;
 @class CWHessianChannel;
+#ifdef GAMEKIT_AVAILABLE
+@class GKSession;
+#endif
+@protocol CWHessianRemoting;
+
+/*!
+ * @abstract Hessian serialization version.
+ *
+ * Currently only version 1.00 is complete.
+ */
+enum {
+  CWHessianVersion1_00 = 0x100,
+  CWHessianVersion2_00 = 0x200
+};
+typedef int CWHessianVersion;
 
 /*!
  * @abstract An <code>CWHessianConnection</code> object is responsible for handling states related to the web service connection,
@@ -46,8 +56,10 @@
   CWHessianVersion _version;
   NSTimeInterval _requestTimeout;
   NSTimeInterval _replyTimeout;
-  NSMutableDictionary* responseMap;
+  NSMutableDictionary* pendingResponses;
   NSUInteger messageCount;
+  NSMutableDictionary* localObjects;
+  NSMutableDictionary* remoteProxies;
   NSRecursiveLock* lock;
 }
 
@@ -62,6 +74,11 @@
 @property(assign, nonatomic) CWHessianVersion version;
 
 /*!
+ * @abstract The root object to vend to clients.
+ */
+@property(retain, nonatomic) id<CWHessianRemoting> rootObject;
+
+/*!
  * @abstract The timeout for outgoing method call requests. 
  */
 @property(assign, nonatomic) NSTimeInterval requestTimeout;
@@ -71,7 +88,6 @@
  */
 @property(assign, nonatomic) NSTimeInterval replyTimeout;
 
-
 /*!
  * @abstract Returns an inititialized <code>CWHessianConnection</code> object over a given channel.
  *
@@ -79,7 +95,7 @@
  *             <code>initWithChannel:</code> when implementing a custom channel. Use secondary
  *             initializers for the default channels.
  *
- * @param channel The channel to send and recieve Hessian data.
+ * @param channel The channel to send and receive Hessian data.
  * @result The initialized <code>CWHessianConnection</code> object.
  */
 -(id)initWithChannel:(CWHessianChannel*)channel;
@@ -100,13 +116,13 @@
 /*!
  * @abstract Returns an inititialized <code>CWHessianConnection</code> object over a port channel.
  *
- * @discussion A Hessian connection over port channel can recieve and vend proxy objects, both by 
+ * @discussion A Hessian connection over port channel can receive and vend proxy objects, both by 
  *             vending a root object and by sending proxies as method arguments.
  *             Method name translation is not used by default as the receiving service is assumed
  *             to be implemented in Objective-C as well. Translation can be turned on of desired.
  *
- * @param receiveStream The input stream to recieve data for the Hessian connection.
- * @param sendStream The send stream to recieve data for the Hessian connection.
+ * @param receiveStream The input stream to receive data for the Hessian connection.
+ * @param sendStream The send stream to receive data for the Hessian connection.
  * @result The initialized <code>CWHessianConnection</code> object.
  */
 -(id)initWithReceiveStream:(NSInputStream*)receiveStream sendStream:(NSOutputStream*)sendStream;
@@ -115,7 +131,7 @@
 /*!
  * @abstract Returns an inititialized <code>CWHessianConnection</code> object over a GameKit channel.
  *
- * @discussion A Hessian connection over GameKit channel can recieve and vend proxy objects, both by 
+ * @discussion A Hessian connection over GameKit channel can receive and vend proxy objects, both by 
  *             vending a root object and by sending proxies as method arguments.
  *             Method name translation is not used by default as all connected clients can safely be 
  *             assumed to be implemented in Objective-C. Translation can be turned on of desired.
