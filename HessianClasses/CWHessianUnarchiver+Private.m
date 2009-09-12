@@ -17,6 +17,7 @@
 //
 
 #import "CWHessianArchiver+Private.h"
+#import "CWHessianTranslator.h"
 #import "CWValueObject.h"
 #import "CWDistantHessianObject.h"
 #import <objc/runtime.h>
@@ -33,6 +34,24 @@
   return self;
 }
 
+-(Class)classForClassName:(NSString*)className;
+{
+  CWHessianTranslator* translator = self.delegate.translator;
+  if (translator != nil) {
+    return [translator classForDistantTypeName:className];
+  }
+  return NSClassFromString(className);
+}
+
+-(Protocol*)protocolForClassName:(NSString*)className;
+{
+  CWHessianTranslator* translator = self.delegate.translator;
+  if (translator != nil) {
+    return [translator protocolForDistantTypeName:className];
+  }
+  return NSProtocolFromString(className);
+}
+
 -(void)dealloc;
 {
   self.inputStream = nil;
@@ -41,7 +60,7 @@
 
 -(int)decodeIntForKey:(NSString*)key;
 {
-	if (sizeof(int) == sizeof(int32_t)) {
+  if (sizeof(int) == sizeof(int32_t)) {
   	return [self decodeInt32ForKey:key];
   } else {
   	return [self decodeInt64ForKey:key];
@@ -50,7 +69,7 @@
 
 -(NSInteger)decodeIntegerForKey:(NSString*)key;
 {
-	if (sizeof(NSInteger) == sizeof(int32_t)) {
+  if (sizeof(NSInteger) == sizeof(int32_t)) {
   	return [self decodeInt32ForKey:key];
   } else {
   	return [self decodeInt64ForKey:key];
@@ -100,7 +119,7 @@
       return NO;
     default:
       [NSException raise:NSInvalidArchiveOperationException format:@"%c is not a valid bool value", value];
-    return NO;
+      return NO;
   }
 }
 
@@ -128,7 +147,7 @@
 -(double)readDouble;
 {
   int64_t int64tmp = [self readInt64];
-	double doublev = 0.0;
+  double doublev = 0.0;
   memcpy(&doublev, &int64tmp, sizeof(double));
   return doublev;
 }
@@ -150,15 +169,15 @@
     for (int index = 0; index < len; index++) {
       unichar ch = [self readChar];
       if (ch < 0x80) {
-			} else if ((ch & 0xe0) == 0xc0) {
-				unichar ch1 = [self readChar];
-				ch = ((ch & 0x1f) << 6) + (ch1 & 0x3f);
-			} else if ((ch & 0xf0) == 0xe0) {
-				int ch1 = [self readChar];
-				int ch2 = [self readChar];
-				ch = ((ch & 0x0f) << 12) + ((ch1 & 0x3f) << 6)
-						+ (ch2 & 0x3f);
-			} else {
+      } else if ((ch & 0xe0) == 0xc0) {
+        unichar ch1 = [self readChar];
+        ch = ((ch & 0x1f) << 6) + (ch1 & 0x3f);
+      } else if ((ch & 0xf0) == 0xe0) {
+        int ch1 = [self readChar];
+        int ch2 = [self readChar];
+        ch = ((ch & 0x0f) << 12) + ((ch1 & 0x3f) << 6)
+        + (ch2 & 0x3f);
+      } else {
         [NSException raise:NSInvalidArchiveOperationException format:@"bad utf-8 encoding"];
       }
       [string appendString:[NSString stringWithCharacters:&ch length:1]];
@@ -294,16 +313,16 @@
     [self readChar];
     className = [self readStringWithTag:'S'];
     if ([className length] > 0) {
-      Class typedClass = [CWHessianUnarchiver classForClassName:className];
+      Class typedClass = [self classForClassName:className];
       if (typedClass) {
         typedObject = class_createInstance(typedClass, 0);
         if (![typedClass conformsToProtocol:@protocol(NSCoding)]) {
           [NSException raise:NSInvalidUnarchiveOperationException format:@"%@ do not conform to NSCoding", className];
         }
       } else {
-				Protocol* typedProtocol = [CWHessianUnarchiver protocolForClassName:className];
+        Protocol* typedProtocol = [self protocolForClassName:className];
         if (typedProtocol) {
-        	typedObject = [CWValueObject valueObjectWithProtocol:typedProtocol];
+          typedObject = [CWValueObject valueObjectWithProtocol:typedProtocol];
         }     	
       }
     }
@@ -313,13 +332,13 @@
 
 -(CWDistantHessianObject*)readRemote;
 {
-	if ([self readChar] != 't') {
+  if ([self readChar] != 't') {
   	[NSException raise:NSInvalidUnarchiveOperationException format:@"expected type token"];
   }
-	NSString* className = [self readStringWithTag:'S'];
+  NSString* className = [self readStringWithTag:'S'];
   Protocol* aProtocol = NSProtocolFromString(className);
   if (!aProtocol) {
-  	aProtocol = [CWHessianUnarchiver protocolForClassName:className];
+  	aProtocol = [self protocolForClassName:className];
   }
   if (!aProtocol) {
   	[NSException raise:NSInvalidUnarchiveOperationException format:@"no proxy protocol for remote class %@", className];
@@ -346,7 +365,7 @@
     case 'L':
       return [NSNumber numberWithLongLong:[self readInt64]];
     case 'D':
-			return [NSNumber numberWithDouble:[self readDouble]];
+      return [NSNumber numberWithDouble:[self readDouble]];
     case 'd':
       return [self readDate];
     case 'x':
@@ -370,9 +389,9 @@
       return [self.objectReferences objectAtIndex:refIndex];
     }
     case 'r':
-			return [self readRemote];
+      return [self readRemote];
     case 'f':
-    	return [self readFault];
+      return [self readFault];
     default:
       [NSException raise:NSInvalidUnarchiveOperationException format:@"%c is not a known marker", tag];
   }
@@ -385,24 +404,24 @@
   	return [self.currentObjectMap objectForKey:key];
   } else {
     /* TODO: Validate that this nver happens!
-  	int offset = self.offset;
-    BOOL validKey = YES;
-    if (key) {
-	    id possibleKey = [self readTypedObject];
-      validKey = [possibleKey isKindOfClass:[NSString class]] && [(NSString*)possibleKey isEqualToString:key];
-    }
-    if (validKey) {
-      id object = [self readTypedObject];
-      if (cls) {
-        if (![object isKindOfClass:cls]) {
-          [NSException raise:NSInvalidUnarchiveOperationException format:@"encoutered invalid class, expected:%s got:%@", 
-              class_getName(cls), NSStringFromClass([object class])];
-        }
-      }
-      return object;
-    } else {
-    	self.offset = offset;
-    }
+     int offset = self.offset;
+     BOOL validKey = YES;
+     if (key) {
+     id possibleKey = [self readTypedObject];
+     validKey = [possibleKey isKindOfClass:[NSString class]] && [(NSString*)possibleKey isEqualToString:key];
+     }
+     if (validKey) {
+     id object = [self readTypedObject];
+     if (cls) {
+     if (![object isKindOfClass:cls]) {
+     [NSException raise:NSInvalidUnarchiveOperationException format:@"encoutered invalid class, expected:%s got:%@", 
+     class_getName(cls), NSStringFromClass([object class])];
+     }
+     }
+     return object;
+     } else {
+     self.offset = offset;
+     }
      */
     return nil;
   }

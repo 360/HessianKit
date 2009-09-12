@@ -7,16 +7,19 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A674FDCD105C1DCD008447C3 /* CWHessianTranslator.h in Headers */ = {isa = PBXBuildFile; fileRef = A674FDCB105C1DCD008447C3 /* CWHessianTranslator.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		A674FDCE105C1DCD008447C3 /* CWHessianTranslator.m in Sources */ = {isa = PBXBuildFile; fileRef = A674FDCC105C1DCD008447C3 /* CWHessianTranslator.m */; };
+		A674FDCF105C1DCD008447C3 /* CWHessianTranslator.h in Headers */ = {isa = PBXBuildFile; fileRef = A674FDCB105C1DCD008447C3 /* CWHessianTranslator.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		A674FDD0105C1DCD008447C3 /* CWHessianTranslator.m in Sources */ = {isa = PBXBuildFile; fileRef = A674FDCC105C1DCD008447C3 /* CWHessianTranslator.m */; };
+		A674FE20105C3957008447C3 /* CWHessianTranslator+Private.m in Sources */ = {isa = PBXBuildFile; fileRef = A674FE1E105C3957008447C3 /* CWHessianTranslator+Private.m */; };
+		A674FE22105C3957008447C3 /* CWHessianTranslator+Private.m in Sources */ = {isa = PBXBuildFile; fileRef = A674FE1E105C3957008447C3 /* CWHessianTranslator+Private.m */; };
 		A69EF9BF100E1B3100E2A2FD /* CWHessianConnection+Private.m in Sources */ = {isa = PBXBuildFile; fileRef = A69EF9BD100E1B3100E2A2FD /* CWHessianConnection+Private.m */; };
 		A69EF9C1100E1B3100E2A2FD /* CWHessianConnection+Private.m in Sources */ = {isa = PBXBuildFile; fileRef = A69EF9BD100E1B3100E2A2FD /* CWHessianConnection+Private.m */; };
 		A69EFA36100E222D00E2A2FD /* HessianKitTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = A69EFA35100E222D00E2A2FD /* HessianKitTypes.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A69EFA37100E222D00E2A2FD /* HessianKitTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = A69EFA35100E222D00E2A2FD /* HessianKitTypes.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		A6C55C8E101F533F00688B3B /* CWHessianGameKitChannel.h in Headers */ = {isa = PBXBuildFile; fileRef = A6C55C8C101F533F00688B3B /* CWHessianGameKitChannel.h */; };
 		A6C55C8F101F533F00688B3B /* CWHessianGameKitChannel.m in Sources */ = {isa = PBXBuildFile; fileRef = A6C55C8D101F533F00688B3B /* CWHessianGameKitChannel.m */; };
 		A6C55C93101F542F00688B3B /* GameKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A6C55C92101F542F00688B3B /* GameKit.framework */; };
-		A6C55CDB101F5FA800688B3B /* CWHessianStreamChannel.h in Headers */ = {isa = PBXBuildFile; fileRef = A6C55CD9101F5FA800688B3B /* CWHessianStreamChannel.h */; };
 		A6C55CDC101F5FA800688B3B /* CWHessianStreamChannel.m in Sources */ = {isa = PBXBuildFile; fileRef = A6C55CDA101F5FA800688B3B /* CWHessianStreamChannel.m */; };
-		A6C55CDD101F5FA800688B3B /* CWHessianStreamChannel.h in Headers */ = {isa = PBXBuildFile; fileRef = A6C55CD9101F5FA800688B3B /* CWHessianStreamChannel.h */; };
 		A6C55CDE101F5FA800688B3B /* CWHessianStreamChannel.m in Sources */ = {isa = PBXBuildFile; fileRef = A6C55CDA101F5FA800688B3B /* CWHessianStreamChannel.m */; };
 		A6C55CE1101F65FE00688B3B /* CWStreamPipe.m in Sources */ = {isa = PBXBuildFile; fileRef = A6C55CE0101F65FE00688B3B /* CWStreamPipe.m */; };
 		A6C55CE2101F65FE00688B3B /* CWStreamPipe.m in Sources */ = {isa = PBXBuildFile; fileRef = A6C55CE0101F65FE00688B3B /* CWStreamPipe.m */; };
@@ -135,6 +138,10 @@
 		A6618A0A0E1A92C600EBFE66 /* CWHessianCoder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CWHessianCoder.m; path = HessianClasses/CWHessianCoder.m; sourceTree = "<group>"; };
 		A6618D500E1E81F500EBFE66 /* CWHessianArchiver+Private.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "CWHessianArchiver+Private.m"; path = "HessianClasses/CWHessianArchiver+Private.m"; sourceTree = "<group>"; };
 		A6618D530E1E825000EBFE66 /* CWHessianUnarchiver+Private.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "CWHessianUnarchiver+Private.m"; path = "HessianClasses/CWHessianUnarchiver+Private.m"; sourceTree = "<group>"; };
+		A674FDCB105C1DCD008447C3 /* CWHessianTranslator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CWHessianTranslator.h; path = HessianClasses/CWHessianTranslator.h; sourceTree = "<group>"; };
+		A674FDCC105C1DCD008447C3 /* CWHessianTranslator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CWHessianTranslator.m; path = HessianClasses/CWHessianTranslator.m; sourceTree = "<group>"; };
+		A674FE1D105C3957008447C3 /* CWHessianTranslator+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "CWHessianTranslator+Private.h"; path = "HessianClasses/CWHessianTranslator+Private.h"; sourceTree = "<group>"; };
+		A674FE1E105C3957008447C3 /* CWHessianTranslator+Private.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "CWHessianTranslator+Private.m"; path = "HessianClasses/CWHessianTranslator+Private.m"; sourceTree = "<group>"; };
 		A685F80E0E1EDAFA009547F2 /* Test.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Test.h; path = Classes/Test.h; sourceTree = "<group>"; };
 		A685F8110E1EDBCF009547F2 /* HessianKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HessianKit.h; path = HessianClasses/HessianKit.h; sourceTree = "<group>"; };
 		A685F94A0E1EED8B009547F2 /* NSData+ReadableDescription.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSData+ReadableDescription.h"; path = "Classes/NSData+ReadableDescription.h"; sourceTree = "<group>"; };
@@ -301,6 +308,7 @@
 				A685F8110E1EDBCF009547F2 /* HessianKit.h */,
 				A66189FA0E1A817B00EBFE66 /* CWHessianConnection.h */,
 				A6EA9752101CCA2C0021DD42 /* CWHessianChannel.h */,
+				A674FDCB105C1DCD008447C3 /* CWHessianTranslator.h */,
 				A6618A090E1A92C600EBFE66 /* CWHessianCoder.h */,
 				A66189FD0E1A819700EBFE66 /* CWHessianArchiver.h */,
 				A6618A030E1A81C600EBFE66 /* CWDistantHessianObject.h */,
@@ -315,6 +323,7 @@
 			isa = PBXGroup;
 			children = (
 				A69EF9BC100E1B3100E2A2FD /* CWHessianConnection+Private.h */,
+				A674FE1D105C3957008447C3 /* CWHessianTranslator+Private.h */,
 				A6618A000E1A81AE00EBFE66 /* CWHessianArchiver+Private.h */,
 				A6EA974E101CC8DD0021DD42 /* CWHessianHTTPChannel.h */,
 				A6C55CD9101F5FA800688B3B /* CWHessianStreamChannel.h */,
@@ -323,6 +332,8 @@
 				A685F94A0E1EED8B009547F2 /* NSData+ReadableDescription.h */,
 				A66189FB0E1A817B00EBFE66 /* CWHessianConnection.m */,
 				A69EF9BD100E1B3100E2A2FD /* CWHessianConnection+Private.m */,
+				A674FDCC105C1DCD008447C3 /* CWHessianTranslator.m */,
+				A674FE1E105C3957008447C3 /* CWHessianTranslator+Private.m */,
 				A6618A0A0E1A92C600EBFE66 /* CWHessianCoder.m */,
 				A66189FE0E1A819700EBFE66 /* CWHessianArchiver.m */,
 				A6618D500E1E81F500EBFE66 /* CWHessianArchiver+Private.m */,
@@ -386,13 +397,12 @@
 				A6CE14E40FE016A2009CD7AA /* HessianKit.h in Headers */,
 				A6CE14E50FE016A2009CD7AA /* CWHessianConnection.h in Headers */,
 				A6EA97C6101D0A7B0021DD42 /* CWHessianChannel.h in Headers */,
+				A674FDCF105C1DCD008447C3 /* CWHessianTranslator.h in Headers */,
 				A6CE14E60FE016A2009CD7AA /* CWHessianCoder.h in Headers */,
 				A6CE14E70FE016A2009CD7AA /* CWHessianArchiver.h in Headers */,
 				A6CE14E80FE016A2009CD7AA /* CWDistantHessianObject.h in Headers */,
 				A6CE14E90FE016A2009CD7AA /* CWValueObject.h in Headers */,
 				A6C7988C100E8B5C00676EC1 /* NSStream+CWiPhoneAdditions.h in Headers */,
-				A6C55C8E101F533F00688B3B /* CWHessianGameKitChannel.h in Headers */,
-				A6C55CDB101F5FA800688B3B /* CWHessianStreamChannel.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -404,11 +414,11 @@
 				A6CE151C0FE0191E009CD7AA /* HessianKit.h in Headers */,
 				A6CE151D0FE0191E009CD7AA /* CWHessianConnection.h in Headers */,
 				A6EA9754101CCA2C0021DD42 /* CWHessianChannel.h in Headers */,
+				A674FDCD105C1DCD008447C3 /* CWHessianTranslator.h in Headers */,
 				A6CE151E0FE0191E009CD7AA /* CWHessianCoder.h in Headers */,
 				A6CE151F0FE0191E009CD7AA /* CWHessianArchiver.h in Headers */,
 				A6CE15200FE0191E009CD7AA /* CWDistantHessianObject.h in Headers */,
 				A6CE15210FE0191E009CD7AA /* CWValueObject.h in Headers */,
-				A6C55CDD101F5FA800688B3B /* CWHessianStreamChannel.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -599,6 +609,8 @@
 				A6CE14E30FE01684009CD7AA /* NSData+ReadableDescription.m in Sources */,
 				A6C55C8F101F533F00688B3B /* CWHessianGameKitChannel.m in Sources */,
 				A6C55CDC101F5FA800688B3B /* CWHessianStreamChannel.m in Sources */,
+				A674FDD0105C1DCD008447C3 /* CWHessianTranslator.m in Sources */,
+				A674FE22105C3957008447C3 /* CWHessianTranslator+Private.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -620,6 +632,8 @@
 				A6CE152B0FE0193A009CD7AA /* CWValueObject+Private.m in Sources */,
 				A6CE152C0FE0193A009CD7AA /* NSData+ReadableDescription.m in Sources */,
 				A6C55CDE101F5FA800688B3B /* CWHessianStreamChannel.m in Sources */,
+				A674FDCE105C1DCD008447C3 /* CWHessianTranslator.m in Sources */,
+				A674FE20105C3957008447C3 /* CWHessianTranslator+Private.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

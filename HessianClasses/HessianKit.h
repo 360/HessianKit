@@ -20,6 +20,7 @@
 #import <HessianKit/HessianKitTypes.h>
 #import <HessianKit/CWHessianConnection.h>
 #import <HessianKit/CWHessianChannel.h>
+#import <HessianKit/CWHessianTranslator.h>
 #import <HessianKit/CWHessianCoder.h>
 #import <HessianKit/CWHessianArchiver.h>
 #import <HessianKit/CWDistantHessianObject.h>
@@ -28,6 +29,7 @@
 #import "HessianKit/HessianKitTypes.h"
 #import "CWHessianConnection.h"
 #import "CWHessianChannel.h"
+#import "CWHessianTranslator.h"
 #import "CWHessianCoder.h"
 #import "CWHessianArchiver.h"
 #import "CWDistantHessianObject.h"

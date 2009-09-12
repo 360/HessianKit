@@ -22,6 +22,7 @@
 
 @protocol CWHessianCoderDelegate;
 @class CWDistantHessianObject;
+@class CWHessianTranslator;
 
 /*!
  * @abstract The <code>CWHessianCoder</code> abstract class declares the interface in common for the two concrete subclasses
@@ -83,6 +84,11 @@
  * @abstract Hessian coder delegate protocol.
  */
 @protocol CWHessianCoderDelegate
+
+/*!
+ * @abstract The <code>CWHessianTranslator</code> to use when translating selector, class and protocol names.
+ */
+@property(readonly, retain, nonatomic) CWHessianTranslator* translator;
 
 /*!
  * @abstract Coder will archive an object as a remote proxy, and the delegate is asks to provide a remote ID to 

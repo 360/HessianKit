@@ -34,6 +34,9 @@
 
 -(id)initWithDelegate:(id<CWHessianCoderDelegate>)delegate outputStream:(NSOutputStream*)outputStream;
 
+-(NSString*)classNameForClass:(Class)aClass;
+-(NSString*)classNameForProtocol:(Protocol*)aProtocol;
+
 -(void)encodeInt:(int)intv forKey:(NSString*)key;
 -(void)encodeInteger:(NSInteger)intv forKey:(NSString*)key;
 
@@ -65,6 +68,9 @@
 @interface CWHessianUnarchiver (Private)
 
 -(id)initWithDelegate:(id<CWHessianCoderDelegate>)delegate inputStream:(NSInputStream*)inputStream;
+
+-(Class)classForClassName:(NSString*)className;
+-(Protocol*)protocolForClassName:(NSString*)className;
 
 -(int)decodeIntForKey:(NSString*)key;
 -(NSInteger)decodeIntegerForKey:(NSString*)key;

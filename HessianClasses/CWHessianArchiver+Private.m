@@ -18,6 +18,7 @@
 
 #import "CWHessianArchiver+Private.h"
 #import "CWDistantHessianObject.h"
+#import "CWHessianTranslator.h"
 #import "CWValueObject.h"
 #import "HessianKitTypes.h" 
 #import <objc/runtime.h>
@@ -37,6 +38,24 @@
 {
   self.outputStream = nil;
   [super dealloc];
+}
+
+-(NSString*)classNameForClass:(Class)aClass;
+{
+  CWHessianTranslator* translator = self.delegate.translator;
+  if (translator != nil) {
+    return [translator distantTypeNameForClass:aClass];
+  }
+  return NSStringFromClass(aClass);
+}
+
+-(NSString*)classNameForProtocol:(Protocol*)aProtocol;
+{
+  CWHessianTranslator* translator = self.delegate.translator;
+  if (translator != nil) {
+    return [translator distantTypeNameForProtocol:aProtocol];
+  }
+  return NSStringFromProtocol(aProtocol);
 }
 
 -(void)encodeInt:(int)intv forKey:(NSString*)key;
@@ -226,7 +245,7 @@
     [self writeString:((CWDistantHessianObject*)object).remoteId withTag:'S'];
   } else if ([object conformsToProtocol:@protocol(CWHessianRemoting)]) {
     Protocol* aProtocol = [(id<CWHessianRemoting>)object remoteProtocol];
-    NSString* protocolName = [CWHessianArchiver classNameForProtocol:aProtocol];
+    NSString* protocolName = [self classNameForProtocol:aProtocol];
     if (protocolName == nil) {
       protocolName = NSStringFromProtocol(aProtocol);
     }
@@ -238,9 +257,9 @@
     [self writeString:remoteId withTag:'S'];
   } else if ([object conformsToProtocol:@protocol(NSCoding)]) {
   	[self.objectReferences addObject:object];
-    NSString* className = [CWHessianArchiver classNameForClass:[object class]];
+    NSString* className = [self classNameForClass:[object class]];
     if (!className && [object isKindOfClass:[CWValueObject class]]) {
-      className = [CWHessianArchiver classNameForProtocol:((CWValueObject*)object).protocol];
+      className = [self classNameForProtocol:((CWValueObject*)object).protocol];
     }
     if (!className) {
       className = NSStringFromClass([object class]);

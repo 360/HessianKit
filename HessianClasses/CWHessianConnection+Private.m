@@ -19,6 +19,7 @@
 
 #import "HessianKitTypes.h"
 #import "CWHessianChannel.h"
+#import "CWHessianTranslator.h"
 #import "CWHessianCoder.h"
 #import "CWHessianConnection+Private.h"
 #import "CWHessianArchiver+Private.h"
@@ -108,27 +109,11 @@
 
 -(NSString*)methodNameFromInvocation:(NSInvocation*)invocation;
 {
-  NSString* methodName = [CWHessianArchiver methodNameForSelector:[invocation selector]];
-  if (!methodName) {
-    NSString* selectorName = NSStringFromSelector([invocation selector]);
-    NSMutableArray* splittedName = [NSMutableArray arrayWithArray:[selectorName componentsSeparatedByString:@":"]];
-    for (int index = 1; index < [splittedName count]; index++) {
-      NSString* namePart = [splittedName objectAtIndex:index];
-      if ([namePart length] > 0) {
-      	NSString* firstChar = [[namePart substringToIndex:1] uppercaseString];
-        NSString* remainingChars = [namePart substringFromIndex:1];
-        namePart = [firstChar stringByAppendingString:remainingChars];
-      }
-      [splittedName replaceObjectAtIndex:index withObject:namePart];
-    }
-    methodName = [splittedName componentsJoinedByString:@""];
-    int realParamCount = [[invocation methodSignature] numberOfArguments] - 2;
-    if (realParamCount > 0) {
-      methodName = [methodName stringByAppendingFormat:@"__%d", realParamCount];
-    }
-    [CWHessianArchiver setMethodName:methodName forSelector:[invocation selector]];
+  if (_translator) {
+    return [_translator distantMethodNameForSelector:[invocation selector]];
+  } else {
+    return NSStringFromSelector([invocation selector]);
   }
-  return methodName;
 }
 
 -(void)writeHeadersToArchiver:(CWHessianArchiver*)archiver;

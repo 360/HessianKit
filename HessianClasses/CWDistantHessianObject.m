@@ -17,6 +17,8 @@
 //
 
 #import "CWDistantHessianObject.h"
+#import "CWHessianTranslator.h"
+#import "CWHessianTranslator+Private.h"
 #import "CWHessianCoder.h"
 #import "CWHessianChannel.h"
 #import "CWHessianConnection.h"
@@ -107,9 +109,10 @@ static NSMethodSignature* getMethodSignatureRecursively(Protocol *p, SEL aSel)
 
 -(NSString*)remoteClassName;
 {
-  NSString* protocolName = [CWHessianArchiver classNameForProtocol:self.protocol];
-  if (!protocolName) {
-  	protocolName = NSStringFromProtocol(self.protocol);
+  NSString* protocolName = NSStringFromProtocol(self.protocol);
+  CWHessianTranslator* translator = _connection.translator;
+  if (translator) {
+    return [translator distantTypeNameForLocalTypeName:protocolName];
   }
   return protocolName;
 }

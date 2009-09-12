@@ -20,6 +20,7 @@
 
 #import "CWHessianCoder.h"
 #import "CWHessianChannel.h"
+#import "CWHessianTranslator.h"
 #import "CWHessianHTTPChannel.h"
 #import "CWHessianConnection+Private.h"
 #import "CWHessianArchiver.h"
@@ -35,6 +36,7 @@ NSString* const CWHessianChannelIOException = @"CWHessianChannelIOException";
 @implementation CWHessianConnection
 
 @synthesize channel = _channel;
+@synthesize translator = _translator;
 @synthesize version = _version;
 @dynamic rootObject;
 @synthesize requestTimeout = _requestTimeout;
@@ -44,6 +46,7 @@ NSString* const CWHessianChannelIOException = @"CWHessianChannelIOException";
 -(void)dealloc;
 {
   self.channel = nil;
+  self.translator = nil;
   [pendingResponses release];
   [localObjects release];
   [remoteProxies release];
@@ -105,6 +108,7 @@ NSString* const CWHessianChannelIOException = @"CWHessianChannelIOException";
   CWDistantHessianObject* proxy = nil;
   CWHessianConnection* connection = [[CWHessianConnection alloc] initWithServiceURL:URL];
   if (connection) {
+    connection.translator = [CWHessianTranslator defaultHessianTranslator];
   	proxy = [connection rootProxyWithProtocol:aProtocol];
     [connection release];
   }

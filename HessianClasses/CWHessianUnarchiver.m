@@ -19,9 +19,6 @@
 #import "CWHessianArchiver.h"
 #import "CWHessianArchiver+Private.h"
 
-static NSMutableDictionary* _classTranslations = nil;
-static NSMutableDictionary* _protocolTranslations = nil;
-
 @interface CWHessianUnarchiver ()
 @end
 
@@ -30,54 +27,10 @@ static NSMutableDictionary* _protocolTranslations = nil;
 @synthesize inputStream = _inputStream;
 @synthesize currentObjectMap = _currentObjectMap;
 
-+(void)initialize;
-{
-  if (self == [CWHessianUnarchiver class]) {
-  	_classTranslations = [[NSMutableDictionary alloc] init];
-  	_protocolTranslations = [[NSMutableDictionary alloc] init];
-  }
-}
-
 -(void)dealloc;
 {
   self.currentObjectMap = nil;
   [super dealloc];
-}
-
-+(void)setClass:(Class)aClass forClassName:(NSString*)className;
-{
-  [_classTranslations setObject:NSStringFromClass(aClass) forKey:className];
-}
-
-+(void)setProtocol:(Protocol*)aProtocol forClassName:(NSString*)className;
-{
-  [_protocolTranslations setObject:NSStringFromProtocol(aProtocol) forKey:className];
-}
-
-+(Class)classForClassName:(NSString*)className;
-{
-  Class aClass = NSClassFromString([_protocolTranslations objectForKey:className]);
-  if (!aClass) {
-  	NSInteger location = [className rangeOfString:@"." options:NSBackwardsSearch].location;
-    if (NSNotFound != location) {
-      className = [className substringFromIndex:location + 1];
-      aClass = NSClassFromString([_protocolTranslations objectForKey:className]);
-    }
-  }
-  return aClass; 
-}
-
-+(Protocol*)protocolForClassName:(NSString*)className;
-{
-  Protocol* aProtocol = NSProtocolFromString([_protocolTranslations objectForKey:className]);
-  if (!aProtocol) {
-  	NSInteger location = [className rangeOfString:@"." options:NSBackwardsSearch].location;
-    if (NSNotFound != location) {
-      className = [className substringFromIndex:location + 1];
-      aProtocol = NSProtocolFromString([_protocolTranslations objectForKey:className]);
-    }
-  }
-  return aProtocol; 
 }
 
 -(BOOL)containsValueForKey:(NSString*)key;

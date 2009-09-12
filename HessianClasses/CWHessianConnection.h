@@ -21,6 +21,7 @@
 
 @class CWDistantHessianObject;
 @class CWHessianChannel;
+@class CWHessianTranslator;
 #ifdef GAMEKIT_AVAILABLE
 @class GKSession;
 #endif
@@ -53,6 +54,7 @@ typedef int CWHessianVersion;
 @interface CWHessianConnection : NSObject {
 @private
   CWHessianChannel* _channel;
+  CWHessianTranslator* _translator;
   CWHessianVersion _version;
   NSTimeInterval _requestTimeout;
   NSTimeInterval _replyTimeout;
@@ -64,9 +66,15 @@ typedef int CWHessianVersion;
 }
 
 /*!
- * The channel for this Hessian connection.
+ * @abstract The channel for this Hessian connection.
  */
 @property(readonly, retain, nonatomic) CWHessianChannel* channel;
+
+/*!
+ * @abstract The translator for this Hessian connection.
+ */
+@property(retain, nonatomic) CWHessianTranslator* translator;
+
 
 /*!
  * @abstract The Hessian serialization protocol version to use for this connection.
