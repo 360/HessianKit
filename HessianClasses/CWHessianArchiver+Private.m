@@ -129,42 +129,85 @@
   [self writeInt64:value];
 }
 
--(void)writeString:(NSString*)string withTag:(char)tag;
+-(void)writeString:(NSString*)string;
 {
-  NSData* bytes = nil;
-  NSString* stringChunk = string;
-  if ('s' == tag || 'x' == tag) {
-    stringChunk = [string substringToIndex:MAX_CHUNK_SIZE + 1];
-  }
-  bytes = [stringChunk dataUsingEncoding:NSUTF8StringEncoding allowLossyConversion:YES];
-  [self writeUInt16:[stringChunk length]];
-  [self writeBytes:[bytes bytes] count:[bytes length]];
-  if ('s' == tag || 'x' == tag) {
-    string = [string substringFromIndex:MAX_CHUNK_SIZE + 1];
-    if ('s' == tag) {
-      tag = ([string length] > MAX_CHUNK_SIZE ? 's' : 'S');
+  NSUInteger length = [string length];
+  NSUInteger i = 0;
+  do {
+    NSUInteger count = length - i;
+    char tag;
+    NSString* stringChunk = string;
+    if (count > MAX_CHUNK_SIZE) {
+      count = MAX_CHUNK_SIZE;
+      tag = 's';
+      stringChunk = [string substringWithRange:NSMakeRange(i, count)]; 
     } else {
-      tag = ([string length] > MAX_CHUNK_SIZE ? 'x' : 'X');
+      tag = 'S';
     }
     [self writeChar:tag];
-    [self writeString:string withTag:tag];
-  }
+    [self writeUInt16:count];
+    NSData* bytes = [stringChunk dataUsingEncoding:NSUTF8StringEncoding allowLossyConversion:YES];
+    [self writeBytes:[bytes bytes] count:[bytes length]];
+    i += MAX_CHUNK_SIZE;
+  } while (i < length);
 }
 
--(void)writeData:(NSData*)data withTag:(char)tag;
+-(void)writeBareString:(NSString*)string;
 {
-  NSData* dataChunk = data;
-  if ('b' == tag) {
-    dataChunk = [data subdataWithRange:NSMakeRange(0, MAX_CHUNK_SIZE)];
+  NSUInteger length = [string length];
+  if (length > MAX_CHUNK_SIZE) {
+    [NSException raise:NSInvalidArgumentException format:@"Can not write more than %d characters to bare string.", MAX_CHUNK_SIZE];
+    return;
   }
-  [self writeUInt16:[dataChunk length]];
-  [self writeBytes:[dataChunk bytes] count:[dataChunk length]];
-  if ('b' == tag) {
-    data = [data subdataWithRange:NSMakeRange(MAX_CHUNK_SIZE, [data length] - MAX_CHUNK_SIZE)];
-    tag = ([data length] > MAX_CHUNK_SIZE ? 'b' : 'B');
+  NSData* bytes = [string dataUsingEncoding:NSUTF8StringEncoding allowLossyConversion:YES];
+  [self writeUInt16:length];
+  [self writeBytes:[bytes bytes] count:[bytes length]];
+}
+
+#ifdef XML_AVAILABLE
+-(void)writeXMLString:(NSString*)string;
+{
+  NSUInteger length = [string length];
+  NSUInteger i = 0;
+  do {
+    NSUInteger count = length - i;
+    char tag;
+    NSString* stringChunk = string;
+    if (count > MAX_CHUNK_SIZE) {
+      count = MAX_CHUNK_SIZE;
+      tag = 's';
+      stringChunk = [string substringWithRange:NSMakeRange(i, count)]; 
+    } else {
+      tag = 'S';
+    }
     [self writeChar:tag];
-    [self writeData:data withTag:tag];
-  }
+    [self writeUInt16:count];
+    NSData* bytes = [stringChunk dataUsingEncoding:NSUTF8StringEncoding allowLossyConversion:YES];
+    [self writeBytes:[bytes bytes] count:[bytes length]];
+    i += MAX_CHUNK_SIZE;
+  } while (i < length);
+}
+#endif
+
+-(void)writeData:(NSData*)data;
+{
+  const char *bytes = (const char *)[data bytes];
+  NSUInteger length = [data length];
+  NSUInteger i = 0;
+  do {
+    NSUInteger count = length - i;
+    char tag;
+    if (count > MAX_CHUNK_SIZE) {
+      count = MAX_CHUNK_SIZE;
+      tag = 'b';
+    } else {
+      tag = 'B';
+    }
+    [self writeChar:tag];
+    [self writeUInt16:count];
+    [self writeBytes:(bytes + i) count:count];
+    i += MAX_CHUNK_SIZE;
+  } while (i < length);
 }
 
 -(void)writeList:(NSArray*)list;
@@ -215,20 +258,14 @@
     [self writeChar:'d'];
     [self writeDate:(NSDate*)object];
   } else if ([object isKindOfClass:[NSString class]]) {
-  	char tag = ([(NSString*)object length] > MAX_CHUNK_SIZE ? 's' : 'S');
-    [self writeChar:tag];
-    [self writeString:(NSString*)object withTag:tag];
+    [self writeString:(NSString*)object];
 #ifdef XML_AVAILABLE
   } else if ([object isKindOfClass:[NSXMLNode class]]) {
   	NSString* xmlString = [(NSXMLNode*)object XMLStringWithOptions:NSXMLNodeOptionsNone];
-  	char tag = ([xmlString length] > MAX_CHUNK_SIZE ? 'x' : 'X');
-    [self writeChar:tag];
-    [self writeString:xmlString withTag:tag];
+    [self writeXMLString:xmlString];
 #endif
   } else if ([object isKindOfClass:[NSData class]]) {
-  	char tag = ([object length] > MAX_CHUNK_SIZE ? 'b' : 'B');
-    [self writeChar:tag];
-    [self writeData:object withTag:tag];
+    [self writeData:object];
   } else if ([object isKindOfClass:[NSArray class]]) {
   	[self.objectReferences addObject:object];
   	[self writeChar:'V'];
@@ -240,9 +277,8 @@
   } else if ([object isKindOfClass:[CWDistantHessianObject class]]) {
     [self writeChar:'r'];
     [self writeChar:'t'];
-    [self writeString:[((CWDistantHessianObject*)object) remoteClassName] withTag:'S'];
-    [self writeChar:'S'];
-    [self writeString:((CWDistantHessianObject*)object).remoteId withTag:'S'];
+    [self writeBareString:[((CWDistantHessianObject*)object) remoteClassName]];
+    [self writeString:((CWDistantHessianObject*)object).remoteId];
   } else if ([object conformsToProtocol:@protocol(CWHessianRemoting)]) {
     Protocol* aProtocol = [(id<CWHessianRemoting>)object remoteProtocol];
     NSString* protocolName = [self classNameForProtocol:aProtocol];
@@ -252,9 +288,8 @@
     NSString* remoteId = [self.delegate coder:self willArchiveObjectAsProxy:object protocol:aProtocol];
     [self writeChar:'r'];
     [self writeChar:'t'];
-    [self writeString:protocolName withTag:'S'];
-    [self writeChar:'S'];
-    [self writeString:remoteId withTag:'S'];
+    [self writeBareString:protocolName];
+    [self writeString:remoteId];
   } else if ([object conformsToProtocol:@protocol(NSCoding)]) {
   	[self.objectReferences addObject:object];
     NSString* className = [self classNameForClass:[object class]];
@@ -266,7 +301,7 @@
     }
     [self writeChar:'M'];
     [self writeChar:'t'];
-    [self writeString:className withTag:'S'];
+    [self writeBareString:className];
     [object encodeWithCoder:self];
     [self writeChar:'z'];
   } else {

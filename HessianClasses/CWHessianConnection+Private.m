@@ -168,7 +168,7 @@
   [archiver writeChar:0x00];
   [self writeHeadersToArchiver:archiver];
   [archiver writeChar:'m'];
-  [archiver writeString:[self methodNameFromInvocation:invocation] withTag:'S'];
+  [archiver writeBareString:[self methodNameFromInvocation:invocation]];
   NSMethodSignature* signature = [invocation methodSignature];
   for (int index = 2; index < [signature numberOfArguments]; index++) {
   	const char* type = [signature getArgumentTypeAtIndex:index];

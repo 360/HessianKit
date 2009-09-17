@@ -48,8 +48,9 @@
 -(void)writeInt64:(int64_t)value;
 -(void)writeDouble:(double)value;
 -(void)writeDate:(NSDate*)date;
--(void)writeString:(NSString*)string withTag:(char)tag;
--(void)writeData:(NSData*)data withTag:(char)tag;
+-(void)writeString:(NSString*)string;
+-(void)writeBareString:(NSString*)string;
+-(void)writeData:(NSData*)data;
 -(void)writeList:(NSArray*)list;
 -(void)writeMap:(NSDictionary*)map;
 
