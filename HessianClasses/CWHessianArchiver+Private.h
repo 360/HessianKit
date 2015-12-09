@@ -92,7 +92,7 @@
 -(NSData*)readDataWithTag:(char)tag;
 -(NSException*)readFault;
 -(NSArray*)readList;
--(id)readMapWithTypedObject:(id)typedObject;
+-(id)readMapWithTypedObject:(id)typedObject asRef:(BOOL)asRef;
 -(id)readMap;
 -(CWDistantHessianObject*)readRemote;
 
