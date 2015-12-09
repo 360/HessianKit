@@ -277,13 +277,15 @@
   return list;
 }
 
--(id)readMapWithTypedObject:(id)typedObject;
+-(id)readMapWithTypedObject:(id)typedObject asRef:(BOOL)asRef;
 {
   NSMutableDictionary* map = [NSMutableDictionary dictionary];
-  if (typedObject) {
-    [self.objectReferences addObject:typedObject];
-  } else {
-    [self.objectReferences addObject:map];
+  if (asRef) {
+    if (typedObject) {
+      [self.objectReferences addObject:typedObject];
+    } else {
+      [self.objectReferences addObject:map];
+    }
   }
   while ([self peekChar] != 'z') {
     NSObject* key = [self readTypedObject];
@@ -309,10 +311,12 @@
 {
   NSString* className = nil;
   id typedObject = nil;
+  BOOL asRef = YES;
   if ([self peekChar] == 't') {
     [self readChar];
     className = [self readStringWithTag:'S'];
     if ([className length] > 0) {
+      asRef = !([className isEqualToString:@"java.math.BigDecimal"] || [className isEqualToString:@"java.io.File"]);
       Class typedClass = [self classForClassName:className];
       if (typedClass) {
         typedObject = class_createInstance(typedClass, 0);
@@ -327,7 +331,7 @@
       }
     }
   }
-  return [self readMapWithTypedObject:typedObject];
+  return [self readMapWithTypedObject:typedObject asRef:asRef];
 }
 
 -(CWDistantHessianObject*)readRemote;
